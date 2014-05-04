@@ -73,7 +73,25 @@
          <Component>
             <ERPLineID>21</ERPLineID>
             <EnterpriseSkuID>BundleComponentItem0001</EnterpriseSkuID>
-            <ProductName>Component product name</ProductName>
+            <ProductName>Component product name one</ProductName>
+            <ProductDescription>Regular Item</ProductDescription>
+            <ProductImageURL>http://media.guitarcenter.com/is/image/MMGS7/Gibson-Custom-Alex-Lifeson-Les-Paul-Axcess-Electric-Guitar-Viceroy-Brown/H71395000001000-00-250x250.jpg</ProductImageURL>
+            <OrderLineTransaction>
+               <TransactionType>Ordered</TransactionType>
+               <Quantity>10</Quantity>
+            </OrderLineTransaction>
+            <UnitPrice>5</UnitPrice>
+            <ExtPrice>50</ExtPrice>
+            <ShipAndHandlingCost>1.22</ShipAndHandlingCost>
+            <Tax>5</Tax>
+            <MiscCharges>1</MiscCharges>
+            <Discount>4</Discount>
+            <KitMessage>Bundle items may be shipped separately.</KitMessage>
+         </Component>
+         <Component>
+            <ERPLineID>21</ERPLineID>
+            <EnterpriseSkuID>BundleComponentItem0001</EnterpriseSkuID>
+            <ProductName>Component product name two</ProductName>
             <ProductDescription>Regular Item</ProductDescription>
             <ProductImageURL>http://media.guitarcenter.com/is/image/MMGS7/Gibson-Custom-Alex-Lifeson-Les-Paul-Axcess-Electric-Guitar-Viceroy-Brown/H71395000001000-00-250x250.jpg</ProductImageURL>
             <OrderLineTransaction>
@@ -123,6 +141,42 @@
          <MiscCharges>0</MiscCharges>
          <Discount>0</Discount>
          <KitMessage/>
+      </OrderedItem>
+      <OrderedItem>
+         <ERPLineID>41</ERPLineID>
+         <EnterpriseSkuID>BundleParentItem0001</EnterpriseSkuID>
+         <ProductName>Product name three (drums)</ProductName>
+         <ProductDescription>BAONE</ProductDescription>
+         <ProductImageURL>http://media.guitarcenter.com/is/image/MMGS7/Gretsch-Drums-Marquee-4-Piece-Shell-Pack-with-FREE-8---Tom-Satin-Walnut-22--Bass-Drum/J04489000002001-00-250x250.jpg</ProductImageURL>
+         <OrderLineTransaction>
+            <TransactionType>Ordered</TransactionType>
+            <Quantity>3</Quantity>
+         </OrderLineTransaction>
+         <UnitPrice>3.5</UnitPrice>
+         <ExtPrice>10.5</ExtPrice>
+         <ShipAndHandlingCost>0</ShipAndHandlingCost>
+         <Tax>0</Tax>
+         <MiscCharges>0</MiscCharges>
+         <Discount>0</Discount>
+         <KitMessage/>
+         <Component>
+            <ERPLineID>21</ERPLineID>
+            <EnterpriseSkuID>BundleComponentItem0001</EnterpriseSkuID>
+            <ProductName>Component product name three</ProductName>
+            <ProductDescription>Regular Item</ProductDescription>
+            <ProductImageURL>http://media.guitarcenter.com/is/image/MMGS7/Gibson-Custom-Alex-Lifeson-Les-Paul-Axcess-Electric-Guitar-Viceroy-Brown/H71395000001000-00-250x250.jpg</ProductImageURL>
+            <OrderLineTransaction>
+               <TransactionType>Ordered</TransactionType>
+               <Quantity>10</Quantity>
+            </OrderLineTransaction>
+            <UnitPrice>5</UnitPrice>
+            <ExtPrice>50</ExtPrice>
+            <ShipAndHandlingCost>1.22</ShipAndHandlingCost>
+            <Tax>5</Tax>
+            <MiscCharges>1</MiscCharges>
+            <Discount>4</Discount>
+            <KitMessage>Bundle items may be shipped separately.</KitMessage>
+         </Component>
       </OrderedItem>
    </OrderLineGroup>
    <PaymentDetails>
