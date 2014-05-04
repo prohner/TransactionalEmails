@@ -1,0 +1,33 @@
+ORDER_NUM               = /ns0:OrderConfirmationNotification/OrderHeader/OrderID
+BILLING_FNAME           = /ns0:OrderConfirmationNotification/OrderHeader/Customer/FirstName
+ORDER_DATE              = /ns0:OrderConfirmationNotification/OrderHeader/OrderDateTime
+SHIPPING_METHOD         = //ShipmentMethod
+SHIPPING_FNAME          = /ns0:OrderConfirmationNotification/OrderLineGroup/ShippingAddress/FirstName
+SHIPPING_LNAME          = /ns0:OrderConfirmationNotification/OrderLineGroup/ShippingAddress/LastName
+SHIPPING_ADDRESS_1      = /ns0:OrderConfirmationNotification/OrderLineGroup/ShippingAddress/AddressLine1
+SHIPPING_ADDRESS_2      = /ns0:OrderConfirmationNotification/OrderLineGroup/ShippingAddress/AddressLine2
+SHIPPING_CITY           = /ns0:OrderConfirmationNotification/OrderLineGroup/ShippingAddress/City
+SHIPPING_STATE          = /ns0:OrderConfirmationNotification/OrderLineGroup/ShippingAddress/State
+SHIPPING_ZIP            = /ns0:OrderConfirmationNotification/OrderLineGroup/ShippingAddress/PostalCode
+SHIPPING_COUNTRY        = /ns0:OrderConfirmationNotification/OrderLineGroup/ShippingAddress/CountryName
+
+
+SUBTOTAL                = /ns0:OrderConfirmationNotification/OrderTotal/SubTotal
+SHIPPING_HANDLING       = /ns0:OrderConfirmationNotification/OrderTotal/TotalShipAndHandlingCost
+TAX                     = /ns0:OrderConfirmationNotification/OrderTotal/TotalTax
+DISCOUNTS               = /ns0:OrderConfirmationNotification/OrderTotal/TotalDiscount
+
+#MISC_CHARGES            = 
+#TOTAL                   = 
+#PAYMENT_AMOUNT          = 
+
+
+## These are extracted from each OrderedItem, each as its own XML document
+PRODUCT_NAME            = /OrderedItem/ProductName
+PRODUCT_NUM             = /OrderedItem/EnterpriseSkuID
+UNIT_PRICE              = /OrderedItem/UnitPrice
+QUANTITY                = /OrderedItem/OrderLineTransaction/Quantity
+PRODUCT_IMAGE           = /OrderedItem/ProductImageURL
+
+
+KIT_ITEM_NAME           = /OrderedItem/Component/ProductName

@@ -1,0 +1,418 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	 xmlns:odr="http://www.guitarcenter.com/schemas/CDM/CDMOrderNotification"
+	 targetNamespace="http://www.guitarcenter.com/schemas/CDM/CDMOrderNotification"
+	 elementFormDefault="unqualified"
+	 attributeFormDefault="unqualified">
+	<xs:element name="EmailNotification">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="NotificationType" type="xs:string"/>
+				<xs:element name="NotificationTrackingID" type="xs:string"/>
+				<xs:element name="EmailTo" type="xs:string"/>
+				<xs:element name="EmailSubject" type="xs:string"/>
+				<xs:choice>
+					<xs:element ref="odr:OrderConfirmationNotification"/>
+					<xs:element ref="odr:OrderStatusChangeNotification"/>
+					<xs:element ref="odr:ShipConfirmationNotification"/>
+					<xs:element ref="odr:ShipToStoreNotification"/>
+					<xs:element ref="odr:OrderVerificationNotification"/>
+					<xs:element ref="odr:BackOrderNotification"/>
+					<xs:element ref="odr:CreditCardDeclineNotification"/>
+					<xs:element ref="odr:ElectronicLicenseNotification"/>
+					<xs:element ref="odr:GiftCardPurchaseNotification"/>
+					<xs:element ref="odr:OrderCancelNotification"/>
+					<xs:element ref="odr:ProductReviewNotification"/>
+					<xs:element ref="odr:ReturnAuthNotification"/>
+					<xs:element ref="odr:ReturnReceivedNotification"/>
+				</xs:choice>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="OrderConfirmationNotification">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="odr:baseOrderNotification">
+					<xs:sequence>
+						<xs:element name="OrderLineGroup" maxOccurs="unbounded">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="ShippingAddress" type="odr:AddressType"/>
+									<xs:element name="ShipmentMethod" type="xs:string"/>
+									<xs:element name="OrderedItem" type="odr:OrderedItemType" maxOccurs="unbounded"/>
+									<xs:element name="GroupTotals" type="odr:OrderTotalType"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="PaymentDetails" type="odr:PaymentType" minOccurs="0" maxOccurs="unbounded"/>
+						<xs:element name="OrderTotal" type="odr:OrderTotalType"/>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="OrderStatusChangeNotification">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="odr:baseOrderNotification">
+					<xs:sequence>
+						<xs:element name="ShippingGroup" maxOccurs="unbounded">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="ShippingAddress" type="odr:AddressType"/>
+									<xs:element name="ShipmentMethod" type="xs:string"/>
+									<xs:element name="OrderedItem" type="odr:OrderedItemType" maxOccurs="unbounded"/>
+									<xs:element name="GroupTotal" type="odr:OrderTotalType"/>
+									<xs:element name="ShipContainerDetails" type="odr:ShipContainerType" minOccurs="0" maxOccurs="unbounded"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="PaymentDetails" type="odr:PaymentType" minOccurs="0" maxOccurs="unbounded"/>
+						<xs:element name="OrderTotal" type="odr:OrderTotalType"/>
+						<xs:element name="OrderHeaderStatus" type="xs:string"/>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="OrderVerificationNotification">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="odr:baseOrderNotification">
+					<xs:sequence>
+						<xs:element name="VerificationPhone" type="xs:string" minOccurs="0"/>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ShipConfirmationNotification">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="odr:baseOrderNotification">
+					<xs:sequence>
+						<xs:element name="ShippingGroup" maxOccurs="unbounded">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="ShippingAddress" type="odr:AddressType"/>
+									<xs:element name="ShipmentMethod" type="xs:string"/>
+									<xs:element name="ShippedItem" type="odr:OrderedItemType" maxOccurs="unbounded"/>
+									<xs:element name="ShippingGroupTotal" type="odr:OrderTotalType"/>
+									<xs:element name="ShipContainerDetails" type="odr:ShipContainerType" minOccurs="0" maxOccurs="unbounded"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="ShipConfirmationTotal" type="odr:OrderTotalType"/>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ShipToStoreNotification">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="odr:baseOrderNotification">
+					<xs:sequence>
+						<xs:element name="ShippingGroup" maxOccurs="unbounded">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="ShippingAddress" type="odr:AddressType"/>
+									<xs:element name="ShipToStore" type="odr:ShipToStoreType"/>
+									<xs:element name="ShipmentMethod" type="xs:string"/>
+									<xs:element name="ShippedItem" type="odr:OrderedItemType" maxOccurs="unbounded"/>
+									<xs:element name="ShippingGroupTotal" type="odr:OrderTotalType"/>
+									<xs:element name="ShipContainerDetails" type="odr:ShipContainerType" minOccurs="0" maxOccurs="unbounded"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="PaymentDetails" type="odr:PaymentType" minOccurs="0" maxOccurs="unbounded"/>
+						<xs:element name="ShipConfirmationTotal" type="odr:OrderTotalType"/>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="OrderCancelNotification">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="odr:baseOrderNotification">
+					<xs:sequence>
+						<xs:element name="OrderLineCancelGroup" maxOccurs="unbounded">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="ShippingAddress" type="odr:AddressType"/>
+									<xs:element name="CancelledItem" type="odr:OrderedItemType" maxOccurs="unbounded"/>
+									<xs:element name="GroupTotal" type="odr:OrderTotalType"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+
+						<!--									<xs:element name="ShipContainerDetails" type="odr:ShipContainerType" minOccurs="0" maxOccurs="unbounded"/> -->
+						<xs:element name="PaymentDetails" type="odr:PaymentType" minOccurs="0" maxOccurs="unbounded"/>
+						<xs:element name="CancellationTotal" type="odr:OrderTotalType"/>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="BackOrderNotification">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="odr:baseOrderNotification">
+					<xs:sequence>
+						<xs:element name="BackOrderedItemGroup" maxOccurs="unbounded">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="ShippingAddress" type="odr:AddressType"/>
+									<xs:element name="BackOrderedItem" type="odr:OrderedItemType" maxOccurs="unbounded"/>
+									<xs:element name="GroupTotal" type="odr:OrderTotalType"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="BackOrderTotal" type="odr:OrderTotalType"/>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ReturnAuthNotification">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="odr:baseOrderNotification">
+					<xs:sequence>
+						<xs:element name="ReturnAuthCode" type="xs:string"/>
+						<xs:element name="ReturnAuthorizedItem" type="odr:OrderedItemType" maxOccurs="unbounded"/>
+						<xs:element name="ReturnLabelURL" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ReturnReceivedNotification">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="odr:baseOrderNotification">
+					<xs:sequence>
+						<xs:element name="ReturnAuthCode" type="xs:string"/>
+						<xs:element name="ReturnReceivedItem" type="odr:OrderedItemType" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ElectronicLicenseNotification">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="odr:baseOrderNotification">
+					<xs:sequence>
+						<xs:element name="ELDItem" type="odr:OrderedItemType" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="GiftCardPurchaseNotification">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="odr:baseOrderNotification">
+					<xs:sequence>
+						<xs:element name="ShippingAddress" type="xs:string" minOccurs="0"/>
+						<xs:element name="GiftCertificateID" type="xs:string"/>
+						<xs:element name="GiftCertificateAmount" type="xs:string"/>
+						<xs:element name="MessageToSender" type="xs:string"/>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="CreditCardDeclineNotification">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="odr:baseOrderNotification">
+					<xs:sequence>
+						<xs:element name="VerificationPhone" type="xs:string" minOccurs="0"/>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ProductReviewNotification">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="odr:baseOrderNotification">
+					<xs:sequence>
+						<xs:element name="ReviewItem" type="odr:OrderedItemType" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="OrderedItemType">
+		<xs:sequence>
+			<xs:element name="ERPLineID" type="xs:string"/>
+			<xs:element name="EnterpriseSkuID" type="xs:string"/>
+			<xs:element name="ProductName" type="xs:string"/>
+			<xs:element name="ProductDescription" type="xs:string"/>
+			<xs:element name="ProductURL" type="xs:string" minOccurs="0"/>
+			<xs:element name="ProductImageURL" type="xs:string" minOccurs="0"/>
+			<xs:element name="OrderLineTransaction" type="odr:OrderLineTransactionType"/>
+			<xs:element name="ShipDate" type="xs:dateTime" minOccurs="0"/>
+			<xs:element name="UnitPrice" type="xs:decimal" minOccurs="0"/>
+			<xs:element name="ExtPrice" type="xs:decimal" minOccurs="0"/>
+			<xs:element name="ShipAndHandlingCost" type="xs:decimal" minOccurs="0"/>
+			<xs:element name="Tax" type="xs:decimal" minOccurs="0"/>
+			<xs:element name="MiscCharges" type="xs:decimal" minOccurs="0"/>
+			<xs:element name="Discount" type="xs:decimal" minOccurs="0"/>
+			<xs:sequence minOccurs="0">
+				<xs:element name="ELDKey" type="xs:string"/>
+				<xs:element name="ELDDownloadURL" type="xs:string" minOccurs="0"/>
+				<xs:element name="ELDContactName" type="xs:string" minOccurs="0"/>
+				<xs:element name="ELDContactInfo" type="xs:string" minOccurs="0"/>
+			</xs:sequence>
+			<xs:sequence minOccurs="0">
+				<xs:element name="ReadReviewsURL" type="xs:string"/>
+				<xs:element name="WriteReviewsURL" type="xs:string" minOccurs="0"/>
+			</xs:sequence>
+			<xs:element name="RecommendedAccessories" type="odr:OrderedItemType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="ComponentID" type="xs:string" minOccurs="0"/>
+			<xs:element name="KitMessage" type="xs:string" minOccurs="0"/>
+			<xs:element name="Component" type="odr:OrderedItemType" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="OrderLineTransactionType">
+		<xs:sequence>
+			<xs:element name="TransactionType" type="xs:string" minOccurs="0"/>
+			<xs:element name="Quantity" type="xs:string" minOccurs="0"/>
+			<xs:element name="LineTotal" type="xs:int" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ShipContainerType">
+		<xs:sequence>
+			<xs:element name="ShipCarrierID" type="xs:string"/>
+			<xs:element name="ShipCarrierName" type="xs:string"/>
+			<xs:element name="ShipTrackingNumber" type="xs:string"/>
+			<xs:element name="ShipMethod" type="xs:string"/>
+			<xs:element name="CarrierTrackingURL" type="xs:string" minOccurs="0"/>
+			<xs:element name="ShipDate" type="xs:dateTime" minOccurs="0"/>
+			<xs:element name="ContainerItem" type="odr:OrderedItemType" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ShipToStoreType">
+		<xs:sequence>
+			<xs:element name="StoreID" type="xs:string"/>
+			<xs:element name="StoreName" type="xs:string"/>
+			<xs:element name="StoreAddress" type="odr:AddressType"/>
+			<xs:element name="StoreURL" type="xs:string" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="PaymentType">
+		<xs:sequence>
+			<xs:element name="PaymentType" type="xs:string" minOccurs="0"/>
+			<xs:element name="CreditCardType" type="xs:string" minOccurs="0"/>
+			<xs:element name="AuthorizationID" type="xs:string" minOccurs="0"/>
+			<xs:element name="CreditCardExp" type="xs:string" minOccurs="0"/>
+			<xs:element name="PaymentAmount" type="xs:decimal" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="OrderTotalType">
+		<xs:sequence>
+			<xs:element name="SubTotal" type="xs:decimal" minOccurs="0"/>
+			<xs:element name="TotalShipAndHandlingCost" type="xs:decimal" minOccurs="0"/>
+			<xs:element name="TotalTax" type="xs:decimal" minOccurs="0"/>
+			<xs:element name="TotalMiscCharges" type="xs:decimal" minOccurs="0"/>
+			<xs:element name="TotalDiscount" type="xs:decimal" minOccurs="0"/>
+			<xs:element name="GroupTotal" type="xs:decimal" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="AddressType">
+		<xs:sequence>
+			<xs:element name="AddressType" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="FirstName" type="xs:string" minOccurs="0"/>
+			<xs:element name="LastName" type="xs:string" minOccurs="0"/>
+			<xs:element name="MiddleInitial" type="xs:string" minOccurs="0"/>
+			<xs:element name="CompanyName" type="xs:string" minOccurs="0"/>
+			<xs:element name="AddressLine1" type="xs:string" minOccurs="0"/>
+			<xs:element name="AddressLine2" type="xs:string" minOccurs="0"/>
+			<xs:element name="AddressLine3" type="xs:string" minOccurs="0"/>
+			<xs:element name="AddressLine4" type="xs:string" minOccurs="0"/>
+			<xs:element name="City" type="xs:string" minOccurs="0"/>
+			<xs:element name="State" type="xs:string" minOccurs="0"/>
+			<xs:element name="CountryCode" type="xs:string" minOccurs="0"/>
+			<xs:element name="CountryName" type="xs:string" minOccurs="0"/>
+			<xs:element name="PostalCode" type="xs:string" minOccurs="0"/>
+			<xs:element name="TelephoneNumber" type="odr:PhoneType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="EMailAddress" type="odr:EmailType" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="EmailType">
+		<xs:sequence>
+			<xs:element name="Type" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="Email" type="xs:string" minOccurs="0"/>
+			<xs:element name="isPrimary" type="xs:boolean"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="PhoneType">
+		<xs:sequence>
+			<xs:element name="Type" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="Phone" type="xs:string" minOccurs="0"/>
+			<xs:element name="isPrimary" type="xs:boolean"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="CustomerDataType">
+		<xs:sequence>
+			<xs:element name="FirstName" type="xs:string" minOccurs="0"/>
+			<xs:element name="LastName" type="xs:string" minOccurs="0"/>
+			<xs:element name="MiddleName" type="xs:string" minOccurs="0"/>
+			<xs:element name="Birthday" type="xs:date" minOccurs="0"/>
+			<xs:element name="LoyaltyMemberNumber" type="xs:string" minOccurs="0"/>
+			<xs:element name="CustomerID" type="xs:string" minOccurs="0"/>
+			<xs:element name="CustomerPO" type="xs:string" minOccurs="0"/>
+			<xs:element name="TaxExemptID" type="xs:string" minOccurs="0"/>
+			<xs:element name="CustomerCreationDate" type="xs:string" minOccurs="0"/>
+
+			<!-- This is a generic field for name/value pairs -->
+			<xs:element name="Preference" minOccurs="0" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="xs:string">
+							<xs:attribute name="name" type="xs:string"/>
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="DefaultAddress" type="odr:AddressType" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="BrandType">
+		<xs:sequence>
+			<xs:element name="BrandLogoURL" type="xs:string" minOccurs="0"/>
+			<xs:element name="BrandName" type="xs:string" minOccurs="0"/>
+			<xs:element name="BrandURL" type="xs:string" minOccurs="0"/>
+		</xs:sequence>
+		<xs:attribute name="brandID" type="xs:string"/>
+	</xs:complexType>
+	<xs:complexType name="baseOrderNotification">
+		<xs:sequence>
+			<xs:element name="OrderSource">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="ChannelID" type="xs:string"/>
+						<xs:element name="Brand" type="odr:BrandType" minOccurs="0"/>
+						<xs:element name="SiteID" type="xs:string"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="OrderHeader">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="OrderDateTime" type="xs:dateTime"/>
+						<xs:element name="OrderID" type="xs:string"/>
+						<xs:element name="Customer" type="odr:CustomerDataType"/>
+						<xs:element name="PurchaseOrderID" type="xs:string"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

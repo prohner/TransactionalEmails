@@ -1,0 +1,203 @@
+<Order EmailType="ORDER_CONFIRMATION" EnterpriseCode="GC" SellerOrganizationCode="GC_WEB" OrderDate="2013-12-03T15:16:10-04:00" OrderNo="21212122">
+   <Extn ExtnSourceOrderNo="1212" ExtnDAXOrderNo="121212">
+   </Extn>
+
+   <HeaderCharges>
+      <HeaderCharge ChargeAmount="20" ChargeCategory="Shipping">
+         <Extn ExtnPromotionID="4" ExtnCouponID="" ExtnPromotionDesc="" />
+      </HeaderCharge>
+
+      <HeaderCharge ChargeAmount="5" ChargeCategory="ShippingPromotion">
+         <Extn ExtnPromotionID="ShippingPromotion" ExtnCouponID="SD1" ExtnPromotionDesc="Shipping Promotion" />
+      </HeaderCharge>
+
+      <HeaderCharge ChargeAmount="4" ChargeCategory="Promotion">
+         <Extn ExtnPromotionID="Promotion" ExtnCouponID="P1" ExtnPromotionDesc="Promotional Discount" />
+      </HeaderCharge>
+   </HeaderCharges>
+
+   <HeaderTaxes>
+      <HeaderTax ChargeName="Sales Tax1" ChargeCategory="Tax" Tax="2" Reference1="" />
+   </HeaderTaxes>
+
+   <OrderLines>
+      <OrderLine OrderedQty="3" PrimeLineNo="1" SubLineNo="1" KitCode="A" GiftFlag="" CarrierServiceCode="" LevelOfService="">
+         <ItemDetails>
+            <PrimaryInformation ImageID="sample.jpg" ImageLocation="http://res.cloudinary.com/demo/image/upload/" />
+         </ItemDetails>
+
+         <Item ItemID="RegularItem0001" ItemShortDesc="" ItemDesc="BAONE" UnitOfMeasure="EACH" ProductClass="REGULAR" />
+
+         <LineCharges>
+            <LineCharge ChargePerLine="1.22" ChargeCategory="Shipping">
+               <Extn ExtnPromotionID="" ExtnCouponID="" ExtnPromotionDesc="" />
+            </LineCharge>
+
+            <LineCharge ChargePerLine="5.00" ChargeCategory="Promotion">
+               <Extn ExtnPromotionID="Promotion" ExtnCouponID="P1" ExtnPromotionDesc="Promotional Discount" />
+            </LineCharge>
+
+            <LineCharge ChargePerLine="1.00" ChargeCategory="OversizeCharge">
+               <Extn ExtnPromotionID="Oversize" ExtnCouponID="OC1" ExtnPromotionDesc="Oversize Charge" />
+            </LineCharge>
+         </LineCharges>
+
+         <LineTaxes>
+            <LineTax ChargeCategory="Tax" Reference_1="" Tax="5.00" TaxName="Tax123" />
+         </LineTaxes>
+
+         <LinePriceInfo UnitPrice="5.00" />
+
+         <BundleParentLine PrimeLineNo="" SubLineNo="" />
+
+         <PersonInfoShipTo AddressLine1="The Crest" AddressLine2="2011 Fort Lee" AddressLine3="" City="Crane Hill" Country="US" DayPhone="1234567890" MobilePhone="9818006174" EMailID="Samson.Paul@gmail.com" FirstName="Samson" LastName="Paul" Company="" State="AL" ZipCode="35040" />
+
+         <Dependency DependentOnPrimeLineNo="1" DependentOnSubLineNo="1" />
+      </OrderLine>
+      <OrderLine OrderedQty="5" PrimeLineNo="2" SubLineNo="1" KitCode="" GiftFlag="" CarrierServiceCode="" LevelOfService="">
+         <ItemDetails>
+            <PrimaryInformation ImageID="sample.jpg" ImageLocation="http://res.cloudinary.com/demo/image/upload/" />
+         </ItemDetails>
+
+         <Item ItemID="KitItem0001" ItemShortDesc="" ItemDesc="BAONE" UnitOfMeasure="EACH" ProductClass="REGULAR" />
+
+         <LineCharges>
+            <LineCharge ChargePerLine="1.22" ChargeCategory="Shipping">
+               <Extn ExtnPromotionID="" ExtnCouponID="" ExtnPromotionDesc="" />
+            </LineCharge>
+
+            <LineCharge ChargePerLine="5.00" ChargeCategory="Promotion">
+               <Extn ExtnPromotionID="Promotion" ExtnCouponID="P1" ExtnPromotionDesc="Promotional Discount" />
+            </LineCharge>
+
+            <LineCharge ChargePerLine="1.00" ChargeCategory="OversizeCharge">
+               <Extn ExtnPromotionID="Oversize" ExtnCouponID="OC1" ExtnPromotionDesc="Oversize Charge" />
+            </LineCharge>
+         </LineCharges>
+
+         <LineTaxes>
+            <LineTax ChargeCategory="Tax" Reference_1="" Tax="5.00" TaxName="Tax123" />
+         </LineTaxes>
+
+         <LinePriceInfo UnitPrice="5.00" />
+
+         <BundleParentLine PrimeLineNo="1" SubLineNo="1" />
+
+         <PersonInfoShipTo AddressLine1="The Crest" AddressLine2="2011 Fort Lee" AddressLine3="" City="Crane Hill" Country="US" DayPhone="1234567890" MobilePhone="9818006174" EMailID="Samson.Paul@gmail.com" FirstName="Samson" LastName="Paul" Company="" State="AL" ZipCode="35040" />
+
+         <Dependency DependentOnPrimeLineNo="1" DependentOnSubLineNo="1" />
+      </OrderLine>
+      <OrderLine OrderedQty="2" PrimeLineNo="3" SubLineNo="1" KitCode="" GiftFlag="" CarrierServiceCode="" LevelOfService="">
+         <ItemDetails>
+            <PrimaryInformation ImageID="sample.jpg" ImageLocation="http://res.cloudinary.com/demo/image/upload/" />
+         </ItemDetails>
+
+         <Item ItemID="KitItem0002" ItemShortDesc="" ItemDesc="BAONE" UnitOfMeasure="EACH" ProductClass="REGULAR" />
+
+         <LineCharges>
+            <LineCharge ChargePerLine="1.22" ChargeCategory="Shipping">
+               <Extn ExtnPromotionID="" ExtnCouponID="" ExtnPromotionDesc="" />
+            </LineCharge>
+
+            <LineCharge ChargePerLine="5.00" ChargeCategory="Promotion">
+               <Extn ExtnPromotionID="Promotion" ExtnCouponID="P1" ExtnPromotionDesc="Promotional Discount" />
+            </LineCharge>
+
+            <LineCharge ChargePerLine="1.00" ChargeCategory="OversizeCharge">
+               <Extn ExtnPromotionID="Oversize" ExtnCouponID="OC1" ExtnPromotionDesc="Oversize Charge" />
+            </LineCharge>
+         </LineCharges>
+
+         <LineTaxes>
+            <LineTax ChargeCategory="Tax" Reference_1="" Tax="5.00" TaxName="Tax123" />
+         </LineTaxes>
+
+         <LinePriceInfo UnitPrice="5.00" />
+
+         <BundleParentLine PrimeLineNo="1" SubLineNo="1" />
+
+         <PersonInfoShipTo AddressLine1="The Crest" AddressLine2="2011 Fort Lee" AddressLine3="" City="Crane Hill" Country="US" DayPhone="1234567890" MobilePhone="9818006174" EMailID="Samson.Paul@gmail.com" FirstName="Samson" LastName="Paul" Company="" State="AL" ZipCode="35040" />
+
+         <Dependency DependentOnPrimeLineNo="1" DependentOnSubLineNo="1" />
+      </OrderLine>
+      <OrderLine OrderedQty="3" PrimeLineNo="4" SubLineNo="2" KitCode="A" GiftFlag="" CarrierServiceCode="" LevelOfService="">
+         <ItemDetails>
+            <PrimaryInformation ImageID="sample.jpg" ImageLocation="http://res.cloudinary.com/demo/image/upload/" />
+         </ItemDetails>
+
+         <Item ItemID="RegularItem0001" ItemShortDesc="" ItemDesc="BAONE" UnitOfMeasure="EACH" ProductClass="REGULAR" />
+
+         <LineCharges>
+            <LineCharge ChargePerLine="1.22" ChargeCategory="Shipping">
+               <Extn ExtnPromotionID="" ExtnCouponID="" ExtnPromotionDesc="" />
+            </LineCharge>
+
+            <LineCharge ChargePerLine="5.00" ChargeCategory="Promotion">
+               <Extn ExtnPromotionID="Promotion" ExtnCouponID="P1" ExtnPromotionDesc="Promotional Discount" />
+            </LineCharge>
+
+            <LineCharge ChargePerLine="1.00" ChargeCategory="OversizeCharge">
+               <Extn ExtnPromotionID="Oversize" ExtnCouponID="OC1" ExtnPromotionDesc="Oversize Charge" />
+            </LineCharge>
+         </LineCharges>
+
+         <LineTaxes>
+            <LineTax ChargeCategory="Tax" Reference_1="" Tax="5.00" TaxName="Tax123" />
+         </LineTaxes>
+
+         <LinePriceInfo UnitPrice="5.00" />
+
+         <BundleParentLine PrimeLineNo="" SubLineNo="" />
+
+         <PersonInfoShipTo AddressLine1="The Crest" AddressLine2="2011 Fort Lee" AddressLine3="" City="Crane Hill" Country="US" DayPhone="1234567890" MobilePhone="9818006174" EMailID="Samson.Paul@gmail.com" FirstName="Samson" LastName="Paul" Company="" State="AL" ZipCode="35040" />
+
+         <Dependency DependentOnPrimeLineNo="1" DependentOnSubLineNo="1" />
+      </OrderLine>
+      <OrderLine OrderedQty="5" PrimeLineNo="5" SubLineNo="2" KitCode="" GiftFlag="" CarrierServiceCode="" LevelOfService="">
+         <ItemDetails>
+            <PrimaryInformation ImageID="sample.jpg" ImageLocation="http://res.cloudinary.com/demo/image/upload/" />
+         </ItemDetails>
+
+         <Item ItemID="KitItem0001" ItemShortDesc="" ItemDesc="BAONE" UnitOfMeasure="EACH" ProductClass="REGULAR" />
+
+         <LineCharges>
+            <LineCharge ChargePerLine="1.22" ChargeCategory="Shipping">
+               <Extn ExtnPromotionID="" ExtnCouponID="" ExtnPromotionDesc="" />
+            </LineCharge>
+
+            <LineCharge ChargePerLine="5.00" ChargeCategory="Promotion">
+               <Extn ExtnPromotionID="Promotion" ExtnCouponID="P1" ExtnPromotionDesc="Promotional Discount" />
+            </LineCharge>
+
+            <LineCharge ChargePerLine="1.00" ChargeCategory="OversizeCharge">
+               <Extn ExtnPromotionID="Oversize" ExtnCouponID="OC1" ExtnPromotionDesc="Oversize Charge" />
+            </LineCharge>
+         </LineCharges>
+
+         <LineTaxes>
+            <LineTax ChargeCategory="Tax" Reference_1="" Tax="5.00" TaxName="Tax123" />
+         </LineTaxes>
+
+         <LinePriceInfo UnitPrice="5.00" />
+
+         <BundleParentLine PrimeLineNo="4" SubLineNo="2" />
+
+         <PersonInfoShipTo AddressLine1="The Crest" AddressLine2="2011 Fort Lee" AddressLine3="" City="Crane Hill" Country="US" DayPhone="1234567890" MobilePhone="9818006174" EMailID="Samson.Paul@gmail.com" FirstName="Samson" LastName="Paul" Company="" State="AL" ZipCode="35040" />
+
+         <Dependency DependentOnPrimeLineNo="1" DependentOnSubLineNo="1" />
+      </OrderLine>
+   </OrderLines>
+
+   <PaymentMethods>
+      <PaymentMethod PaymentType="CREDIT_CARD" CreditCardNo="" CreditCardType="VISA" CreditCardExpDate="07/2016" CreditCardName="Samson Paul" EMailID="" PaymentReference1="" PaymentReference2="" PaymentReference3="" PaymentReference4="" PaymentReference5="" PaymentReference6="" SvcNo="" MaxChargeLimit="">
+         <PaymentDetails RequestAmount="30.00" ChargeType="AUTHORIZATION" AuthorizationID="AUTH1" AuthorizationExpirationDate="" AuthReturnCode="1M" ProcessedAmount="" />
+
+         <PersonInfoBillTo AddressLine1="The Crest" AddressLine2="2011 Fort Lee" AddressLine3="" City="Crane Hill" Country="US" DayPhone="1234567890" MobilePhone="9818006174" EMailID="samson.Paul@gmail.com" FirstName="Samson" MiddleName="" LastName="Paul" Company="" State="AL" ZipCode="35040" />
+      </PaymentMethod>
+   </PaymentMethods>
+
+   <PersonInfoBillTo AddressLine1="The Crest" AddressLine2="2011 Fort Lee" AddressLine3="" City="Crane Hill" Country="US" DayPhone="1234567890" MobilePhone="9818006174" EMailID="Samson.Paul@gmail.com" FirstName="Samson" MiddleName="" LastName="Paul" Company="" State="AL" ZipCode="35040"/>
+
+   <PersonInfoShipTo AddressLine1="The Crest" AddressLine2="2011 Fort Lee" AddressLine3="" City="Crane Hill" Country="US" DayPhone="1234567890" MobilePhone="9818006174" EMailID="Samson.Paul@gmail.com" FirstName="Samson" MiddleName="" LastName="Paul" Company="" State="AL" ZipCode="35040" />
+</Order>
+
