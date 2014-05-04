@@ -30,5 +30,4 @@ QUANTITY                = /OrderedItem/OrderLineTransaction/Quantity
 PRODUCT_IMAGE           = /OrderedItem/ProductImageURL
 
 
-#KIT_ITEM_NAME           = /OrderedItem/Component/ProductName
 KIT_ITEM_NAME           = //Component/ProductName
