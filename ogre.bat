@@ -1,8 +1,8 @@
+@rem = '--*-Perl-*--
 ::
 :: Shrek: Layers. Onions have layers. Ogres have layers. Onions have layers. You get it? 
 ::
 
-@rem = '--*-Perl-*--
 @echo off
 cls
 setlocal 
@@ -161,6 +161,7 @@ find(\&findAllIncludeFiles, ".");
 
 my @customTags;
 my @customText;
+my @xmlDocStack;
 my $customDepth = 0;
 my $xmlFile = "MSC-OrderConfirm-Sample-kitItems+Warranty.xml";
 my $xmlParser = XML::LibXML->new();
@@ -248,6 +249,18 @@ sub formatValueForHtml($$) {
 }
 
 # -----------------------------------------------------------------------------
+sub pushXmlDoc($) {
+   my ($newxmlDoc) = @_;
+   push(@xmlDocStack, $xmlDoc);
+   $xmlDoc = $newxmlDoc;
+}
+
+# -----------------------------------------------------------------------------
+sub popXmlDoc() {
+   $xmlDoc = pop(@xmlDocStack);
+}
+
+# -----------------------------------------------------------------------------
 sub text {
    my ($self, $text) = @_;
    addToHtml($text);
@@ -275,17 +288,12 @@ sub start {
                   my $treeForItem = XML::LibXML->load_xml(string => $orderedItems[$itemCount]);
                   my $documentForItem = $treeForItem->getDocumentElement;
 
-                  ## Save the main XML document
-                  my $tempDoc = $xmlDoc;
+                  pushXmlDoc($documentForItem);
                   
-                  ## Slide our OrderedItem document in place
-                  $xmlDoc = $documentForItem;
-
                   print "\n\n$itemCount\n", $orderedItems[$itemCount], "\n";
                   importIncludeFile($attributes->{"name"});
                   
-                  ## Put the main XML document back
-                  $xmlDoc = $tempDoc;
+                  popXmlDoc();
                }
                
             } elsif ($attributes->{'name'} eq "product-kit") {
@@ -301,16 +309,11 @@ sub start {
                   my $treeForKit = XML::LibXML->load_xml(string => $kitItems[$kitCount]);
                   my $documentForKit = $treeForKit->getDocumentElement;
 
-                  ## Save the main XML document
-                  my $tempDoc = $xmlDoc;
-                  
-                  ## Slide our Kit document in place
-                  $xmlDoc = $documentForKit;
+                  pushXmlDoc($documentForKit);
                
                   importIncludeFile($attributes->{"name"});
 
-                  ## Put the main XML document back
-                  $xmlDoc = $tempDoc;
+                  popXmlDoc();
                }
                
             } elsif ($attributes->{'name'} eq "order-shipped-payment") {
