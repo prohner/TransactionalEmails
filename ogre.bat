@@ -418,7 +418,7 @@ sub end {
             ## print "\n\tvalue for $a->{'name'} is $value and min=$a->{'minvalue'}\n";
             if (($value + 0) >= ($a->{'minvalue'} + 0)) {
                ## print "\tAPPENDING " . formatValueForHtml($value, $a->{'format'}) . "\n\tPLUS $customText[$customDepth]\n";
-               $html .= formatValueForHtml($value, $a->{'format'});
+               #$html .= formatValueForHtml($value, $a->{'format'});
                $html .= $customText[$customDepth];
             } else {
                print "\tDID NOT MEET minvalue " . formatValueForHtml($value, $a->{'format'}) . "\n";
