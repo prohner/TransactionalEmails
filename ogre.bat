@@ -95,7 +95,7 @@ sub includeFile($) {
 # -----------------------------------------------------------------------------
 sub importIncludeFile($) {
    my $baseFilename = shift;
-   print "importIncludeFile ", $baseFilename, "\n";
+   print "importIncludeFile ", $baseFilename, "\n" if ($DEBUG_INCLUDE_FILES);
    
    my $actualFilename = "";
    $actualFilename = actualFilenameForBrand($baseFilename);
@@ -139,11 +139,9 @@ sub replaceBracketedTags($) {
    
    foreach my $key (keys(%vars)) {
       my $val = $vars{$key};
-      print "Getting value ($val)\n";
       $val = getValueForField($val);
       $key = quotemeta($key);
       $s =~ s/$key/$val/g;
-      die "REPLACE $key with $val\n" if ($key eq "[PRODUCT_IMAGE]");
    }
    
    die "\n\nFound bracket in $s after all brackets should have been replaced\n\n" if ($s =~ /[\[\]]/);
@@ -185,6 +183,7 @@ my $file1 = "transactional\\coded\\base-template.html";
 $p->parse_file($file1) || die $!;
 
 open(OUT, ">out.html") || die "Couldn't open out.html\n$!\n";
+print OUT "" . localtime();
 print OUT $html;
 close(OUT);
 
@@ -317,11 +316,10 @@ sub start {
       if ($attributes->{"type"} =~ /file/i) {
          die "Could not find 'name' attribute for 'file' in 'custom' tag\n>>>$origtext\n" if ($attributes->{"name"} eq "");
          if (defined($attributes->{"repeatable"}) && $attributes->{"repeatable"} eq "yes") {
-            print "\t\t$attributes->{'name'} is REPEATABLE\n";
+            ## print "\t\t$attributes->{'name'} is REPEATABLE\n";
             if ($attributes->{'name'} eq "product-detail") {
                my @orderedItems = $xmlDoc->findnodes('//OrderedItem');
 
-               print "NOW WE SEE HOW THE INCLUDED ITEMS GO...\n\n";
                for (my $itemCount = 0; $itemCount < @orderedItems; $itemCount++) {
                   ## Creating a new document only for this OrderedItem
                   my $treeForItem = XML::LibXML->load_xml(string => $orderedItems[$itemCount]);
@@ -329,7 +327,7 @@ sub start {
 
                   pushXmlDoc($documentForItem);
                   
-                  print "\n\n$itemCount\n", $orderedItems[$itemCount], "\n";
+                  ## print "\n\n$itemCount\n", $orderedItems[$itemCount], "\n";
                   importIncludeFile($attributes->{"name"});
                   
                   popXmlDoc();
@@ -337,9 +335,7 @@ sub start {
                
             } elsif ($attributes->{'name'} eq "product-kit") {
                ## If we found a kit, then we must be in a product so our XMLDOC should be a product
-               my @kitItems = $xmlDoc->findnodes('//Component');
-               print "NOW WE SEE HOW THE INCLUDED KITS GO...\n\n";
-               
+               my @kitItems = $xmlDoc->findnodes('//Component');               
                
                for (my $kitCount = 0; $kitCount < @kitItems; $kitCount++) {
                   ## Creating a new document only for this Kit
@@ -354,6 +350,7 @@ sub start {
                }
                
             } elsif ($attributes->{'name'} eq "order-shipped-payment") {
+               die "\n\n\tREPEAT order-shipped-payment HAS NOT BEEN TESTED\n\n";
                my @paymentDetails = $xmlDoc->findnodes('//PaymentDetails');
                for (my $itemCount = 0; $itemCount < @paymentDetails; $itemCount++) {
                   importIncludeFile($attributes->{"name"});
@@ -373,15 +370,12 @@ sub start {
          
          $origtext = replaceBracketedTags($origtext);
       } elsif ($attributes->{"type"} =~ /anchor/i) {
-         print "\n\nBEGINNING CUSTOM ANCHOR\n\n";
          incrementCustomDepth();
          $customTags[$customDepth] = $attributes;
          $saveOrigText = 0;
          #print "($self, $tag, $attributes, $attrseq, $origtext)\n";
       } elsif ($attributes->{"type"} =~ /field/i) {
-         print "\n\nBEGINNING CUSTOM FIELD $attributes->{'name'}\n\n";
          if ($origtext =~ /\/\>$/) {
-            print "IN SHORT CIRCUIT\n";
             $saveOrigText = 0;
             my $value = getValueForField($attributes->{'name'});
             addToHtml(formatValueForHtml($value, $attributes->{'format'}));
@@ -406,8 +400,7 @@ sub start {
 sub end {
    my ($self, $tag, $origtext) = @_;
    if ($origtext eq "</custom>") {
-      print "END $origtext\n";
-      print "CUSTOMTEXT\n>>$customText[$customDepth]\n<<\n";
+      ## print "CUSTOMTEXT\n>>$customText[$customDepth]\n<<\n";
       $a = $customTags[$customDepth];
       
       if (ref($a) ne "HASH") {
@@ -417,9 +410,9 @@ sub end {
       if ($a->{"type"} =~ /field/ && defined($a->{"optional"}) && $a->{"optional"} =~ /yes/i) {
          if (defined($a->{"minvalue"})) {
             my $value = getValueForField($a->{'name'});
-            print "\n\tvalue for $a->{'name'} is $value and min=$a->{'minvalue'}\n";
+            ## print "\n\tvalue for $a->{'name'} is $value and min=$a->{'minvalue'}\n";
             if (($value + 0) >= ($a->{'minvalue'} + 0)) {
-               print "\tAPPENDING" . formatValueForHtml($value, $a->{'format'}) . "\n";
+               ## print "\tAPPENDING" . formatValueForHtml($value, $a->{'format'}) . "\n";
                $html .= formatValueForHtml($value, $a->{'format'});
                $html .= $customText[$customDepth];
             } else {
@@ -436,7 +429,7 @@ sub end {
                $html .= $customText[$customDepth];
             }
             
-            print "\nNAME=($a->{'name'})\nVALUE=($value) (" . ($value ne "") . ")\n" if ($a->{'name'} =~ /kit/i);
+            ## print "\nNAME=($a->{'name'})\nVALUE=($value) (" . ($value ne "") . ")\n" if ($a->{'name'} =~ /kit/i);
          }
          
          
@@ -450,8 +443,8 @@ sub end {
          $newAnchor = replaceBracketedTags($newAnchor);
          $newAnchor .= ">$customText[$customDepth]</a>";
 
-         print "\$newAnchor=\n\n$newAnchor\n\n";
-         print "\$customText was=\n\n$customText[$customDepth]\n\n";
+         ## print "\$newAnchor=\n\n$newAnchor\n\n";
+         ## print "\$customText was=\n\n$customText[$customDepth]\n\n";
          
          ##exit(1) if ($customText[$customDepth] =~ /order details/i);
          $html .= $newAnchor;
