@@ -228,7 +228,7 @@ sub getBrandNotificationVariables($$) {
    if ($brand eq "GC") {
       if ($notificationType eq "ns0:OrderConfirmationNotification") {
          $sourceCode = "OrdConfSrc";
-         $subject    = "GC Order Confirmation";
+         $subject    = "Guitar Center Order Confirmation";
       } else {
          die "Unrecognized notification type ($notificationType) for brand ($brand) in getSourceCode()\n";
       }
@@ -301,7 +301,13 @@ sub popXmlDoc() {
 # -----------------------------------------------------------------------------
 sub text {
    my ($self, $text) = @_;
-   addToHtml($text);
+   if ($text =~ /\<custom .*subject_line/i) {
+      ## In <title> you can't have HTML tags so the <custom> tag has not been 
+      ## parsed/processed so it comes in here and needs to be substituted
+      addToHtml(getSubject($brand, $notificationType));
+   } else {
+      addToHtml($text);
+   }
 }
 
 sub comment {
@@ -451,7 +457,6 @@ sub end {
       
       decrementCustomDepth();
    } else {
-      #$html .= $origtext;
       addToHtml($origtext);
    }
 }
