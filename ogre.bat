@@ -366,6 +366,7 @@ sub start {
          
       } elsif ($attributes->{"type"} =~ /module/i) {
          loadModule($notificationType);
+         $saveOrigText = 0;
       } elsif ($attributes->{"type"} =~ /image/i) {
          $origtext =~ s/\<custom/\<image/i;
          
