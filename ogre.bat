@@ -358,6 +358,7 @@ sub start {
             } else {
                die "Found a REPEATABLE '$attributes->{'name'}', but I don't recognize that name.\n";
             }
+            $saveOrigText = 0;
             
          } else {
             $saveOrigText = 0;
