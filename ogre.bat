@@ -360,6 +360,7 @@ sub start {
             }
             
          } else {
+            $saveOrigText = 0;
             importIncludeFile($attributes->{"name"});
          }         
          
