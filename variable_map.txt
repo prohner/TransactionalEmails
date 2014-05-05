@@ -1,25 +1,25 @@
-ORDER_NUM               = /ns0:OrderConfirmationNotification/OrderHeader/OrderID
-BILLING_FNAME           = /ns0:OrderConfirmationNotification/OrderHeader/Customer/FirstName
-ORDER_DATE              = /ns0:OrderConfirmationNotification/OrderHeader/OrderDateTime
-SHIPPING_FNAME          = /ns0:OrderConfirmationNotification/OrderLineGroup/ShippingAddress/FirstName
-SHIPPING_LNAME          = /ns0:OrderConfirmationNotification/OrderLineGroup/ShippingAddress/LastName
-SHIPPING_ADDRESS_1      = /ns0:OrderConfirmationNotification/OrderLineGroup/ShippingAddress/AddressLine1
-SHIPPING_ADDRESS_2      = /ns0:OrderConfirmationNotification/OrderLineGroup/ShippingAddress/AddressLine2
-SHIPPING_CITY           = /ns0:OrderConfirmationNotification/OrderLineGroup/ShippingAddress/City
-SHIPPING_STATE          = /ns0:OrderConfirmationNotification/OrderLineGroup/ShippingAddress/State
-SHIPPING_ZIP            = /ns0:OrderConfirmationNotification/OrderLineGroup/ShippingAddress/PostalCode
-SHIPPING_COUNTRY        = /ns0:OrderConfirmationNotification/OrderLineGroup/ShippingAddress/CountryName
+ORDER_NUM               = //OrderHeader/OrderID
+BILLING_FNAME           = //OrderHeader/Customer/FirstName
+ORDER_DATE              = //OrderHeader/OrderDateTime
+SHIPPING_FNAME          = //OrderLineGroup/ShippingAddress/FirstName
+SHIPPING_LNAME          = //OrderLineGroup/ShippingAddress/LastName
+SHIPPING_ADDRESS_1      = //OrderLineGroup/ShippingAddress/AddressLine1
+SHIPPING_ADDRESS_2      = //OrderLineGroup/ShippingAddress/AddressLine2
+SHIPPING_CITY           = //OrderLineGroup/ShippingAddress/City
+SHIPPING_STATE          = //OrderLineGroup/ShippingAddress/State
+SHIPPING_ZIP            = //OrderLineGroup/ShippingAddress/PostalCode
+SHIPPING_COUNTRY        = //OrderLineGroup/ShippingAddress/CountryName
 SHIPPING_METHOD         = //ShipmentMethod
 
 
-SUBTOTAL                = /ns0:OrderConfirmationNotification/OrderTotal/SubTotal
-SHIPPING_HANDLING       = /ns0:OrderConfirmationNotification/OrderTotal/TotalShipAndHandlingCost
-TAX                     = /ns0:OrderConfirmationNotification/OrderTotal/TotalTax
-DISCOUNTS               = /ns0:OrderConfirmationNotification/OrderTotal/TotalDiscount
+SUBTOTAL                = //OrderTotal/SubTotal
+SHIPPING_HANDLING       = //OrderTotal/TotalShipAndHandlingCost
+TAX                     = //OrderTotal/TotalTax
+DISCOUNTS               = //OrderTotal/TotalDiscount
 
 #MISC_CHARGES            = 
 #TOTAL                   = 
-#PAYMENT_AMOUNT          = 
+PAYMENT_AMOUNT          = //PaymentDetails/PaymentAmount
 
 
 ## These are extracted from each OrderedItem, each as its own XML document
