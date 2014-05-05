@@ -384,6 +384,7 @@ sub start {
             incrementCustomDepth();
             $customTags[$customDepth] = $attributes;
             #print "($self, $tag, $attributes, $attrseq, $origtext)\n";
+            $saveOrigText = 0;
          }
       } else {
          die "Did not recognize 'custom' type\n>>>$origtext\n";
@@ -413,7 +414,7 @@ sub end {
             my $value = getValueForField($a->{'name'});
             ## print "\n\tvalue for $a->{'name'} is $value and min=$a->{'minvalue'}\n";
             if (($value + 0) >= ($a->{'minvalue'} + 0)) {
-               ## print "\tAPPENDING" . formatValueForHtml($value, $a->{'format'}) . "\n";
+               ## print "\tAPPENDING " . formatValueForHtml($value, $a->{'format'}) . "\n\tPLUS $customText[$customDepth]\n";
                $html .= formatValueForHtml($value, $a->{'format'});
                $html .= $customText[$customDepth];
             } else {
