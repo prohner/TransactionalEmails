@@ -313,6 +313,7 @@ sub start {
    my ($self, $tag, $attributes, $attrseq, $origtext) = @_;
    my $saveOrigText = 1;
    if ($tag =~ /custom/i) {
+      $saveOrigText = 0;
       if ($attributes->{"type"} =~ /file/i) {
          die "Could not find 'name' attribute for 'file' in 'custom' tag\n>>>$origtext\n" if ($attributes->{"name"} eq "");
          if (defined($attributes->{"repeatable"}) && $attributes->{"repeatable"} eq "yes") {
@@ -358,35 +359,29 @@ sub start {
             } else {
                die "Found a REPEATABLE '$attributes->{'name'}', but I don't recognize that name.\n";
             }
-            $saveOrigText = 0;
             
          } else {
-            $saveOrigText = 0;
             importIncludeFile($attributes->{"name"});
          }         
          
       } elsif ($attributes->{"type"} =~ /module/i) {
          loadModule($notificationType);
-         $saveOrigText = 0;
       } elsif ($attributes->{"type"} =~ /image/i) {
          $origtext =~ s/\<custom/\<image/i;
-         
          $origtext = replaceBracketedTags($origtext);
+         $saveOrigText = 1;
       } elsif ($attributes->{"type"} =~ /anchor/i) {
          incrementCustomDepth();
          $customTags[$customDepth] = $attributes;
-         $saveOrigText = 0;
          #print "($self, $tag, $attributes, $attrseq, $origtext)\n";
       } elsif ($attributes->{"type"} =~ /field/i) {
          if ($origtext =~ /\/\>$/) {
-            $saveOrigText = 0;
             my $value = getValueForField($attributes->{'name'});
             addToHtml(formatValueForHtml($value, $attributes->{'format'}));
          } else {
             incrementCustomDepth();
             $customTags[$customDepth] = $attributes;
             #print "($self, $tag, $attributes, $attrseq, $origtext)\n";
-            $saveOrigText = 0;
          }
       } else {
          die "Did not recognize 'custom' type\n>>>$origtext\n";
