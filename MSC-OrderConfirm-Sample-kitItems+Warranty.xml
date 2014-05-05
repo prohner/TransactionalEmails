@@ -144,15 +144,15 @@
       </OrderedItem>
       <OrderedItem>
          <ERPLineID>41</ERPLineID>
-         <EnterpriseSkuID>BundleParentItem0001</EnterpriseSkuID>
+         <EnterpriseSkuID>BundleParentItem0002</EnterpriseSkuID>
          <ProductName>Product name three (drums)</ProductName>
          <ProductDescription>BAONE</ProductDescription>
          <ProductImageURL>http://media.guitarcenter.com/is/image/MMGS7/Gretsch-Drums-Marquee-4-Piece-Shell-Pack-with-FREE-8---Tom-Satin-Walnut-22--Bass-Drum/J04489000002001-00-250x250.jpg</ProductImageURL>
          <OrderLineTransaction>
             <TransactionType>Ordered</TransactionType>
-            <Quantity>3</Quantity>
+            <Quantity>4</Quantity>
          </OrderLineTransaction>
-         <UnitPrice>3.5</UnitPrice>
+         <UnitPrice>4.5</UnitPrice>
          <ExtPrice>10.5</ExtPrice>
          <ShipAndHandlingCost>0</ShipAndHandlingCost>
          <Tax>0</Tax>

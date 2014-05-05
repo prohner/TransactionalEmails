@@ -124,11 +124,11 @@ sub replaceBracketedTags($) {
    my $s = shift;
    
    $s =~ s/\[SOURCE_CODE\]/PCR_SOURCE_CODE/ig;
-   $s =~ s/\[ORDER_NUM\]/PCR_ORDER_NUM/ig;
    
    my %vars = (
       "[PRODUCT_IMAGE]"    => "PRODUCT_IMAGE",
       "[PRODUCT_NAME]"     => "PRODUCT_NAME",
+      "[ORDER_NUM]"        => "/ns0:OrderConfirmationNotification/OrderHeader/OrderID",
    );
    
    foreach my $key (keys(%vars)) {
@@ -297,8 +297,6 @@ sub start {
                }
                
             } elsif ($attributes->{'name'} eq "product-kit") {
-               ## GETS COMPLICATED BECAUSE WE ONLY WANT THE NUMBER OF KITS WITHIN THIS OrderedItem
-               print "MUST HANDLE product-kit\n";
                ## If we found a kit, then we must be in a product so our XMLDOC should be a product
                my @kitItems = $xmlDoc->findnodes('//Component');
                print "NOW WE SEE HOW THE INCLUDED KITS GO...\n\n";
@@ -416,13 +414,14 @@ sub end {
          print "\$newAnchor=\n\n$newAnchor\n\n";
          print "\$customText was=\n\n$customText[$customDepth]\n\n";
          
-         ##exit(1);
+         #exit(1) if ($customText[$customDepth] =~ /order details/i);
          $html .= $newAnchor;
       }
       
       decrementCustomDepth();
    } else {
-      $html .= $origtext;
+      #$html .= $origtext;
+      addToHtml($origtext);
    }
 }
 
