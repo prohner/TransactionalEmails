@@ -33,6 +33,9 @@ my $p;
 my $brand = "";
 my $html = "";
 my %variableMap;
+my @customTags;
+my @customText;
+my @xmlDocStack;
 
 my $DEBUG_INCLUDE_FILES = 0;
 
@@ -122,20 +125,25 @@ sub loadModule($) {
 # -----------------------------------------------------------------------------
 sub replaceBracketedTags($) {
    my $s = shift;
-   
-   $s =~ s/\[SOURCE_CODE\]/PCR_SOURCE_CODE/ig;
-   
+
    my %vars = (
       "[PRODUCT_IMAGE]"    => "PRODUCT_IMAGE",
       "[PRODUCT_NAME]"     => "PRODUCT_NAME",
-      "[ORDER_NUM]"        => "/ns0:OrderConfirmationNotification/OrderHeader/OrderID",
+      "[SOURCE_CODE]"      => "SOURCE_CODE",
    );
+   
+   if (@xmlDocStack == 0) {      
+      ## Some variables are only valid in the base document, so add them here
+      $vars{"[ORDER_NUM]"}    = "ORDER_NUM";
+   }
    
    foreach my $key (keys(%vars)) {
       my $val = $vars{$key};
+      print "Getting value ($val)\n";
       $val = getValueForField($val);
       $key = quotemeta($key);
       $s =~ s/$key/$val/g;
+      die "REPLACE $key with $val\n" if ($key eq "[PRODUCT_IMAGE]");
    }
    
    die "\n\nFound bracket in $s after all brackets should have been replaced\n\n" if ($s =~ /[\[\]]/);
@@ -159,9 +167,6 @@ $p = new HtmlParser;
 
 find(\&findAllIncludeFiles, ".");
 
-my @customTags;
-my @customText;
-my @xmlDocStack;
 my $customDepth = 0;
 my $xmlFile = "MSC-OrderConfirm-Sample-kitItems+Warranty.xml";
 my $xmlParser = XML::LibXML->new();
@@ -203,12 +208,46 @@ sub decrementCustomDepth() {
 }
 
 # -----------------------------------------------------------------------------
+sub getSubject($$) {
+   my ($brand, $notificationType) = @_;
+   my @vars = getBrandNotificationVariables($brand, $notificationType);
+   return $vars[0];
+}
+
+# -----------------------------------------------------------------------------
+sub getSourceCode($$) {
+   my ($brand, $notificationType) = @_;
+   my @vars = getBrandNotificationVariables($brand, $notificationType);
+   return $vars[1];
+}
+
+# -----------------------------------------------------------------------------
+sub getBrandNotificationVariables($$) {
+   my ($brand, $notificationType) = @_;
+   my $sourceCode = "";
+   my $subject    = "";
+   if ($brand eq "GC") {
+      if ($notificationType eq "ns0:OrderConfirmationNotification") {
+         $sourceCode = "OrdConfSrc";
+         $subject    = "GC Order Confirmation";
+      } else {
+         die "Unrecognized notification type ($notificationType) for brand ($brand) in getSourceCode()\n";
+      }
+   } else {
+      die "Unrecognized brand ($brand) in getSourceCode()\n";
+   }
+   return ($subject, $sourceCode);
+}
+
+# -----------------------------------------------------------------------------
 sub getValueForField($) {
    my ($variable) = @_;
    my $s;
    
    if ($variable =~ /current_year/i) {
       $s = strftime("%Y", localtime());
+   } elsif ($variable =~ /source_code/i) {
+      $s = getSourceCode($brand, $notificationType);
    } else {
       my %variable_map;
       $s = "PCR_$variable";
@@ -216,7 +255,7 @@ sub getValueForField($) {
       if (defined($variableMap{uc($variable)})) {
          $s = $xmlDoc->findvalue($variableMap{uc($variable)});
       } else {
-         print "FAILED TO FIND VARIABLE '$variable'\n";
+         warn "FAILED TO FIND VARIABLE '$variable'\n";
       }
       
    }
@@ -414,7 +453,7 @@ sub end {
          print "\$newAnchor=\n\n$newAnchor\n\n";
          print "\$customText was=\n\n$customText[$customDepth]\n\n";
          
-         #exit(1) if ($customText[$customDepth] =~ /order details/i);
+         ##exit(1) if ($customText[$customDepth] =~ /order details/i);
          $html .= $newAnchor;
       }
       

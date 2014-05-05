@@ -1,7 +1,6 @@
 ORDER_NUM               = /ns0:OrderConfirmationNotification/OrderHeader/OrderID
 BILLING_FNAME           = /ns0:OrderConfirmationNotification/OrderHeader/Customer/FirstName
 ORDER_DATE              = /ns0:OrderConfirmationNotification/OrderHeader/OrderDateTime
-SHIPPING_METHOD         = //ShipmentMethod
 SHIPPING_FNAME          = /ns0:OrderConfirmationNotification/OrderLineGroup/ShippingAddress/FirstName
 SHIPPING_LNAME          = /ns0:OrderConfirmationNotification/OrderLineGroup/ShippingAddress/LastName
 SHIPPING_ADDRESS_1      = /ns0:OrderConfirmationNotification/OrderLineGroup/ShippingAddress/AddressLine1
@@ -10,6 +9,7 @@ SHIPPING_CITY           = /ns0:OrderConfirmationNotification/OrderLineGroup/Ship
 SHIPPING_STATE          = /ns0:OrderConfirmationNotification/OrderLineGroup/ShippingAddress/State
 SHIPPING_ZIP            = /ns0:OrderConfirmationNotification/OrderLineGroup/ShippingAddress/PostalCode
 SHIPPING_COUNTRY        = /ns0:OrderConfirmationNotification/OrderLineGroup/ShippingAddress/CountryName
+SHIPPING_METHOD         = //ShipmentMethod
 
 
 SUBTOTAL                = /ns0:OrderConfirmationNotification/OrderTotal/SubTotal
