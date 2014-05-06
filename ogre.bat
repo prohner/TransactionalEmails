@@ -84,6 +84,21 @@ sub slurpFile($) {
 }
 
 # -----------------------------------------------------------------------------
+sub validate_xml_against_xsd($$) {
+    my ($xml, $xsd) = @_;
+
+    my $schema = XML::LibXML::Schema->new(location => $xsd);
+    my $parser = XML::LibXML->new;
+
+    my $doc = $parser->parse_file($xml);
+    eval { $schema->validate( $doc ) };
+
+    if ( my $ex = $@ ) {
+        return $ex;
+    }
+    return;
+}
+# -----------------------------------------------------------------------------
 sub includeFile($) {
    my $actualFilename = shift;
    print "includeFile ", $actualFilename, "\n" if ($DEBUG_INCLUDE_FILES);
@@ -167,6 +182,26 @@ find(\&findAllIncludeFiles, ".");
 
 my $customDepth = 0;
 my $xmlFile = "MSC-OrderConfirm-Sample-kitItems+Warranty.xml";
+my $xsdFile = "MSC-CDMOrderNotification.xsd";
+my $file1   = "transactional\\coded\\base-template.html";
+my $outdir  = ".\\";
+if (@ARGV == 4) {
+   $xmlFile = $ARGV[0];
+   $xsdFile = $ARGV[1];
+   $file1   = $ARGV[2];
+   $outdir  = $ARGV[3];
+} elsif (@ARGV > 0) {
+   die "This program expects 0 or 4 arguments.\n1. XML file\n2. XSD file\n3. Base template HTML/include\n4. Output directory\n";
+}
+$outdir .= "\\" unless ($outdir =~ /\\$/);
+
+if ( my $error = validate_xml_against_xsd($xmlFile, $xsdFile) ) {
+    die "Validation failed: $error\n";
+}
+die "Could not find base template $file1\n" if ( ! -e $file1);
+
+print "Validated:\n\t$xmlFile\n\t$xsdFile\n\t$file1 is present\n";
+
 my $xmlParser = XML::LibXML->new();
 my $xmlDoc = $xmlParser->parse_file($xmlFile);
 my $notificationType = $xmlDoc->getDocumentElement()->getName();
@@ -179,11 +214,12 @@ validateBrandIdentifier($brand);
 print "Notification type: <$notificationType>\n";
 
 
-my $file1 = "transactional\\coded\\base-template.html";
 $p->parse_file($file1) || die $!;
 
-open(OUT, ">out.html") || die "Couldn't open out.html\n$!\n";
-print OUT "" . localtime();
+my $outputFile = "${outdir}out.html"; 
+open(OUT, ">$outputFile") || die "Couldn't open $outputFile\n$!\n";
+print "Writing output: \n\t$outputFile\n";
+# print OUT "" . localtime();
 print OUT $html;
 close(OUT);
 

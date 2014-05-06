@@ -1,0 +1,1 @@
+call ogre "tests\test001\MSC-OrderConfirm-Sample-kitItems+Warranty.xml" "tests\test001\MSC-CDMOrderNotification.xsd" "tests\test001\mod-order-confirmation.inc" "tests\test001"

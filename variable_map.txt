@@ -16,9 +16,9 @@ SUBTOTAL                = //OrderTotal/SubTotal
 SHIPPING_HANDLING       = //OrderTotal/TotalShipAndHandlingCost
 TAX                     = //OrderTotal/TotalTax
 DISCOUNTS               = //OrderTotal/TotalDiscount
+TOTAL                   = //OrderTotal/GroupTotal
+MISC_CHARGES            = //OrderTotal/TotalMiscCharges
 
-#MISC_CHARGES            = 
-#TOTAL                   = 
 PAYMENT_AMOUNT          = //PaymentDetails/PaymentAmount
 
 
