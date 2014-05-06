@@ -409,7 +409,7 @@ sub start {
       } elsif ($attributes->{"type"} =~ /module/i) {
          loadModule($notificationType);
       } elsif ($attributes->{"type"} =~ /image/i) {
-         $origtext =~ s/\<custom/\<image/i;
+         $origtext =~ s/\<custom/\<img/i;
          $origtext = replaceBracketedTags($origtext);
          $saveOrigText = 1;
       } elsif ($attributes->{"type"} =~ /anchor/i) {
