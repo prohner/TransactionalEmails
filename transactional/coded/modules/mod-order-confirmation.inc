@@ -29,5 +29,5 @@
 		</tr>
 	</table>
 	<custom type="file" name="product-detail" repeatable="yes" />
-	<custom type="file" name="order-total" />
+	<custom type="file" name="order-confirmation-total" />
 	<custom type="file" name="order-confirmation-copy-2" />

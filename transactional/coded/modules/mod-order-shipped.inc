@@ -29,5 +29,5 @@
 		</custom>
 	</table>
 	<custom type="file" name="order-shipped-product-pkg" repeatable="yes" />
-	<custom type="file" name="order-total" />
+	<custom type="file" name="order-shipped-total.inc" />
 	<custom type="file" name="order-shipped-copy-2" />

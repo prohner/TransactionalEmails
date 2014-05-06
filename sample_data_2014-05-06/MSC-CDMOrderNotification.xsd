@@ -41,7 +41,7 @@
 									<xs:element name="ShippingAddress" type="odr:AddressType"/>
 									<xs:element name="ShipmentMethod" type="xs:string"/>
 									<xs:element name="OrderedItem" type="odr:OrderedItemType" maxOccurs="unbounded"/>
-									<xs:element name="GroupTotals" type="odr:OrderTotalType"/>
+									<xs:element name="GroupTotals" type="odr:OrderTotalType" minOccurs="0"/>
 								</xs:sequence>
 							</xs:complexType>
 						</xs:element>
@@ -97,7 +97,6 @@
 								<xs:sequence>
 									<xs:element name="ShippingAddress" type="odr:AddressType"/>
 									<xs:element name="ShipmentMethod" type="xs:string"/>
-									<xs:element name="ShippedItem" type="odr:OrderedItemType" maxOccurs="unbounded"/>
 									<xs:element name="ShippingGroupTotal" type="odr:OrderTotalType"/>
 									<xs:element name="ShipContainerDetails" type="odr:ShipContainerType" minOccurs="0" maxOccurs="unbounded"/>
 								</xs:sequence>
@@ -278,6 +277,7 @@
 			<xs:element name="ComponentID" type="xs:string" minOccurs="0"/>
 			<xs:element name="KitMessage" type="xs:string" minOccurs="0"/>
 			<xs:element name="Component" type="odr:OrderedItemType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="WarrantyComponent" type="odr:OrderedItemType" minOccurs="0" maxOccurs="unbounded"/>
 		</xs:sequence>
 	</xs:complexType>
 	<xs:complexType name="OrderLineTransactionType">
@@ -295,7 +295,7 @@
 			<xs:element name="ShipMethod" type="xs:string"/>
 			<xs:element name="CarrierTrackingURL" type="xs:string" minOccurs="0"/>
 			<xs:element name="ShipDate" type="xs:dateTime" minOccurs="0"/>
-			<xs:element name="ContainerItem" type="odr:OrderedItemType" maxOccurs="unbounded"/>
+			<xs:element name="ContainerItem" type="odr:OrderedItemType" minOccurs="0" maxOccurs="unbounded"/>
 		</xs:sequence>
 	</xs:complexType>
 	<xs:complexType name="ShipToStoreType">
@@ -398,8 +398,8 @@
 				<xs:complexType>
 					<xs:sequence>
 						<xs:element name="ChannelID" type="xs:string"/>
-						<xs:element name="Brand" type="odr:BrandType" minOccurs="0"/>
-						<xs:element name="SiteID" type="xs:string"/>
+						<xs:element name="Brand" type="odr:BrandType"/>
+						<xs:element name="SiteID" type="xs:string" minOccurs="0"/>
 					</xs:sequence>
 				</xs:complexType>
 			</xs:element>
@@ -409,7 +409,7 @@
 						<xs:element name="OrderDateTime" type="xs:dateTime"/>
 						<xs:element name="OrderID" type="xs:string"/>
 						<xs:element name="Customer" type="odr:CustomerDataType"/>
-						<xs:element name="PurchaseOrderID" type="xs:string"/>
+						<xs:element name="PurchaseOrderID" type="xs:string" minOccurs="0"/>
 					</xs:sequence>
 				</xs:complexType>
 			</xs:element>

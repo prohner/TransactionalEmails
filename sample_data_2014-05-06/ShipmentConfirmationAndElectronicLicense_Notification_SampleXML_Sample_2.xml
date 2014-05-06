@@ -1,0 +1,46 @@
+<ShipmentList EmailType="SHIPMENT_CONFIRMATION">
+<Shipment ShipNode="MFI" ExtDAXOrderNo="12321" EnterpriseCode="GC" SellerOrganizationCode="GC_WEB" ActualShipmentDate="2014-04-21T15:16:10-04:00" LevelOfService="ECONOMY_GROUND" ExtnShipToStoreID="" ExtnSourceOrderNo="Order1234" FulfillmentType="SHIP_TO_CUSTOMER" OrderDate="2014-04-10T15:16:10-04:00" OrderNo="GC100000014" EntryType="">
+   <Containers>
+      <Container ContainerNo="0010007" TrackingNo="TRACK20058" ContainerGrossWeight="2.00" ActualFreightCharge="5.00">
+	  	  <Extn ExtnCarrierServiceCode="02" ExtnTrackingNoURL="https://www.fedex.com/fedextrack/?tracknumbers=004229889402088"/>
+         <ContainerDetails>
+            <ContainerDetail ItemID="BundleComponentItem0001" ProductClass="REGULAR" Quantity="10" UnitOfMeasure="EACH" />
+         </ContainerDetails>
+      </Container>
+      <Container ContainerNo="0010008" TrackingNo="TRACK20059" ContainerGrossWeight="2.00" ActualFreightCharge="5.00" >
+	     <Extn ExtnCarrierServiceCode="02" ExtnTrackingNoURL="https://www.fedex.com/fedextrack/?tracknumbers=004229889402088"/>
+         <ContainerDetails>
+            <ContainerDetail ItemID="RegularItem0003" ProductClass="REGULAR" Quantity="5" UnitOfMeasure="EACH" />
+         </ContainerDetails>
+      </Container>
+      <Container ContainerNo="0010009" TrackingNo="TRACK20060" ContainerGrossWeight="2.00" ActualFreightCharge="5.00">
+	  	  <Extn ExtnCarrierServiceCode="02" ExtnTrackingNoURL="https://www.fedex.com/fedextrack/?tracknumbers=004229889402088"/>
+         <ContainerDetails>
+			<ContainerDetail ItemID="BundleComponentItem0002" ProductClass="REGULAR" Quantity="20" UnitOfMeasure="EACH" />
+         </ContainerDetails>
+      </Container>
+	  
+   </Containers>
+
+   <ShipmentLines>
+      <ShipmentLine PrimeLineNo="1" SubLineNo="1" ItemID="BundleParentItem0001" ItemDesc="BundleParentItem0001" Quantity="10" ProductClass="REGULAR" UnitOfMeasure="EACH" KitCode="BUNDLE">
+         <Extn ExtnDigitalTrackingKey="89898989989090" />
+      </ShipmentLine>
+	  <ShipmentLine PrimeLineNo="2" SubLineNo="1" ItemID="RegularItem0003" ItemDesc="RegularItem0003" Quantity="5" ProductClass="REGULAR" UnitOfMeasure="EACH" KitCode="">
+         <Extn ExtnDigitalTrackingKey="89898989989090" />
+      </ShipmentLine>
+	  <ShipmentLine PrimeLineNo="3" SubLineNo="1" ItemID="BundleComponentItem0001" ItemDesc="BundleComponentItem0001" Quantity="10" ProductClass="REGULAR" UnitOfMeasure="EACH" KitCode="">
+         <Extn ExtnDigitalTrackingKey="89898989989090" />
+		 <BundleParentLine PrimeLineNo="1" SubLineNo="1"/>
+      </ShipmentLine>
+	  <ShipmentLine PrimeLineNo="4" SubLineNo="1" ItemID="BundleComponentItem0002" ItemDesc="BundleComponentItem0002" Quantity="20" ProductClass="REGULAR" UnitOfMeasure="EACH" KitCode="">
+         <Extn ExtnDigitalTrackingKey="89898989989090" />
+		 <BundleParentLine PrimeLineNo="1" SubLineNo="1"/>
+      </ShipmentLine>
+   </ShipmentLines>
+
+   <ToAddress AddressLine1="The Crest" AddressLine2="2011 Fort Lee" AddressLine3="" City="Crane Hill" Country="US" DayPhone="1234567890" MobilePhone="9818006174" EMailID="Samson.Paul@gmail.com" FirstName="Samson" MiddleName="" LastName="Paul" Company="" State="AL" ZipCode="35040" />
+
+   <PersonInfoBillTo AddressLine1="The Crest" AddressLine2="2011 Fort Lee" AddressLine3="" City="Crane Hill" Country="US" DayPhone="1234567890" MobilePhone="9818006174" EMailID="Samson.Paul@gmail.com" FirstName="Samson" MiddleName="" LastName="Paul" Company="" State="AL" ZipCode="35040" />
+</Shipment>
+</ShipmentList>
