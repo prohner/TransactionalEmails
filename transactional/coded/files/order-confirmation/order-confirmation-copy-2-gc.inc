@@ -8,7 +8,7 @@
 					</tr>
 					<tr>
 						<td valign="top" style="padding:0 5px 0 0; font-weight:bold; font-size:14px; mso-line-height-rule:exactly; line-height:18px;">&#8226;</td>
-						<td valign="top" style="padding:0 0 0 0;">We email tracking as soon as your order ships.</td>
+						<td valign="top" style="padding:0 0 0 0;">We will email tracking information as soon as your order ships.</td>
 					</tr>
 					<tr>
 						<td valign="top" style="padding:0 5px 0 0; font-weight:bold; font-size:14px; mso-line-height-rule:exactly; line-height:18px;">&#8226;</td>
@@ -22,7 +22,7 @@
 						
 			If you need further assistance with your order, please call <span style="font-weight:bold;" class="mobileLink">866-498-7882</span>.<br /><br />
 			
-			Thanks for shopping with us.<br />
+			Thanks for shopping with us,<br />
 			<b style="font-size:16px; mso-line-height-rule:exactly; line-height:20px;">Guitar Center</b></td>
 		</tr>
 	</table>

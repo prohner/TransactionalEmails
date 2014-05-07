@@ -14,7 +14,7 @@
 						
 			If you need further assistance with your order, please call <span style="font-weight:bold;" class="mobileLink">866-498-7882</span>.<br /><br />
 			
-			Thanks for shopping with us.<br />
+			Thanks for shopping with us,<br />
 			<b style="font-size:16px; mso-line-height-rule:exactly; line-height:20px;">Guitar Center</b></td>
 		</tr>
 	</table>

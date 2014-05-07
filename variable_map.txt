@@ -1,6 +1,8 @@
 ORDER_NUM               = //OrderHeader/OrderID
 BILLING_FNAME           = //OrderHeader/Customer/FirstName
 ORDER_DATE              = //OrderHeader/OrderDateTime
+
+[OrderConfirmationNotification]
 SHIPPING_FNAME          = //OrderLineGroup/ShippingAddress/FirstName
 SHIPPING_LNAME          = //OrderLineGroup/ShippingAddress/LastName
 SHIPPING_ADDRESS_1      = //OrderLineGroup/ShippingAddress/AddressLine1

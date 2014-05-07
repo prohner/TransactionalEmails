@@ -121,10 +121,7 @@ sub importIncludeFile($) {
 # -----------------------------------------------------------------------------
 sub loadModule($) {
    my $notificationType = shift;
-   my $moduleName = "";
-   if ($notificationType =~ /ns0\:OrderConfirmationNotification/i) {
-      $moduleName = "mod-order-confirmation";
-   } 
+   my $moduleName = getModule($brand, $notificationType);
    
    if ($moduleName eq "") {
       die "Got request for <$notificationType> but I couldn't determine which module to use.\n";
@@ -166,10 +163,21 @@ sub replaceBracketedTags($) {
 # -----------------------------------------------------------------------------
 sub loadVariableMap() {
    open(IN, "variable_map.txt") || die "Couldn't open variable_map.txt\n$!\n";
+   
+   my $notificationType = "";
+   my $var = "";
+   my $xpath = "";
    while (<IN>) {
       unless (/^\#/) {
-         my ($var, $xpath) = split(/\s*=\s*/, $_, 2);
-         $variableMap{$var} = $xpath;
+         if (/^\[.*\]/) {
+            $notificationType = $_;
+            $notificationType =~ s/[\[\]\s]//g;
+            $notificationType .= "/";
+         } else {
+            ($var, $xpath) = split(/\s*=\s*/, $_, 2);
+            chomp($xpath) if (defined($xpath));
+            $variableMap{$notificationType . $var} = $xpath;
+         }
       }
    }
    close(IN);
@@ -181,9 +189,21 @@ $p = new HtmlParser;
 find(\&findAllIncludeFiles, ".");
 
 my $customDepth = 0;
-my $xmlFile = "MSC-OrderConfirm-Sample-kitItems+Warranty.xml";
-my $xsdFile = "MSC-CDMOrderNotification.xsd";
-my $file1   = "transactional\\coded\\base-template.html";
+
+my $xmlFile = "";
+my $xsdFile = "";
+my $file1   = "";
+
+if (1 == 1) {
+   $xmlFile = "MSC-OrderConfirm-Sample-kitItems+Warranty.xml";
+   $xsdFile = "MSC-CDMOrderNotification.xsd";
+   $file1   = "transactional\\coded\\base-template.html";
+} else {
+   $xmlFile = "sample_data_2014-05-06\\MSC-ShipConfirm-kitItems_Sample_1.xml";
+   $xsdFile = "sample_data_2014-05-06\\MSC-CDMOrderNotification.xsd";
+   $file1   = "transactional\\coded\\base-template.html";
+}
+
 my $outdir  = ".\\";
 if (@ARGV == 4) {
    $xmlFile = $ARGV[0];
@@ -211,7 +231,7 @@ my $query = "$notificationType/OrderSource/Brand/\@brandID";
 $brand = $xmlDoc->findnodes($query);
 validateBrandIdentifier($brand);
 
-print "Notification type: <$notificationType>\n";
+print "Sending notification type: <$notificationType> for brand <$brand>\n";
 
 
 $p->parse_file($file1) || die $!;
@@ -219,7 +239,7 @@ $p->parse_file($file1) || die $!;
 my $outputFile = "${outdir}out.html"; 
 open(OUT, ">$outputFile") || die "Couldn't open $outputFile\n$!\n";
 print "Writing output: \n\t$outputFile\n";
-# print OUT "" . localtime();
+print OUT "" . localtime();
 print OUT $html;
 close(OUT);
 
@@ -257,21 +277,34 @@ sub getSourceCode($$) {
 }
 
 # -----------------------------------------------------------------------------
+sub getModule($$) {
+   my ($brand, $notificationType) = @_;
+   my @vars = getBrandNotificationVariables($brand, $notificationType);
+   return $vars[2];
+}
+
+# -----------------------------------------------------------------------------
 sub getBrandNotificationVariables($$) {
    my ($brand, $notificationType) = @_;
    my $sourceCode = "";
    my $subject    = "";
+   my $moduleName = "";
    if ($brand eq "GC") {
       if ($notificationType eq "ns0:OrderConfirmationNotification") {
          $sourceCode = "OrdConfSrc";
          $subject    = "Guitar Center Order Confirmation";
+         $moduleName = "mod-order-confirmation";
+      } elsif ($notificationType eq "ns0:ShipConfirmationNotification") {
+         $sourceCode = "OrdShipSrc";
+         $subject    = "Guitar Center Order Shipping Confirmation";
+         $moduleName = "mod-order-confirmation";
       } else {
          die "Unrecognized notification type ($notificationType) for brand ($brand) in getSourceCode()\n";
       }
    } else {
       die "Unrecognized brand ($brand) in getSourceCode()\n";
    }
-   return ($subject, $sourceCode);
+   return ($subject, $sourceCode, $moduleName);
 }
 
 # -----------------------------------------------------------------------------
@@ -284,13 +317,24 @@ sub getValueForField($) {
    } elsif ($variable =~ /source_code/i) {
       $s = getSourceCode($brand, $notificationType);
    } else {
-      my %variable_map;
       $s = "PCR_$variable";
+      
+      my $localNotificationType = substr($notificationType, 4) . "/";
+      $localNotificationType =~ s/\s//g;
+      my $varToFind = $localNotificationType . uc($variable);
 
-      if (defined($variableMap{uc($variable)})) {
+      if (defined($variableMap{$varToFind})) {
+         ## First try to find the NotificationType's variable
+         $s = $xmlDoc->findvalue($variableMap{$varToFind});
+      } elsif (defined($variableMap{uc($variable)})) {
+         ## Second try to find the general variable
          $s = $xmlDoc->findvalue($variableMap{uc($variable)});
       } else {
-         warn "FAILED TO FIND VARIABLE '$variable'\n";
+         print "DYING DUMPING VARIABLE MAP\n";
+         foreach my $key (sort(keys(%variableMap))) {
+            print "$key = <$variableMap{$key}>\n";
+         }
+         die "FAILED TO FIND VARIABLE '$varToFind'\n";
       }
       
    }
