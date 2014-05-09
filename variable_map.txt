@@ -1,3 +1,5 @@
+PKG_NUM                 = PackageNumber
+
 ORDER_NUM               = //OrderHeader/OrderID
 BILLING_FNAME           = //OrderHeader/Customer/FirstName
 ORDER_DATE              = //OrderHeader/OrderDateTime
@@ -25,11 +27,36 @@ PAYMENT_AMOUNT          = //PaymentDetails/PaymentAmount
 
 
 ## These are extracted from each OrderedItem, each as its own XML document
-PRODUCT_NAME            = /OrderedItem/ProductName
-PRODUCT_NUM             = /OrderedItem/EnterpriseSkuID
-UNIT_PRICE              = /OrderedItem/UnitPrice
-QUANTITY                = /OrderedItem/OrderLineTransaction/Quantity
-PRODUCT_IMAGE           = /OrderedItem/ProductImageURL
+PRODUCT_NAME            = //OrderedItem/ProductName
+PRODUCT_NUM             = //OrderedItem/EnterpriseSkuID
+UNIT_PRICE              = //OrderedItem/UnitPrice
+QUANTITY                = //OrderedItem/OrderLineTransaction/Quantity
+PRODUCT_IMAGE           = //OrderedItem/ProductImageURL
 
 
 KIT_ITEM_NAME           = //Component/ProductName
+
+[ShipConfirmationNotification]
+PRODUCT_NAME            = //ContainerItem/ProductName
+PRODUCT_IMAGE           = //ContainerItem/ProductImageURL
+
+SHIPPING_METHOD         = //ShipContainerDetails/ShipMethod
+SHIPPED_DATE            = //ShipContainerDetails/ShipDate
+TRACKING_NUM            = //ShipContainerDetails/ShipTrackingNumber
+TRACKING_URL            = //ShipContainerDetails/CarrierTrackingURL
+
+SHIPPING_FNAME          = //ShippingGroup/ShippingAddress/FirstName
+SHIPPING_LNAME          = //ShippingGroup/ShippingAddress/LastName
+SHIPPING_ADDRESS_1      = //ShippingGroup/ShippingAddress/AddressLine1
+SHIPPING_ADDRESS_2      = //ShippingGroup/ShippingAddress/AddressLine2
+SHIPPING_CITY           = //ShippingGroup/ShippingAddress/City
+SHIPPING_STATE          = //ShippingGroup/ShippingAddress/State
+SHIPPING_ZIP            = //ShippingGroup/ShippingAddress/PostalCode
+SHIPPING_COUNTRY        = //ShippingGroup/ShippingAddress/CountryName
+SUBTOTAL                = //ShippingGroup/ShipConfirmationTotal/SubTotal
+SHIPPING_HANDLING       = //ShippingGroup/ShipConfirmationTotal/TotalShipAndHandlingCost
+TAX                     = //ShippingGroup/ShipConfirmationTotal/TotalTax
+MISC_CHARGES            = //ShippingGroup/ShipConfirmationTotal/TotalMiscCharges
+DISCOUNTS               = //ShippingGroup/ShipConfirmationTotal/TotalDiscount
+TOTAL                   = //ShippingGroup/ShipConfirmationTotal/GroupTotal
+

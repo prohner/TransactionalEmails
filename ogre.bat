@@ -33,11 +33,16 @@ my $p;
 my $brand = "";
 my $html = "";
 my %variableMap;
+my %globalVariables;
 my @customTags;
 my @customText;
 my @xmlDocStack;
+my $notificationType;
 
 my $DEBUG_INCLUDE_FILES = 0;
+my $DEBUG_VARIABLE_MAP  = 0;
+
+my $GLOBAL_PACKAGE_NUMBER = "PackageNumber";
 
 # -----------------------------------------------------------------------------
 sub validateBrandIdentifier($) {
@@ -56,16 +61,16 @@ sub actualFilenameForBrand($) {
    if ( ! defined($actualFilename)) {
       $filename = $originalBaseFilename . ".inc";
       print "Tried $filename\n" if ($DEBUG_INCLUDE_FILES);
-      $actualFilename = $allIncludeFiles{lc($filename)};
+      $actualFilename = $allIncludeFiles{$filename};
    }
    
-   print "Looking for $originalBaseFilename\n" if ($DEBUG_INCLUDE_FILES);
+   print "Looking for <$originalBaseFilename>\n" if ($DEBUG_INCLUDE_FILES);
    if (defined($actualFilename)) {
       print "Found <", $actualFilename, ">\n" if ($DEBUG_INCLUDE_FILES);
    } else {
-      print "Did not find $originalBaseFilename\n";
+      print "No find for <$originalBaseFilename>\n";
       foreach my $f (sort(keys(%allIncludeFiles))) {
-         print "\t>", $f, "\n";
+         print "\t>", $f, "< \n";
       }
    }
 
@@ -142,6 +147,7 @@ sub replaceBracketedTags($) {
       "[PRODUCT_IMAGE]"    => "PRODUCT_IMAGE",
       "[PRODUCT_NAME]"     => "PRODUCT_NAME",
       "[SOURCE_CODE]"      => "SOURCE_CODE",
+      "[TRACKING_URL]"     => "TRACKING_URL",
    );
    
    if (@xmlDocStack == 0) {      
@@ -151,7 +157,8 @@ sub replaceBracketedTags($) {
    
    foreach my $key (keys(%vars)) {
       my $val = $vars{$key};
-      $val = getValueForField($val);
+      ## Bracketed fields can be looked up conditionally because we'll barf if they aren't found anyway
+      $val = getValueForField($val, 0);
       $key = quotemeta($key);
       $s =~ s/$key/$val/g;
    }
@@ -194,7 +201,7 @@ my $xmlFile = "";
 my $xsdFile = "";
 my $file1   = "";
 
-if (1 == 1) {
+if (0 == 1) {
    $xmlFile = "MSC-OrderConfirm-Sample-kitItems+Warranty.xml";
    $xsdFile = "MSC-CDMOrderNotification.xsd";
    $file1   = "transactional\\coded\\base-template.html";
@@ -224,7 +231,7 @@ print "Validated:\n\t$xmlFile\n\t$xsdFile\n\t$file1 is present\n";
 
 my $xmlParser = XML::LibXML->new();
 my $xmlDoc = $xmlParser->parse_file($xmlFile);
-my $notificationType = $xmlDoc->getDocumentElement()->getName();
+$notificationType = $xmlDoc->getDocumentElement()->getName();
 loadVariableMap();
 
 my $query = "$notificationType/OrderSource/Brand/\@brandID";
@@ -297,7 +304,7 @@ sub getBrandNotificationVariables($$) {
       } elsif ($notificationType eq "ns0:ShipConfirmationNotification") {
          $sourceCode = "OrdShipSrc";
          $subject    = "Guitar Center Order Shipping Confirmation";
-         $moduleName = "mod-order-confirmation";
+         $moduleName = "mod-order-shipped";
       } else {
          die "Unrecognized notification type ($notificationType) for brand ($brand) in getSourceCode()\n";
       }
@@ -308,9 +315,11 @@ sub getBrandNotificationVariables($$) {
 }
 
 # -----------------------------------------------------------------------------
-sub getValueForField($) {
-   my ($variable) = @_;
+sub getValueForField($;$) {
+   my ($variable, $mustFindVariable) = @_;
    my $s;
+   
+   $mustFindVariable = 1 unless(defined($mustFindVariable));
    
    if ($variable =~ /current_year/i) {
       $s = strftime("%Y", localtime());
@@ -326,15 +335,35 @@ sub getValueForField($) {
       if (defined($variableMap{$varToFind})) {
          ## First try to find the NotificationType's variable
          $s = $xmlDoc->findvalue($variableMap{$varToFind});
+         #print "SEEK 1 $varToFind \n\txpath=$variableMap{$varToFind}\n\ts=$s\n";
+
+         if (1 == 1) {
+            my @nodes = $xmlDoc->findnodes($variableMap{$varToFind});
+            #print "SEEK 1 $varToFind \n\txpath=$variableMap{$varToFind}\n\t$s\n\tnode count=" . (@nodes + 0) . "\n";
+            if (@nodes > 0) {
+               my $node = $nodes[0];
+               $s = $node->textContent();
+            }
+         }
       } elsif (defined($variableMap{uc($variable)})) {
          ## Second try to find the general variable
+         #print "SEEK 2 $variable\n";
          $s = $xmlDoc->findvalue($variableMap{uc($variable)});
+      } elsif ($globalVariables{$variable}) {
+         ## Second try to find the general variable
+         #print "SEEK 3 $variable\n";
+         $s = $xmlDoc->findvalue($globalVariables{$variable});
       } else {
-         print "DYING DUMPING VARIABLE MAP\n";
-         foreach my $key (sort(keys(%variableMap))) {
-            print "$key = <$variableMap{$key}>\n";
+         if ($mustFindVariable) {
+            print "SEEK 4 $varToFind\n";
+            if ($DEBUG_VARIABLE_MAP) {
+               print "DYING DUMPING VARIABLE MAP\n";
+               foreach my $key (sort(keys(%variableMap))) {
+                  print "$key = <$variableMap{$key}>\n";
+               }
+            }
+            die "\n\nFAILED TO FIND VARIABLE '$varToFind'\n";
          }
-         die "FAILED TO FIND VARIABLE '$varToFind'\n";
       }
       
    }
@@ -351,12 +380,19 @@ sub formatValueForHtml($$) {
    
    if ($format =~ /date/i) {
       my $formatter = DateTime::Format::RFC3339->new();
-      my $date = $formatter->parse_datetime($value);
-   
-      $s = $date->strftime("%m/%d/%Y");
+      if ($value ne "") {
+         print "Formatting date ($value)\n";
+         my $date = $formatter->parse_datetime($value);
+         $s = $date->strftime("%m/%d/%Y");
+      } else {
+         warn "FAILED TO CONVERT VALUE ($value) TO DATE\n";
+         $s = "";
+      }
    } elsif ($format =~ /currency/i) {
+      $value = 0 if ($value eq "");
       $s = sprintf("%0.2f", $value);
    } elsif ($format =~ /number/i) {
+      $value = 0 if ($value eq "");
       $s = sprintf("%0.0f", $value);
    } else {
       my %variable_map;
@@ -405,7 +441,12 @@ sub start {
          if (defined($attributes->{"repeatable"}) && $attributes->{"repeatable"} eq "yes") {
             ## print "\t\t$attributes->{'name'} is REPEATABLE\n";
             if ($attributes->{'name'} eq "product-detail") {
-               my @orderedItems = $xmlDoc->findnodes('//OrderedItem');
+               my $xpathToOrderItems = "//OrderedItem";
+               if ($notificationType eq "ShipConfirmationNotification") {
+                  $xpathToOrderItems = "//ContainerItem";
+               }
+            
+               my @orderedItems = $xmlDoc->findnodes($xpathToOrderItems);
 
                for (my $itemCount = 0; $itemCount < @orderedItems; $itemCount++) {
                   ## Creating a new document only for this OrderedItem
@@ -442,6 +483,24 @@ sub start {
                for (my $itemCount = 0; $itemCount < @paymentDetails; $itemCount++) {
                   importIncludeFile($attributes->{"name"});
                }
+               
+            } elsif ($attributes->{'name'} eq "order-shipped-product-pkg") {
+               warn "\n\n\tREPEAT order-shipped-product-pkg HAS NOT BEEN TESTED\n\n";
+               print "Went into order-shipped-product-pkg\n";
+               my @shippedPackages = $xmlDoc->findnodes('//ShippingGroup/ShipContainerDetails');
+               $globalVariables{$GLOBAL_PACKAGE_NUMBER} = 0;
+               for (my $packageCount = 0; $packageCount < @shippedPackages; $packageCount++) {
+                  $globalVariables{$GLOBAL_PACKAGE_NUMBER}++;
+                  my $treeForPackage = XML::LibXML->load_xml(string => $shippedPackages[$packageCount]);
+                  my $documentForPackage = $treeForPackage->getDocumentElement;
+
+                  pushXmlDoc($documentForPackage);
+               
+                  importIncludeFile($attributes->{"name"});
+
+                  popXmlDoc();
+               }
+               $globalVariables{$GLOBAL_PACKAGE_NUMBER} = 0;
             } else {
                die "Found a REPEATABLE '$attributes->{'name'}', but I don't recognize that name.\n";
             }
