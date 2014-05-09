@@ -5,6 +5,7 @@ ORDER_NUM               = //OrderHeader/OrderID
 BILLING_FNAME           = //OrderHeader/Customer/FirstName
 ORDER_DATE              = //OrderHeader/OrderDateTime
 
+## ============================================================================
 [OrderConfirmationNotification]
 SHIPPING_FNAME          = //OrderLineGroup/ShippingAddress/FirstName
 SHIPPING_LNAME          = //OrderLineGroup/ShippingAddress/LastName
@@ -37,6 +38,7 @@ PRODUCT_IMAGE           = //OrderedItem/ProductImageURL
 
 KIT_ITEM_NAME           = //Component/ProductName
 
+## ============================================================================
 [ShipConfirmationNotification]
 PRODUCT_NAME            = //ContainerItem/ProductName
 PRODUCT_IMAGE           = //ContainerItem/ProductImageURL
@@ -70,3 +72,23 @@ TOTAL                   = //ShipConfirmationTotal/GroupTotal
 
 PAYMENT_TYPE            = //ShippingGroup/ShippingGroupTotal
 PAYMENT_AMOUNT          = //ShippingGroup/GroupTotal
+
+## ============================================================================
+[OrderCancelNotification]
+PRODUCT_NAME            = //CancelledItem/ProductName
+PRODUCT_IMAGE           = //CancelledItem/ProductImageURL
+PRODUCT_NUM             = //CancelledItem/EnterpriseSkuID
+UNIT_PRICE              = //CancelledItem/UnitPrice
+QUANTITY                = //CancelledItem/OrderLineTransaction/Quantity
+
+KIT_ITEM_NAME           = //Component/ProductName
+
+SUBTOTAL                = //CancellationTotal/SubTotal
+SHIPPING_HANDLING       = //CancellationTotal/TotalShipAndHandlingCost
+TAX                     = //CancellationTotal/TotalTax
+MISC_CHARGES            = //CancellationTotal/TotalMiscCharges
+DISCOUNTS               = //CancellationTotal/TotalDiscount
+TOTAL                   = //CancellationTotal/GroupTotal
+
+PAYMENT_TYPE            = //PaymentType
+PAYMENT_AMOUNT          = //PaymentAmount

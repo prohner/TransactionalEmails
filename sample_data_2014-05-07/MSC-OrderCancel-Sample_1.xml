@@ -96,6 +96,7 @@
       <CreditCardType>VISA</CreditCardType>
       <AuthorizationID>AUTH1</AuthorizationID>
       <CreditCardExp>07/2016</CreditCardExp>
+      <PaymentAmount>123.00</PaymentAmount>
    </PaymentDetails>
    <CancellationTotal>
       <SubTotal>120</SubTotal>

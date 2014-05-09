@@ -140,7 +140,7 @@ sub loadModule($) {
    
    my $moduleFilename = "transactional\\coded\\modules\\${moduleName}.inc";
 
-   print "  Module is $moduleName ($moduleFilename)\n";
+   print "  Module ($moduleFilename)\n";
    die "Couldn't find $moduleFilename" if ( ! -e $moduleFilename);
    includeFile($moduleFilename);
 }
@@ -512,6 +512,8 @@ sub start {
                my $xpathToOrderItems = "//OrderedItem";
                if ($notificationType eq "ns0:ShipConfirmationNotification") {
                   $xpathToOrderItems = "//ContainerItem";
+               } elsif ($notificationType eq "ns0:OrderCancelNotification") {
+                  $xpathToOrderItems = "//CancelledItem";
                }
             
                my @orderedItems = $xmlDoc->findnodes($xpathToOrderItems);
@@ -531,7 +533,6 @@ sub start {
                }
                
             } elsif ($attributes->{'name'} eq "order-shipped-payment") {
-               warn "\n\n\tREPEAT order-shipped-payment HAS NOT BEEN TESTED\n\n";
                my @paymentDetails = $xmlDoc->findnodes('//ShippingGroup/ShippingGroupTotal');
                $globalVariables{$GLOBAL_PAYMENT_NUMBER} = 0;
                for (my $paymentDetails = 0; $paymentDetails < @paymentDetails; $paymentDetails++) {
@@ -539,9 +540,8 @@ sub start {
                   processSubordinateTree($paymentDetails[$paymentDetails], $attributes->{"name"});
                }
                $globalVariables{$GLOBAL_PAYMENT_NUMBER} = 0;
+
             } elsif ($attributes->{'name'} eq "order-shipped-product-pkg") {
-               warn "\n\n\tREPEAT order-shipped-product-pkg HAS NOT BEEN TESTED\n\n";
-               print "Went into order-shipped-product-pkg\n";
                my @shippedPackages = $xmlDoc->findnodes('//ShippingGroup/ShipContainerDetails');
                $globalVariables{$GLOBAL_PACKAGE_NUMBER} = 0;
                for (my $packageCount = 0; $packageCount < @shippedPackages; $packageCount++) {
@@ -549,6 +549,13 @@ sub start {
                   processSubordinateTree($shippedPackages[$packageCount], $attributes->{"name"});
                }
                $globalVariables{$GLOBAL_PACKAGE_NUMBER} = 0;
+
+            } elsif ($attributes->{'name'} eq "order-cancellation-payment") {
+               my @cancelledPayments = $xmlDoc->findnodes('//PaymentDetails');
+               for (my $paymentCount = 0; $paymentCount < @cancelledPayments; $paymentCount++) {
+                  processSubordinateTree($cancelledPayments[$paymentCount], $attributes->{"name"});
+               }
+
             } else {
                die "Found a REPEATABLE '$attributes->{'name'}', but I don't recognize that name.\n";
             }
