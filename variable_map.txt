@@ -59,12 +59,13 @@ SHIPPING_CITY           = //ShippingGroup/ShippingAddress/City
 SHIPPING_STATE          = //ShippingGroup/ShippingAddress/State
 SHIPPING_ZIP            = //ShippingGroup/ShippingAddress/PostalCode
 SHIPPING_COUNTRY        = //ShippingGroup/ShippingAddress/CountryName
-SUBTOTAL                = //ShippingGroup/ShipConfirmationTotal/SubTotal
-SHIPPING_HANDLING       = //ShippingGroup/ShipConfirmationTotal/TotalShipAndHandlingCost
-TAX                     = //ShippingGroup/ShipConfirmationTotal/TotalTax
-MISC_CHARGES            = //ShippingGroup/ShipConfirmationTotal/TotalMiscCharges
-DISCOUNTS               = //ShippingGroup/ShipConfirmationTotal/TotalDiscount
-TOTAL                   = //ShippingGroup/ShipConfirmationTotal/GroupTotal
+
+SUBTOTAL                = //ShipConfirmationTotal/SubTotal
+SHIPPING_HANDLING       = //ShipConfirmationTotal/TotalShipAndHandlingCost
+TAX                     = //ShipConfirmationTotal/TotalTax
+MISC_CHARGES            = //ShipConfirmationTotal/TotalMiscCharges
+DISCOUNTS               = //ShipConfirmationTotal/TotalDiscount
+TOTAL                   = //ShipConfirmationTotal/GroupTotal
 
 PAYMENT_TYPE            = //ShippingGroup/ShippingGroupTotal
 PAYMENT_AMOUNT          = //ShippingGroup/GroupTotal

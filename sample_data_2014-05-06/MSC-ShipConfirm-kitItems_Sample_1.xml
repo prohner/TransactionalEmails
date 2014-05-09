@@ -74,6 +74,7 @@
                <TransactionType>Shipped</TransactionType>
                <Quantity>10</Quantity>
             </OrderLineTransaction>
+            <UnitPrice>5</UnitPrice>
             <Component>
                <ERPLineID>3-1</ERPLineID>
                <EnterpriseSkuID>BundleComponentItem0001</EnterpriseSkuID>
@@ -156,6 +157,11 @@
       </ShipContainerDetails>
    </ShippingGroup>
    <ShipConfirmationTotal>
-      <SubTotal>1</SubTotal>
+      <SubTotal>30</SubTotal>
+      <TotalShipAndHandlingCost>22.44</TotalShipAndHandlingCost>
+      <TotalTax>12</TotalTax>
+      <TotalMiscCharges>2</TotalMiscCharges>
+      <TotalDiscount>19</TotalDiscount>
+      <GroupTotal>67.44</GroupTotal>
    </ShipConfirmationTotal>
 </ns0:ShipConfirmationNotification>
