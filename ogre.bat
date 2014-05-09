@@ -416,6 +416,20 @@ sub popXmlDoc() {
 }
 
 # -----------------------------------------------------------------------------
+sub processSubordinateTree($$) {
+   my ($xml_string, $name) = @_;
+   
+   my $tree = XML::LibXML->load_xml(string => $xml_string);
+   my $document = $tree->getDocumentElement;
+
+   pushXmlDoc($document);
+   
+   importIncludeFile($name);
+   
+   popXmlDoc();
+}
+
+# -----------------------------------------------------------------------------
 sub text {
    my ($self, $text) = @_;
    if ($text =~ /\<custom .*subject_line/i) {
@@ -451,15 +465,7 @@ sub start {
 
                for (my $itemCount = 0; $itemCount < @orderedItems; $itemCount++) {
                   ## Creating a new document only for this OrderedItem
-                  my $treeForItem = XML::LibXML->load_xml(string => $orderedItems[$itemCount]);
-                  my $documentForItem = $treeForItem->getDocumentElement;
-
-                  pushXmlDoc($documentForItem);
-                  
-                  ## print "\n\n$itemCount\n", $orderedItems[$itemCount], "\n";
-                  importIncludeFile($attributes->{"name"});
-                  
-                  popXmlDoc();
+                  processSubordinateTree($orderedItems[$itemCount], $attributes->{"name"});
                }
                
             } elsif ($attributes->{'name'} eq "product-kit") {
@@ -468,14 +474,7 @@ sub start {
                
                for (my $kitCount = 0; $kitCount < @kitItems; $kitCount++) {
                   ## Creating a new document only for this Kit
-                  my $treeForKit = XML::LibXML->load_xml(string => $kitItems[$kitCount]);
-                  my $documentForKit = $treeForKit->getDocumentElement;
-
-                  pushXmlDoc($documentForKit);
-               
-                  importIncludeFile($attributes->{"name"});
-
-                  popXmlDoc();
+                  processSubordinateTree($kitItems[$kitCount], $attributes->{"name"});
                }
                
             } elsif ($attributes->{'name'} eq "order-shipped-payment") {
@@ -484,14 +483,7 @@ sub start {
                $globalVariables{$GLOBAL_PAYMENT_NUMBER} = 0;
                for (my $paymentDetails = 0; $paymentDetails < @paymentDetails; $paymentDetails++) {
                   $globalVariables{$GLOBAL_PAYMENT_NUMBER}++;
-                  my $treeForPayment = XML::LibXML->load_xml(string => $paymentDetails[$paymentDetails]);
-                  my $documentForPayment = $treeForPayment->getDocumentElement;
-
-                  pushXmlDoc($documentForPayment);
-               
-                  importIncludeFile($attributes->{"name"});
-
-                  popXmlDoc();
+                  processSubordinateTree($paymentDetails[$paymentDetails], $attributes->{"name"});
                }
                $globalVariables{$GLOBAL_PAYMENT_NUMBER} = 0;
             } elsif ($attributes->{'name'} eq "order-shipped-product-pkg") {
@@ -501,14 +493,7 @@ sub start {
                $globalVariables{$GLOBAL_PACKAGE_NUMBER} = 0;
                for (my $packageCount = 0; $packageCount < @shippedPackages; $packageCount++) {
                   $globalVariables{$GLOBAL_PACKAGE_NUMBER}++;
-                  my $treeForPackage = XML::LibXML->load_xml(string => $shippedPackages[$packageCount]);
-                  my $documentForPackage = $treeForPackage->getDocumentElement;
-
-                  pushXmlDoc($documentForPackage);
-               
-                  importIncludeFile($attributes->{"name"});
-
-                  popXmlDoc();
+                  processSubordinateTree($shippedPackages[$packageCount], $attributes->{"name"});
                }
                $globalVariables{$GLOBAL_PACKAGE_NUMBER} = 0;
             } else {
