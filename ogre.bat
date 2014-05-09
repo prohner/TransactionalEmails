@@ -382,7 +382,7 @@ sub formatValueForHtml($$) {
    if ($format =~ /date/i) {
       my $formatter = DateTime::Format::RFC3339->new();
       if ($value ne "") {
-         print "Formatting date ($value)\n";
+         ## print "Formatting date ($value)\n";
          my $date = $formatter->parse_datetime($value);
          $s = $date->strftime("%m/%d/%Y");
       } else {
@@ -457,11 +457,12 @@ sub start {
             ## print "\t\t$attributes->{'name'} is REPEATABLE\n";
             if ($attributes->{'name'} eq "product-detail") {
                my $xpathToOrderItems = "//OrderedItem";
-               if ($notificationType eq "ShipConfirmationNotification") {
+               if ($notificationType eq "ns0:ShipConfirmationNotification") {
                   $xpathToOrderItems = "//ContainerItem";
                }
             
                my @orderedItems = $xmlDoc->findnodes($xpathToOrderItems);
+print "Got " . (@orderedItems + 0) . " ordered items with $xpathToOrderItems\n";
 
                for (my $itemCount = 0; $itemCount < @orderedItems; $itemCount++) {
                   ## Creating a new document only for this OrderedItem

@@ -40,6 +40,11 @@ KIT_ITEM_NAME           = //Component/ProductName
 [ShipConfirmationNotification]
 PRODUCT_NAME            = //ContainerItem/ProductName
 PRODUCT_IMAGE           = //ContainerItem/ProductImageURL
+PRODUCT_NUM             = //ContainerItem/EnterpriseSkuID
+UNIT_PRICE              = //ContainerItem/UnitPrice
+QUANTITY                = //ContainerItem/OrderLineTransaction/Quantity
+
+KIT_ITEM_NAME           = //Component/ProductName
 
 SHIPPING_METHOD         = //ShipContainerDetails/ShipMethod
 SHIPPED_DATE            = //ShipContainerDetails/ShipDate
