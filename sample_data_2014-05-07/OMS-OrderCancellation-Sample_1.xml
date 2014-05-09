@@ -1,0 +1,111 @@
+<Order EmailType="ORDER_CANCELLATION" CustomerEMailID="Samson.Paul@gmail.com" EnterpriseCode="GC" SellerOrganizationCode="GC_WEB" OrderDate="2014-04-22T15:16:10-04:00" OrderNo="Y100001504" Status="Created" EntryType="">
+   <Extn ExtnSourceOrderNo="1212" ExtnDAXOrderNo="121212" ExtnSourceSystem="" />
+
+   <OrderLines>
+      <OrderLine PrimeLineNo="1" SubLineNo="1" KitCode="BUNDLE" OriginalOrderedQty="10.00" RemainingQty="8.00" ShipNode="MFI" Status="Created" StatusQuantity="8.00">
+         <Item ItemDesc="BundleParentItem0001" ItemID="BundleParentItem0001" ItemShortDesc="BundleParentItem0001" UnitCost="0.00" />
+
+         <LineCharges>
+            <LineCharge ChargePerLine="1.22" ChargeCategory="Shipping">
+               <Extn ExtnPromotionID="" ExtnCouponID="" ExtnPromotionDesc="" />
+            </LineCharge>
+
+            <LineCharge ChargePerLine="5.00" ChargeCategory="Promotion">
+               <Extn ExtnPromotionID="Promotion" ExtnCouponID="P1" ExtnPromotionDesc="Promotional Discount" />
+            </LineCharge>
+
+            <LineCharge ChargePerLine="1.00" ChargeCategory="OversizeCharge">
+               <Extn ExtnPromotionID="Oversize" ExtnCouponID="OC1" ExtnPromotionDesc="Oversize Charge" />
+            </LineCharge>
+
+            <LineCharge ChargePerLine="0.00" ChargeCategory="ShippingPromotion">
+               <Extn ExtnPromotionID="ShippingPromotion" ExtnCouponID="P1" ExtnPromotionDesc="Shipping Promotion" />
+            </LineCharge>
+         </LineCharges>
+
+         <LineTaxes>
+            <LineTax ChargeCategory="Tax" Reference_1="" Tax="0.00" TaxName="Tax" />
+         </LineTaxes>
+
+         <BundleParentLine PrimeLineNo="" SubLineNo=""/>
+         <LineOverallTotals Charges="2.22" Discount="5.00" ExtendedPrice="40.00" LineTotal="37.22" PricingQty="8.00" Tax="0.00" UnitPrice="5.00" />
+
+         <PersonInfoShipTo AddressLine1="The Crest" AddressLine2="2011 Fort Lee" AddressLine3="" City="Crane Hill" Country="US" DayPhone="1234567890" MobilePhone="9818006174" EMailID="Samson.Paul@gmail.com" FirstName="Samson" LastName="Paul" Company="" State="AL" ZipCode="35040" />
+      </OrderLine>
+
+      <OrderLine PrimeLineNo="2" SubLineNo="1" KitCode="" OriginalOrderedQty="10.00" RemainingQty="8.00" ShipNode="MFI" Status="Created" StatusQuantity="110.00">
+         <Item ItemDesc="BundleComponentItem0001" ItemID="BundleComponentItem0001" ItemShortDesc="BundleComponentItem0001" UnitCost="0.00" />
+
+         <LineCharges>
+            <LineCharge ChargePerLine="1.22" ChargeCategory="Shipping">
+               <Extn ExtnPromotionID="" ExtnCouponID="" ExtnPromotionDesc="" />
+            </LineCharge>
+
+            <LineCharge ChargePerLine="5.00" ChargeCategory="Promotion">
+               <Extn ExtnPromotionID="Promotion" ExtnCouponID="P1" ExtnPromotionDesc="Promotional Discount" />
+            </LineCharge>
+
+            <LineCharge ChargePerLine="1.00" ChargeCategory="OversizeCharge">
+               <Extn ExtnPromotionID="Oversize" ExtnCouponID="OC1" ExtnPromotionDesc="Oversize Charge" />
+            </LineCharge>
+
+            <LineCharge ChargePerLine="0.00" ChargeCategory="ShippingPromotion">
+               <Extn ExtnPromotionID="ShippingPromotion" ExtnCouponID="P1" ExtnPromotionDesc="Shipping Promotion" />
+            </LineCharge>
+         </LineCharges>
+
+         <LineTaxes>
+            <LineTax ChargeCategory="Tax" Reference_1="" Tax="0.00" TaxName="Tax" />
+         </LineTaxes>
+         <BundleParentLine PrimeLineNo="1" SubLineNo="1"/>
+         <LineOverallTotals Charges="2.22" Discount="5.00" ExtendedPrice="40.00" LineTotal="37.22" PricingQty="8.00" Tax="0.00" UnitPrice="5.00" />
+
+         <PersonInfoShipTo AddressLine1="The Crest" AddressLine2="2011 Fort Lee" AddressLine3="" City="Crane Hill" Country="US" DayPhone="1234567890" MobilePhone="9818006174" EMailID="Samson.Paul@gmail.com" FirstName="Samson" LastName="Paul" Company="" State="AL" ZipCode="35040" />
+      </OrderLine>
+
+      <OrderLine PrimeLineNo="3" SubLineNo="1" KitCode="" OriginalOrderedQty="20.00" RemainingQty="16.00" ShipNode="MFI" Status="Created" StatusQuantity="110.00">
+         <Item ItemDesc="BundleComponentItem0002" ItemID="BundleComponentItem0002" ItemShortDesc="BundleComponentItem0002" UnitCost="0.00" />
+
+         <LineCharges>
+            <LineCharge ChargePerLine="1.22" ChargeCategory="Shipping">
+               <Extn ExtnPromotionID="" ExtnCouponID="" ExtnPromotionDesc="" />
+            </LineCharge>
+
+            <LineCharge ChargePerLine="5.00" ChargeCategory="Promotion">
+               <Extn ExtnPromotionID="Promotion" ExtnCouponID="P1" ExtnPromotionDesc="Promotional Discount" />
+            </LineCharge>
+
+            <LineCharge ChargePerLine="1.00" ChargeCategory="OversizeCharge">
+               <Extn ExtnPromotionID="Oversize" ExtnCouponID="OC1" ExtnPromotionDesc="Oversize Charge" />
+            </LineCharge>
+
+            <LineCharge ChargePerLine="0.00" ChargeCategory="ShippingPromotion">
+               <Extn ExtnPromotionID="ShippingPromotion" ExtnCouponID="P1" ExtnPromotionDesc="Shipping Promotion" />
+            </LineCharge>
+         </LineCharges>
+
+         <LineTaxes>
+            <LineTax ChargeCategory="Tax" Reference_1="" Tax="0.00" TaxName="Tax" />
+         </LineTaxes>
+         <BundleParentLine PrimeLineNo="1" SubLineNo="1"/>
+         <LineOverallTotals Charges="2.22" Discount="5.00" ExtendedPrice="40.00" LineTotal="37.22" PricingQty="8.00" Tax="0.00" UnitPrice="5.00" />
+
+         <PersonInfoShipTo AddressLine1="The Crest" AddressLine2="2011 Fort Lee" AddressLine3="" City="Crane Hill" Country="US" DayPhone="1234567890" MobilePhone="9818006174" EMailID="Samson.Paul@gmail.com" FirstName="Samson" LastName="Paul" Company="" State="AL" ZipCode="35040" />
+      </OrderLine>
+   </OrderLines>
+
+   <PaymentMethods>
+      <PaymentMethod PaymentType="CREDIT_CARD" CreditCardNo="" CreditCardType="VISA" CreditCardExpDate="07/2016" CreditCardName="Samson Paul" EMailID="" PaymentReference1="" PaymentReference2="" PaymentReference3="" PaymentReference4="" PaymentReference5="" PaymentReference6="" SvcNo="" MaxChargeLimit="">
+         <PaymentDetails RequestAmount="" ChargeType="AUTHORIZATION" AuthorizationID="AUTH1" AuthorizationExpirationDate="" AuthReturnCode="1M" ProcessedAmount="" />
+
+         <PersonInfoBillTo AddressLine1="The Crest" AddressLine2="2011 Fort Lee" AddressLine3="" City="Crane Hill" Country="US" DayPhone="1234567890" MobilePhone="9818006174" EMailID="samson.Paul@gmail.com" FirstName="Samson" MiddleName="" LastName="Paul" Company="" State="AL" ZipCode="35040" />
+      </PaymentMethod>
+   </PaymentMethods>
+
+   <PersonInfoShipTo AddressLine1="The Crest" AddressLine2="2011 Fort Lee" AddressLine3="" City="Crane Hill" Company="" Country="US" DayPhone="1234567890" EMailID="Samson.Paul@gmail.com" EveningPhone="" FirstName="Samson" LastName="Paul" MiddleName="" MobilePhone="9818006174" State="AL" ZipCode="35040" />
+
+   <PersonInfoBillTo AddressLine1="The Crest" AddressLine2="2011 Fort Lee" AddressLine3="" City="Crane Hill" Company="" Country="US" DayFaxNo="" DayPhone="1234567890" EMailID="Samson.Paul@gmail.com" EveningPhone="" FirstName="Samson" LastName="Paul" MiddleName="" MobilePhone="9818006174" State="AL" ZipCode="35040" />
+
+   <OverallTotals GrandCharges="4.44" GrandDiscount="10.00" GrandTax="0.00" GrandTotal="114.44" />
+</Order>
+

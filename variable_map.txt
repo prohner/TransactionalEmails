@@ -47,6 +47,7 @@ QUANTITY                = //ContainerItem/OrderLineTransaction/Quantity
 KIT_ITEM_NAME           = //Component/ProductName
 
 SHIPPING_METHOD         = //ShipContainerDetails/ShipMethod
+SHIPPING_CARRIER        = //ShipContainerDetails/ShipCarrierName
 SHIPPED_DATE            = //ShipContainerDetails/ShipDate
 TRACKING_NUM            = //ShipContainerDetails/ShipTrackingNumber
 TRACKING_URL            = //ShipContainerDetails/CarrierTrackingURL

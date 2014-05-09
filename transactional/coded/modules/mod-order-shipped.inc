@@ -22,11 +22,11 @@
             </table>
             <custom type="file" name="shipping-name-address" /></td>
       </tr>
-      <!custom type="field" name="SHIPPING_NOTE" optional="yes">
+      <custom type="field" name="SHIPPING_NOTE" optional="yes">
          <tr>
-            <td width="580" style="padding:0 15px 15px 15px; font-family:arial,helvetica,sans-serif; color:#222222; font-size:13px; color:#222222; mso-line-height-rule:exactly; line-height:17px; -webkit-text-size-adjust:100%;"><!custom type="field" name="SHIPPING_NOTE" /></td>
+            <td width="580" style="padding:0 15px 15px 15px; font-family:arial,helvetica,sans-serif; color:#222222; font-size:13px; color:#222222; mso-line-height-rule:exactly; line-height:17px; -webkit-text-size-adjust:100%;"><custom type="field" name="SHIPPING_NOTE" /></td>
          </tr>
-      <!/custom>
+      </custom>
    </table>
    <custom type="file" name="order-shipped-product-pkg" repeatable="yes" />
    <custom type="file" name="order-shipped-total" />

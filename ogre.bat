@@ -38,6 +38,7 @@ my @customTags;
 my @customText;
 my @xmlDocStack;
 my $notificationType;
+my $xmlDoc;
 
 my $DEBUG_INCLUDE_FILES = 0;
 my $DEBUG_VARIABLE_MAP  = 0;
@@ -70,6 +71,9 @@ sub actualFilenameForBrand($) {
       print "Found <", $actualFilename, ">\n" if ($DEBUG_INCLUDE_FILES);
    } else {
       print "No find for <$originalBaseFilename>\n";
+      if ($originalBaseFilename =~ /\.inc/i) {
+         print "\n\nORIGINAL NAME CONTAINS .inc, BUT IT SHOULD NOT.  THIS IS PROBABLY THE PROBLEM.\n\n";
+      }
       foreach my $f (sort(keys(%allIncludeFiles))) {
          print "\t>", $f, "< \n";
       }
@@ -192,6 +196,48 @@ sub loadVariableMap() {
 }
 
 # -----------------------------------------------------------------------------
+sub processXmlFile($$$) {
+   my ($xmlFile, $xsdFile, $file1) = @_;
+   print "-" x 60, "\n"; ## Processing:\n\t$xmlFile\n\t$xsdFile\n\t$file1 is present\n";
+   if ( my $error = validate_xml_against_xsd($xmlFile, $xsdFile) ) {
+       die "Validation failed: $error\n";
+   }
+   die "Could not find base template $file1\n" if ( ! -e $file1);
+   
+   $html = "";
+
+   print "Validated:\n\t$xmlFile\n\t$xsdFile\n\t$file1 is present\n";
+
+   my $xmlParser = XML::LibXML->new();
+   $xmlDoc = $xmlParser->parse_file($xmlFile);
+   $notificationType = $xmlDoc->getDocumentElement()->getName();
+   loadVariableMap();
+
+   my $query = "$notificationType/OrderSource/Brand/\@brandID";
+   $brand = $xmlDoc->findnodes($query);
+   validateBrandIdentifier($brand);
+
+   print "Sending notification type: <$notificationType> for brand <$brand>\n";
+
+
+   $p->parse_file($file1) || die $!;
+
+   my ($volume, $directories, $outputFile) = File::Spec->splitpath($xmlFile);
+   $outputFile =~ s/\.xml/\.html/ig;
+   $outputFile = "output\\$outputFile";
+
+   open(OUT, ">$outputFile") || die "Couldn't open $outputFile\n$!\n";
+   print "Writing output: \n\t$outputFile\n";
+   print OUT "" . localtime();
+   print OUT $html;
+   close(OUT);
+
+   ## foreach my $f (sort(keys(%allIncludeFiles))) {
+   ##    print $f, "\n";
+   ## }
+}
+
+# -----------------------------------------------------------------------------
 $p = new HtmlParser;
 
 find(\&findAllIncludeFiles, ".");
@@ -202,15 +248,12 @@ my $xmlFile = "";
 my $xsdFile = "";
 my $file1   = "";
 
-if (0 == 1) {
-   $xmlFile = "MSC-OrderConfirm-Sample-kitItems+Warranty.xml";
-   $xsdFile = "MSC-CDMOrderNotification.xsd";
-   $file1   = "transactional\\coded\\base-template.html";
-} else {
-   $xmlFile = "sample_data_2014-05-06\\MSC-ShipConfirm-kitItems_Sample_1.xml";
-   $xsdFile = "sample_data_2014-05-06\\MSC-CDMOrderNotification.xsd";
-   $file1   = "transactional\\coded\\base-template.html";
-}
+my @testFiles = (
+   "MSC-OrderConfirm-Sample-kitItems+Warranty.xml",
+   "sample_data_2014-05-06\\MSC-ShipConfirm-kitItems_Sample_1.xml",
+   "sample_data_2014-05-06\\MSC-ShipConfirm-kitItems_Sample_2.xml",
+   "sample_data_2014-05-07\\MSC-OrderCancel-Sample_1.xml",
+);
 
 my $outdir  = ".\\";
 if (@ARGV == 4) {
@@ -220,40 +263,12 @@ if (@ARGV == 4) {
    $outdir  = $ARGV[3];
 } elsif (@ARGV > 0) {
    die "This program expects 0 or 4 arguments.\n1. XML file\n2. XSD file\n3. Base template HTML/include\n4. Output directory\n";
+} else {
+   foreach (@testFiles) {
+      processXmlFile($_, "sample_data_2014-05-06\\MSC-CDMOrderNotification.xsd", "transactional\\coded\\base-template.html");
+   }
 }
 $outdir .= "\\" unless ($outdir =~ /\\$/);
-
-if ( my $error = validate_xml_against_xsd($xmlFile, $xsdFile) ) {
-    die "Validation failed: $error\n";
-}
-die "Could not find base template $file1\n" if ( ! -e $file1);
-
-print "Validated:\n\t$xmlFile\n\t$xsdFile\n\t$file1 is present\n";
-
-my $xmlParser = XML::LibXML->new();
-my $xmlDoc = $xmlParser->parse_file($xmlFile);
-$notificationType = $xmlDoc->getDocumentElement()->getName();
-loadVariableMap();
-
-my $query = "$notificationType/OrderSource/Brand/\@brandID";
-$brand = $xmlDoc->findnodes($query);
-validateBrandIdentifier($brand);
-
-print "Sending notification type: <$notificationType> for brand <$brand>\n";
-
-
-$p->parse_file($file1) || die $!;
-
-my $outputFile = "${outdir}out.html"; 
-open(OUT, ">$outputFile") || die "Couldn't open $outputFile\n$!\n";
-print "Writing output: \n\t$outputFile\n";
-print OUT "" . localtime();
-print OUT $html;
-close(OUT);
-
-## foreach my $f (sort(keys(%allIncludeFiles))) {
-##    print $f, "\n";
-## }
 
 
 # -----------------------------------------------------------------------------
@@ -316,6 +331,32 @@ sub getBrandNotificationVariables($$) {
 }
 
 # -----------------------------------------------------------------------------
+sub getShippingNote() {
+   my $shippingCarrier = getValueForField("SHIPPING_CARRIER");
+   my %notes;
+   
+   $notes{"UPS 2ND DAY AIR"}              = "Tracking information is active within approximately 24 hours.";
+   $notes{"UPS GROUND"}                   = "We transport ground-ship packages directly to regional UPS hubs. This reduces handling and improves shipping time by up to 24 hours. It's also why you may notice a 24-36 hour delay in finding your tracking on the UPS website. Rest assured that your package is on its way.";
+   $notes{"UPS NEXT DAY PRIORITY"}        = "Tracking information is active within approximately 24 hours.";
+   $notes{"TRUCK"}                        = "Insert ABF pro number once redirected. Tracking information is active within approximately 24 hours Please note: The shipper will contact you to arrange delivery of this item. However they will require additional fees for delivery beyond roadside drop-off. Please make arrangements for transportation of this item inside your home upon delivery.";
+   $notes{"USPS PRIORITY MAIL"}           = "Insert tracking information once redirected. Tracking information is active within approximately 24 hours.";
+   $notes{"UPSMI"}                        = "Insert tracking information once redirected. Tracking information is active within approximately 24 hours.";
+   $notes{"USPS 4TH CLASS PARCEL POST"}   = "Tracking information is active within approximately 24 hours.";
+   $notes{"INTERNATIONAL"}                = "Tracking information is active within approximately 24 hours.";
+   $notes{"UPS WORLDWIDE SAVER"}          = "Tracking information is active within approximately 24 hours.";
+   $notes{"EMPLOYEE PICKUP"}              = "Tracking information is active within approximately 24 hours.";
+   $notes{"UPS PREMIUM GRND"}             = "We transport ground-ship packages directly to regional UPS hubs. This reduces handling and improves shipping time by up to 24 hours. It's also why you may notice a 24-36 hour delay in finding your tracking on the UPS website. Rest assured that your package is on its way.";
+   $notes{"UPS NEXT DAY SAVER"}           = "Tracking information is active within approximately 24 hours.";
+   $notes{"Digital Delivery"}             = "Tracking information is active within approximately 24 hours.";
+
+   if (defined($notes{$shippingCarrier})) {
+      return $notes{$shippingCarrier};
+   } else {
+      die "Found shipping method ($shippingCarrier) but that could not find a shipping note for it.\n";
+   }
+}
+
+# -----------------------------------------------------------------------------
 sub getValueForField($;$) {
    my ($variable, $mustFindVariable) = @_;
    my $s;
@@ -354,6 +395,9 @@ sub getValueForField($;$) {
          ## Second try to find the general variable
          #print "SEEK 3 $variable\n";
          $s = $xmlDoc->findvalue($globalVariables{$variable});
+      } elsif ($variable =~ /SHIPPING_NOTE/i) {
+         $s = getShippingNote();
+         ##die "\n\nOur shipping note:\n" . getShippingNote . "\n";
       } else {
          if ($mustFindVariable) {
             print "SEEK 4 $varToFind\n";
@@ -462,7 +506,6 @@ sub start {
                }
             
                my @orderedItems = $xmlDoc->findnodes($xpathToOrderItems);
-print "Got " . (@orderedItems + 0) . " ordered items with $xpathToOrderItems\n";
 
                for (my $itemCount = 0; $itemCount < @orderedItems; $itemCount++) {
                   ## Creating a new document only for this OrderedItem

@@ -1,0 +1,107 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<ns0:OrderCancelNotification xmlns:ns0 = "http://www.guitarcenter.com/schemas/CDM/CDMOrderNotification">
+   <OrderSource>
+      <ChannelID>GC.com</ChannelID>
+      <Brand brandID = "GC"/>
+      <SiteID/>
+   </OrderSource>
+   <OrderHeader>
+      <OrderDateTime>2014-04-22T15:16:10-04:00</OrderDateTime>
+      <OrderID>1212</OrderID>
+      <Customer>
+         <FirstName>Samson</FirstName>
+         <LastName>Paul</LastName>
+      </Customer>
+      <PurchaseOrderID/>
+   </OrderHeader>
+   <OrderLineCancelGroup>
+      <ShippingAddress>
+         <FirstName>Samson</FirstName>
+         <LastName>Paul</LastName>
+         <CompanyName/>
+         <AddressLine1>The Crest</AddressLine1>
+         <AddressLine2>2011 Fort Lee</AddressLine2>
+         <City>Crane Hill</City>
+         <State>AL</State>
+         <CountryName>US</CountryName>
+         <PostalCode>35040</PostalCode>
+         <TelephoneNumber>
+            <Type>9818006174</Type>
+            <Phone>9818006174</Phone>
+            <isPrimary>true</isPrimary>
+         </TelephoneNumber>
+         <EMailAddress>
+            <Email>Samson.Paul@gmail.com</Email>
+            <isPrimary>true</isPrimary>
+         </EMailAddress>
+      </ShippingAddress>
+      <CancelledItem>
+         <ERPLineID>11</ERPLineID>
+         <EnterpriseSkuID>BundleParentItem0001</EnterpriseSkuID>
+         <ProductName>BundleParentItem0001</ProductName>
+         <ProductDescription>BundleParentItem0001</ProductDescription>
+         <ProductImageURL>https://media.GuitarCenter.com/is/image/MMGS7/BundleParentItem0001-00-120x120.jpg</ProductImageURL>
+         <OrderLineTransaction>
+            <TransactionType>Canceled</TransactionType>
+            <Quantity>2</Quantity>
+         </OrderLineTransaction>
+         <UnitPrice>5</UnitPrice>
+         <ExtPrice>50</ExtPrice>
+         <ShipAndHandlingCost>1.22</ShipAndHandlingCost>
+         <Tax>0</Tax>
+         <MiscCharges>1.22</MiscCharges>
+         <Discount>1.22</Discount>
+         <KitMessage>Bundle items may be shipped separately.</KitMessage>
+         <Component>
+            <ERPLineID>21</ERPLineID>
+            <EnterpriseSkuID>BundleComponentItem0001</EnterpriseSkuID>
+            <ProductName>BundleComponentItem0001</ProductName>
+            <ProductDescription>BundleComponentItem0001</ProductDescription>
+            <ProductImageURL>https://media.GuitarCenter.com/is/image/MMGS7/BundleComponentItem0001-00-120x120.jpg</ProductImageURL>
+            <OrderLineTransaction>
+               <TransactionType>Canceled</TransactionType>
+               <Quantity>2</Quantity>
+            </OrderLineTransaction>
+            <UnitPrice>5</UnitPrice>
+            <ExtPrice>50</ExtPrice>
+            <ShipAndHandlingCost>1.22</ShipAndHandlingCost>
+            <Tax>0</Tax>
+            <MiscCharges>1.22</MiscCharges>
+            <Discount>1.22</Discount>
+            <KitMessage>Bundle items may be shipped separately.</KitMessage>
+         </Component>
+         <Component>
+            <ERPLineID>31</ERPLineID>
+            <EnterpriseSkuID>BundleComponentItem0002</EnterpriseSkuID>
+            <ProductName>BundleComponentItem0002</ProductName>
+            <ProductDescription>BundleComponentItem0002</ProductDescription>
+            <ProductImageURL>https://media.GuitarCenter.com/is/image/MMGS7/BundleComponentItem0002-00-120x120.jpg</ProductImageURL>
+            <OrderLineTransaction>
+               <TransactionType>Canceled</TransactionType>
+               <Quantity>4</Quantity>
+            </OrderLineTransaction>
+            <UnitPrice>5</UnitPrice>
+            <ExtPrice>100</ExtPrice>
+            <ShipAndHandlingCost>1.22</ShipAndHandlingCost>
+            <Tax>0</Tax>
+            <MiscCharges>1.22</MiscCharges>
+            <Discount>1.22</Discount>
+            <KitMessage>Bundle items may be shipped separately.</KitMessage>
+         </Component>
+      </CancelledItem>
+      <GroupTotal/>
+   </OrderLineCancelGroup>
+   <PaymentDetails>
+      <PaymentType>CREDIT_CARD</PaymentType>
+      <CreditCardType>VISA</CreditCardType>
+      <AuthorizationID>AUTH1</AuthorizationID>
+      <CreditCardExp>07/2016</CreditCardExp>
+   </PaymentDetails>
+   <CancellationTotal>
+      <SubTotal>120</SubTotal>
+      <TotalShipAndHandlingCost>4.44</TotalShipAndHandlingCost>
+      <TotalTax>0</TotalTax>
+      <TotalDiscount>10</TotalDiscount>
+      <GroupTotal>114.44</GroupTotal>
+   </CancellationTotal>
+</ns0:OrderCancelNotification>
