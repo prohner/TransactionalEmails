@@ -1,6 +1,7 @@
 @rem = '--*-Perl-*--
 ::
 :: Shrek: Layers. Onions have layers. Ogres have layers. Onions have layers. You get it? 
+::        (plus this program is big and ugly)
 ::
 
 @echo off
@@ -312,21 +313,29 @@ sub getBrandNotificationVariables($$) {
    my $sourceCode = "";
    my $subject    = "";
    my $moduleName = "";
-   if ($brand eq "GC") {
-      if ($notificationType eq "ns0:OrderConfirmationNotification") {
-         $sourceCode = "OrdConfSrc";
-         $subject    = "Guitar Center Order Confirmation";
-         $moduleName = "mod-order-confirmation";
-      } elsif ($notificationType eq "ns0:ShipConfirmationNotification") {
-         $sourceCode = "OrdShipSrc";
-         $subject    = "Guitar Center Order Shipping Confirmation";
-         $moduleName = "mod-order-shipped";
-      } else {
-         die "Unrecognized notification type ($notificationType) for brand ($brand) in getSourceCode()\n";
-      }
-   } else {
-      die "Unrecognized brand ($brand) in getSourceCode()\n";
-   }
+   
+   my %vars = (
+      "GC" => {"ns0:OrderConfirmationNotification" => ["OrdConfSrc",
+                                                       "Guitar Center Order Confirmation",
+                                                       "mod-order-confirmation"],
+               "ns0:ShipConfirmationNotification"  => ["OrdShipSrc",
+                                                       "Guitar Center Order Shipping Confirmation",
+                                                       "mod-order-shipped"],
+               "ns0:OrderCancelNotification"       => ["OrdCancSrc",
+                                                       "Guitar Center Order Cancellation Confirmation",
+                                                       "mod-order-cancellation"]
+              }
+   );
+
+   my @variables = $vars{$brand}{$notificationType};
+   $sourceCode = $variables[0][0];
+   $subject    = $variables[0][1];
+   $moduleName = $variables[0][2];
+
+   die "\nCould not find source code  for brand ($brand) and notification type ($notificationType)\n" if ($sourceCode eq "");
+   die "\nCould not find subject line for brand ($brand) and notification type ($notificationType)\n" if ($subject eq "");
+   die "\nCould not find module name  for brand ($brand) and notification type ($notificationType)\n" if ($moduleName eq "");
+
    return ($subject, $sourceCode, $moduleName);
 }
 
