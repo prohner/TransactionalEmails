@@ -1,4 +1,5 @@
 PKG_NUM                 = PackageNumber
+PAYMENT_NUM             = PaymentNumber
 
 ORDER_NUM               = //OrderHeader/OrderID
 BILLING_FNAME           = //OrderHeader/Customer/FirstName
@@ -60,3 +61,5 @@ MISC_CHARGES            = //ShippingGroup/ShipConfirmationTotal/TotalMiscCharges
 DISCOUNTS               = //ShippingGroup/ShipConfirmationTotal/TotalDiscount
 TOTAL                   = //ShippingGroup/ShipConfirmationTotal/GroupTotal
 
+PAYMENT_TYPE            = //ShippingGroup/ShippingGroupTotal
+PAYMENT_AMOUNT          = //ShippingGroup/GroupTotal

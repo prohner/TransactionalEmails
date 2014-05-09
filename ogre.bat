@@ -43,6 +43,7 @@ my $DEBUG_INCLUDE_FILES = 0;
 my $DEBUG_VARIABLE_MAP  = 0;
 
 my $GLOBAL_PACKAGE_NUMBER = "PackageNumber";
+my $GLOBAL_PAYMENT_NUMBER = "PaymentNumber";
 
 # -----------------------------------------------------------------------------
 sub validateBrandIdentifier($) {
@@ -478,12 +479,21 @@ sub start {
                }
                
             } elsif ($attributes->{'name'} eq "order-shipped-payment") {
-               die "\n\n\tREPEAT order-shipped-payment HAS NOT BEEN TESTED\n\n";
-               my @paymentDetails = $xmlDoc->findnodes('//PaymentDetails');
-               for (my $itemCount = 0; $itemCount < @paymentDetails; $itemCount++) {
-                  importIncludeFile($attributes->{"name"});
-               }
+               warn "\n\n\tREPEAT order-shipped-payment HAS NOT BEEN TESTED\n\n";
+               my @paymentDetails = $xmlDoc->findnodes('//ShippingGroup/ShippingGroupTotal');
+               $globalVariables{$GLOBAL_PAYMENT_NUMBER} = 0;
+               for (my $paymentDetails = 0; $paymentDetails < @paymentDetails; $paymentDetails++) {
+                  $globalVariables{$GLOBAL_PAYMENT_NUMBER}++;
+                  my $treeForPayment = XML::LibXML->load_xml(string => $paymentDetails[$paymentDetails]);
+                  my $documentForPayment = $treeForPayment->getDocumentElement;
+
+                  pushXmlDoc($documentForPayment);
                
+                  importIncludeFile($attributes->{"name"});
+
+                  popXmlDoc();
+               }
+               $globalVariables{$GLOBAL_PAYMENT_NUMBER} = 0;
             } elsif ($attributes->{'name'} eq "order-shipped-product-pkg") {
                warn "\n\n\tREPEAT order-shipped-product-pkg HAS NOT BEEN TESTED\n\n";
                print "Went into order-shipped-product-pkg\n";
