@@ -41,8 +41,9 @@ my @xmlDocStack;
 my $notificationType;
 my $xmlDoc;
 
-my $DEBUG_INCLUDE_FILES = 0;
-my $DEBUG_VARIABLE_MAP  = 0;
+my $DEBUG_INCLUDE_FILES             = 0;
+my $DEBUG_VARIABLE_MAP              = 0;
+my $DEBUG_HTML_START_AND_END_CUSTOM = 0;
 
 my $GLOBAL_PACKAGE_NUMBER = "PackageNumber";
 my $GLOBAL_PAYMENT_NUMBER = "PaymentNumber";
@@ -229,7 +230,7 @@ sub processXmlFile($$$) {
 
    open(OUT, ">$outputFile") || die "Couldn't open $outputFile\n$!\n";
    print "Writing output: \n\t$outputFile\n";
-   print OUT "" . localtime();
+   ## print OUT "" . localtime();
    print OUT $html;
    close(OUT);
 
@@ -254,6 +255,8 @@ my @testFiles = (
    "sample_data_2014-05-06\\MSC-ShipConfirm-kitItems_Sample_1.xml",
    "sample_data_2014-05-06\\MSC-ShipConfirm-kitItems_Sample_2.xml",
    "sample_data_2014-05-07\\MSC-OrderCancel-Sample_1.xml",
+   "sample_data_2014-05-16\\MSC_BackOrder_sample1.xml",
+   "sample_data_2014-05-16\\MSC_BackOrder_sample2.xml",
 );
 
 my $outdir  = ".\\";
@@ -266,7 +269,7 @@ if (@ARGV == 4) {
    die "This program expects 0 or 4 arguments.\n1. XML file\n2. XSD file\n3. Base template HTML/include\n4. Output directory\n";
 } else {
    foreach (@testFiles) {
-      processXmlFile($_, "sample_data_2014-05-06\\MSC-CDMOrderNotification.xsd", "transactional\\coded\\base-template.html");
+      processXmlFile($_, "sample_data_2014-05-16\\MSC-CDMOrderNotification.xsd", "transactional\\coded\\base-template.html");
    }
 }
 $outdir .= "\\" unless ($outdir =~ /\\$/);
@@ -502,10 +505,13 @@ sub comment {
 sub start {
    my ($self, $tag, $attributes, $attrseq, $origtext) = @_;
    my $saveOrigText = 1;
+   print "START $origtext\n" if ($DEBUG_HTML_START_AND_END_CUSTOM && $tag =~ /custom/i);
    if ($tag =~ /custom/i) {
       $saveOrigText = 0;
       if ($attributes->{"type"} =~ /file/i) {
-         die "Could not find 'name' attribute for 'file' in 'custom' tag\n>>>$origtext\n" if ($attributes->{"name"} eq "");
+         die "\n\nCould not find 'name' attribute for 'file' in 'custom' tag\n>>>$origtext\n" if ($attributes->{"name"} eq "");
+         die "\n\nThe optional attribute is not permitted for 'file' type.\n>>>$origtext\n" if (defined($attributes->{"optional"}));
+         
          if (defined($attributes->{"repeatable"}) && $attributes->{"repeatable"} eq "yes") {
             ## print "\t\t$attributes->{'name'} is REPEATABLE\n";
             if ($attributes->{'name'} eq "product-detail") {
@@ -598,12 +604,13 @@ sub start {
 
 sub end {
    my ($self, $tag, $origtext) = @_;
+   print " END  $tag\n" if ($DEBUG_HTML_START_AND_END_CUSTOM && $tag =~ /custom/i);
    if ($origtext eq "</custom>") {
       ## print "CUSTOMTEXT\n>>$customText[$customDepth]\n<<\n";
       $a = $customTags[$customDepth];
       
       if (ref($a) ne "HASH") {
-         die "Got to end() at depth $customDepth using $customText[$customDepth]\n and \$a is not a HASH\n";
+         die "Got to end() at depth $customDepth using $customText[$customDepth]\n and \$a is not a HASH\n($self, $tag, $origtext)\n";
       }
 
       if ($a->{"type"} =~ /field/ && defined($a->{"optional"}) && $a->{"optional"} =~ /yes/i) {
