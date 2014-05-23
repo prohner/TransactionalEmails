@@ -257,6 +257,7 @@ my @testFiles = (
    "sample_data_2014-05-07\\MSC-OrderCancel-Sample_1.xml",
    "sample_data_2014-05-16\\MSC_BackOrder_sample1.xml",
    "sample_data_2014-05-16\\MSC_BackOrder_sample2.xml",
+   "sample_data_2014-05-22\\B7-ShipConfirm-MSC.xml",
 );
 
 my $outdir  = ".\\";
@@ -269,7 +270,7 @@ if (@ARGV == 4) {
    die "This program expects 0 or 4 arguments.\n1. XML file\n2. XSD file\n3. Base template HTML/include\n4. Output directory\n";
 } else {
    foreach (@testFiles) {
-      processXmlFile($_, "sample_data_2014-05-16\\MSC-CDMOrderNotification.xsd", "transactional\\coded\\base-template.html");
+      processXmlFile($_, "sample_data_2014-05-22\\MSC-CDMOrderNotification.xsd", "transactional\\coded\\base-template.html");
    }
 }
 $outdir .= "\\" unless ($outdir =~ /\\$/);
@@ -325,8 +326,11 @@ sub getBrandNotificationVariables($$) {
                                                        "Guitar Center Order Shipping Confirmation",
                                                        "mod-order-shipped"],
                "ns0:OrderCancelNotification"       => ["OrdCancSrc",
-                                                       "Guitar Center Order Cancellation Confirmation",
-                                                       "mod-order-cancellation"]
+                                                       "Item cancellation",
+                                                       "mod-order-cancellation"],
+               "ns0:BackOrderNotification"         => ["BackOrdSrc",
+                                                       "Item cancellation",
+                                                       "mod-order-backorder"],
               }
    );
 
@@ -340,32 +344,6 @@ sub getBrandNotificationVariables($$) {
    die "\nCould not find module name  for brand ($brand) and notification type ($notificationType)\n" if ($moduleName eq "");
 
    return ($subject, $sourceCode, $moduleName);
-}
-
-# -----------------------------------------------------------------------------
-sub getShippingNote() {
-   my $shippingCarrier = getValueForField("SHIPPING_CARRIER");
-   my %notes;
-   
-   $notes{"UPS 2ND DAY AIR"}              = "Tracking information is active within approximately 24 hours.";
-   $notes{"UPS GROUND"}                   = "We transport ground-ship packages directly to regional UPS hubs. This reduces handling and improves shipping time by up to 24 hours. It's also why you may notice a 24-36 hour delay in finding your tracking on the UPS website. Rest assured that your package is on its way.";
-   $notes{"UPS NEXT DAY PRIORITY"}        = "Tracking information is active within approximately 24 hours.";
-   $notes{"TRUCK"}                        = "Insert ABF pro number once redirected. Tracking information is active within approximately 24 hours Please note: The shipper will contact you to arrange delivery of this item. However they will require additional fees for delivery beyond roadside drop-off. Please make arrangements for transportation of this item inside your home upon delivery.";
-   $notes{"USPS PRIORITY MAIL"}           = "Insert tracking information once redirected. Tracking information is active within approximately 24 hours.";
-   $notes{"UPSMI"}                        = "Insert tracking information once redirected. Tracking information is active within approximately 24 hours.";
-   $notes{"USPS 4TH CLASS PARCEL POST"}   = "Tracking information is active within approximately 24 hours.";
-   $notes{"INTERNATIONAL"}                = "Tracking information is active within approximately 24 hours.";
-   $notes{"UPS WORLDWIDE SAVER"}          = "Tracking information is active within approximately 24 hours.";
-   $notes{"EMPLOYEE PICKUP"}              = "Tracking information is active within approximately 24 hours.";
-   $notes{"UPS PREMIUM GRND"}             = "We transport ground-ship packages directly to regional UPS hubs. This reduces handling and improves shipping time by up to 24 hours. It's also why you may notice a 24-36 hour delay in finding your tracking on the UPS website. Rest assured that your package is on its way.";
-   $notes{"UPS NEXT DAY SAVER"}           = "Tracking information is active within approximately 24 hours.";
-   $notes{"Digital Delivery"}             = "Tracking information is active within approximately 24 hours.";
-
-   if (defined($notes{$shippingCarrier})) {
-      return $notes{$shippingCarrier};
-   } else {
-      die "Found shipping method ($shippingCarrier) but that could not find a shipping note for it.\n";
-   }
 }
 
 # -----------------------------------------------------------------------------
@@ -407,9 +385,6 @@ sub getValueForField($;$) {
          ## Second try to find the general variable
          #print "SEEK 3 $variable\n";
          $s = $xmlDoc->findvalue($globalVariables{$variable});
-      } elsif ($variable =~ /SHIPPING_NOTE/i) {
-         $s = getShippingNote();
-         ##die "\n\nOur shipping note:\n" . getShippingNote . "\n";
       } else {
          if ($mustFindVariable) {
             print "SEEK 4 $varToFind\n";
@@ -520,12 +495,17 @@ sub start {
                   $xpathToOrderItems = "//ContainerItem";
                } elsif ($notificationType eq "ns0:OrderCancelNotification") {
                   $xpathToOrderItems = "//CancelledItem";
+               } elsif ($notificationType eq "ns0:BackOrderNotification") {
+                  $xpathToOrderItems = "//BackOrderedItem";
+               } else {
+                  if ($notificationType ne "ns0:OrderConfirmationNotification") {
+                     die "\nIt seems that $notificationType has not been fully setup.\n\n";
+                  }
                }
             
                my @orderedItems = $xmlDoc->findnodes($xpathToOrderItems);
 
                for (my $itemCount = 0; $itemCount < @orderedItems; $itemCount++) {
-                  ## Creating a new document only for this OrderedItem
                   processSubordinateTree($orderedItems[$itemCount], $attributes->{"name"});
                }
                
@@ -534,7 +514,6 @@ sub start {
                my @kitItems = $xmlDoc->findnodes('//Component');               
                
                for (my $kitCount = 0; $kitCount < @kitItems; $kitCount++) {
-                  ## Creating a new document only for this Kit
                   processSubordinateTree($kitItems[$kitCount], $attributes->{"name"});
                }
                

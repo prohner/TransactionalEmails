@@ -54,9 +54,6 @@
          </EMailAddress>
       </ShippingAddress>
       <ShipmentMethod>ECONOMY_GROUND</ShipmentMethod>
-      <ShippingGroupTotal>
-         <SubTotal>1</SubTotal>
-      </ShippingGroupTotal>
       <ShipContainerDetails>
          <ShipCarrierID>02</ShipCarrierID>
          <ShipCarrierName>UPS GROUND</ShipCarrierName>
@@ -155,6 +152,9 @@
             </Component>
          </ContainerItem>
       </ShipContainerDetails>
+      <ShippingGroupTotal>
+         <SubTotal>1</SubTotal>
+      </ShippingGroupTotal>
    </ShippingGroup>
    <ShipConfirmationTotal>
       <SubTotal>30</SubTotal>

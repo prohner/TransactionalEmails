@@ -62,7 +62,7 @@
 			<EnterpriseSkuID>ITEM1</EnterpriseSkuID>
 			<ProductName/>
 			<ProductDescription/>
-			<ProductImageURL>[http|https]://media.[GC.com/is/image/MMGS7/ITEM1-00-120x120.jpg</ProductImageURL>
+			<ProductImageURL>https://media.GuitarCenter.com/is/image/MMGS7/BundleParentItem0001-00-120x120.jpg</ProductImageURL>
 			<OrderLineTransaction>
 				<TransactionType>BackOrdered</TransactionType>
 				<Quantity>10.00</Quantity>
@@ -71,9 +71,9 @@
 			<Component>
 				<ERPLineID>11</ERPLineID>
 				<EnterpriseSkuID>ITEM1</EnterpriseSkuID>
-				<ProductName/>
+				<ProductName>BundleComponentItem ITEM1</ProductName>
 				<ProductDescription/>
-				<ProductImageURL>[http|https]://media.[GC.com/is/image/MMGS7/ITEM1-00-120x120.jpg</ProductImageURL>
+				<ProductImageURL>https://media.GuitarCenter.com/is/image/MMGS7/BundleParentItem0001-00-120x120.jpg</ProductImageURL>
 				<OrderLineTransaction>
 					<TransactionType>BackOrdered</TransactionType>
 					<Quantity>10.00</Quantity>

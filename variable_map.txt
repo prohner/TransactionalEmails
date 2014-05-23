@@ -72,6 +72,7 @@ TOTAL                   = //ShipConfirmationTotal/GroupTotal
 
 PAYMENT_TYPE            = //ShippingGroup/ShippingGroupTotal
 PAYMENT_AMOUNT          = //ShippingGroup/GroupTotal
+SHIPPING_NOTE           = //ShipContainerDetails/ShipNote
 
 ## ============================================================================
 [OrderCancelNotification]
@@ -92,3 +93,23 @@ TOTAL                   = //CancellationTotal/GroupTotal
 
 PAYMENT_TYPE            = //PaymentType
 PAYMENT_AMOUNT          = //PaymentAmount
+
+## ============================================================================
+[BackOrderNotification]
+SHIPPING_METHOD         = //BackOrderedItemGroup/ShipMethod
+SHIPPING_FNAME          = //BackOrderedItemGroup/ShippingAddress/FirstName
+SHIPPING_LNAME          = //BackOrderedItemGroup/ShippingAddress/LastName
+SHIPPING_ADDRESS_1      = //BackOrderedItemGroup/ShippingAddress/AddressLine1
+SHIPPING_ADDRESS_2      = //BackOrderedItemGroup/ShippingAddress/AddressLine2
+SHIPPING_CITY           = //BackOrderedItemGroup/ShippingAddress/City
+SHIPPING_STATE          = //BackOrderedItemGroup/ShippingAddress/State
+SHIPPING_ZIP            = //BackOrderedItemGroup/ShippingAddress/PostalCode
+SHIPPING_COUNTRY        = //BackOrderedItemGroup/ShippingAddress/CountryName
+
+PRODUCT_NAME            = //BackOrderedItem/ProductName
+PRODUCT_IMAGE           = //BackOrderedItem/ProductImageURL
+PRODUCT_NUM             = //BackOrderedItem/EnterpriseSkuID
+UNIT_PRICE              = //BackOrderedItem/UnitPrice
+QUANTITY                = //BackOrderedItem/OrderLineTransaction/Quantity
+
+KIT_ITEM_NAME           = //Component/ProductName

@@ -1,0 +1,227 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<ns0:ShipConfirmationNotification xmlns:ns0 = "http://www.guitarcenter.com/schemas/CDM/CDMOrderNotification">
+	<OrderSource>
+		<ChannelID>GC_WEB</ChannelID>
+		<Brand brandID = "GC">
+			<BrandName>GuitarCenter</BrandName>
+			<BrandURL>www.guitarcenter.com</BrandURL>
+		</Brand>
+		<SiteID>5</SiteID>
+	</OrderSource>
+	<OrderHeader>
+		<OrderDateTime>2014-04-10T15:16:10-04:00</OrderDateTime>
+		<OrderID>123456789</OrderID>
+		<Customer>
+			<FirstName>Deb</FirstName>
+			<LastName>Stewart</LastName>
+			<MiddleName/>
+			<DefaultAddress>
+				<CompanyName/>
+				<AddressLine1>Guitar Center, Inc.</AddressLine1>
+				<AddressLine2>5795 Lindero Canyon Road</AddressLine2>
+				<City>Westlake Village</City>
+				<State>CA</State>
+				<CountryName>US</CountryName>
+				<PostalCode>91362-4013</PostalCode>
+				<TelephoneNumber>
+					<Type>9818006174</Type>
+					<Phone>9818006174</Phone>
+					<isPrimary>true</isPrimary>
+				</TelephoneNumber>
+				<EMailAddress>
+					<Email>Samson.Paul@gmail.com</Email>
+					<isPrimary>true</isPrimary>
+				</EMailAddress>
+			</DefaultAddress>
+		</Customer>
+	</OrderHeader>
+	<ShippingGroup>
+		<ShippingAddress>
+			<FirstName>Deb</FirstName>
+			<LastName>Stewart</LastName>
+			<CompanyName/>
+			<AddressLine1>Guitar Center, Inc.</AddressLine1>
+			<AddressLine2>5795 Lindero Canyon Road</AddressLine2>
+			<City>Westlake Village</City>
+			<State>CA</State>
+			<CountryName>US</CountryName>
+			<PostalCode>91362-4013</PostalCode>
+			<TelephoneNumber>
+				<Type>9818006174</Type>
+				<Phone>9818006174</Phone>
+				<isPrimary>true</isPrimary>
+			</TelephoneNumber>
+			<EMailAddress>
+				<Email>Samson.Paul@gmail.com</Email>
+				<isPrimary>true</isPrimary>
+			</EMailAddress>
+		</ShippingAddress>
+		<ShipmentMethod>ECONOMY_GROUND</ShipmentMethod>
+		<ShipContainerDetails>
+			<ShipCarrierID>02</ShipCarrierID>
+			<ShipCarrierName>UPS GROUND</ShipCarrierName>
+			<ShipTrackingNumber>TRACK1234567890123</ShipTrackingNumber>
+			<ShipMethod>ECONOMY_GROUND</ShipMethod>
+			<CarrierTrackingURL>https://www.fedex.com/fedextrack/?tracknumbers=004229889402088</CarrierTrackingURL>
+			<ShipDate>2014-04-26T15:16:10-04:00</ShipDate>
+			<ShipNote>We transport ground-ship packages directly to regional UPS hubs. This reduces handling and improves shipping time by up to 24 hours. It's also why you may notice a 24-36 hour delay in finding your tracking on the UPS website. Rest assured that your package is on its way.</ShipNote>
+			<ContainerItem>
+				<ERPLineID/>
+				<EnterpriseSkuID>H83023000000000</EnterpriseSkuID>
+				<ProductName>Rogue RD80PK Dreadnought Acoustic Guitar Pack</ProductName>
+				<ProductDescription/>
+				<ProductImageURL>https://media.GuitarCenter.com/is/image/MMGS7/H83023000000000-00-120x120.jpg</ProductImageURL>
+				<OrderLineTransaction>
+					<TransactionType>Shipped</TransactionType>
+					<Quantity>2</Quantity>
+				</OrderLineTransaction>
+				<ExtPrice>199.98</ExtPrice>
+				<ShipAndHandlingCost>10</ShipAndHandlingCost>
+				<Tax>5</Tax>
+				<Discount>10</Discount>
+			</ContainerItem>
+			<ContainerItem>
+				<ERPLineID>2-1</ERPLineID>
+				<EnterpriseSkuID>271264000000000</EnterpriseSkuID>
+				<ProductName>CAD Premium 7-Piece Drum Microphone Kit</ProductName>
+				<ProductDescription/>
+				<ProductImageURL>https://media.GuitarCenter.com/is/image/MMGS7/271264000000000-00-120x120.jpg</ProductImageURL>
+				<OrderLineTransaction>
+					<TransactionType>Shipped</TransactionType>
+					<Quantity>2</Quantity>
+				</OrderLineTransaction>
+				<ExtPrice>559.98</ExtPrice>
+				<ShipAndHandlingCost>14</ShipAndHandlingCost>
+				<Tax>5</Tax>
+				<Discount>14</Discount>
+				<Component>
+					<ERPLineID>3-1</ERPLineID>
+					<EnterpriseSkuID>270774000000000</EnterpriseSkuID>
+					<ProductName>CKBM412 rugged dynamic kick mic</ProductName>
+					<ProductDescription/>
+					<OrderLineTransaction>
+						<TransactionType>Shipped</TransactionType>
+						<Quantity>2</Quantity>
+					</OrderLineTransaction>
+				</Component>
+			</ContainerItem>
+		</ShipContainerDetails>
+		<ShipContainerDetails>
+			<ShipCarrierID>02</ShipCarrierID>
+			<ShipCarrierName>UPS GROUND</ShipCarrierName>
+			<ShipTrackingNumber>TRACK1234567890124</ShipTrackingNumber>
+			<ShipMethod>ECONOMY_GROUND</ShipMethod>
+			<CarrierTrackingURL>https://www.fedex.com/fedextrack/?tracknumbers=004229889402099</CarrierTrackingURL>
+			<ShipDate>2014-04-26T15:16:10-04:00</ShipDate>
+			<ShipNote>We transport ground-ship packages directly to regional UPS hubs. This reduces handling and improves shipping time by up to 24 hours. It's also why you may notice a 24-36 hour delay in finding your tracking on the UPS website. Rest assured that your package is on its way.</ShipNote>
+			<ContainerItem>
+				<ERPLineID>2-1</ERPLineID>
+				<EnterpriseSkuID>271264000000000</EnterpriseSkuID>
+				<ProductName>CAD Premium 7-Piece Drum Microphone Kit</ProductName>
+				<ProductDescription/>
+				<ProductImageURL>https://media.GuitarCenter.com/is/image/MMGS7/271264000000000-00-120x120.jpg</ProductImageURL>
+				<OrderLineTransaction>
+					<TransactionType>Shipped</TransactionType>
+					<Quantity>2</Quantity>
+				</OrderLineTransaction>
+				<UnitPrice>0</UnitPrice>
+				<ExtPrice>0</ExtPrice>
+				<ShipAndHandlingCost>0</ShipAndHandlingCost>
+				<Tax>0</Tax>
+				<MiscCharges>0</MiscCharges>
+				<Discount>0</Discount>
+				<Component>
+					<ERPLineID>4-1</ERPLineID>
+					<EnterpriseSkuID>H94565000000000</EnterpriseSkuID>
+					<ProductName>TSM411 neodymium dynamic mics</ProductName>
+					<ProductDescription/>
+					<OrderLineTransaction>
+						<TransactionType>Shipped</TransactionType>
+						<Quantity>4</Quantity>
+					</OrderLineTransaction>
+				</Component>
+				<Component>
+					<ERPLineID>5-1</ERPLineID>
+					<EnterpriseSkuID>472550000000000</EnterpriseSkuID>
+					<ProductName>ICM417 electret condenser mics</ProductName>
+					<ProductDescription/>
+					<OrderLineTransaction>
+						<TransactionType>Shipped</TransactionType>
+						<Quantity>2</Quantity>
+					</OrderLineTransaction>
+				</Component>
+			</ContainerItem>
+		</ShipContainerDetails>
+		<ShipContainerDetails>
+			<ShipCarrierID>02</ShipCarrierID>
+			<ShipCarrierName>UPS GROUND</ShipCarrierName>
+			<ShipTrackingNumber>TRACK1234567890125</ShipTrackingNumber>
+			<ShipMethod>ECONOMY_GROUND</ShipMethod>
+			<CarrierTrackingURL>https://www.fedex.com/fedextrack/?tracknumbers=004229889402100</CarrierTrackingURL>
+			<ShipDate>2014-04-26T15:16:10-04:00</ShipDate>
+			<ShipNote>We transport ground-ship packages directly to regional UPS hubs. This reduces handling and improves shipping time by up to 24 hours. It's also why you may notice a 24-36 hour delay in finding your tracking on the UPS website. Rest assured that your package is on its way.</ShipNote>
+			<ContainerItem>
+				<ERPLineID>2-1</ERPLineID>
+				<EnterpriseSkuID>271264000000000</EnterpriseSkuID>
+				<ProductName>CAD Premium 7-Piece Drum Microphone Kit</ProductName>
+				<ProductDescription/>
+				<ProductImageURL>https://media.GuitarCenter.com/is/image/MMGS7/271264000000000-00-120x120.jpg</ProductImageURL>
+				<OrderLineTransaction>
+					<TransactionType>Shipped</TransactionType>
+					<Quantity>2</Quantity>
+				</OrderLineTransaction>
+				<UnitPrice>0</UnitPrice>
+				<ExtPrice>0</ExtPrice>
+				<ShipAndHandlingCost>0</ShipAndHandlingCost>
+				<Tax>0</Tax>
+				<MiscCharges>0</MiscCharges>
+				<Discount>0</Discount>
+				<Component>
+					<ERPLineID>4-1</ERPLineID>
+					<EnterpriseSkuID>H94565000000000</EnterpriseSkuID>
+					<ProductName>TSM411 neodymium dynamic mics</ProductName>
+					<ProductDescription/>
+					<OrderLineTransaction>
+						<TransactionType>Shipped</TransactionType>
+						<Quantity>4</Quantity>
+					</OrderLineTransaction>
+				</Component>
+				<Component>
+					<ERPLineID>5-1</ERPLineID>
+					<EnterpriseSkuID>472550000000000</EnterpriseSkuID>
+					<ProductName>ICM417 electret condenser mics</ProductName>
+					<ProductDescription/>
+					<OrderLineTransaction>
+						<TransactionType>Shipped</TransactionType>
+						<Quantity>2</Quantity>
+					</OrderLineTransaction>
+				</Component>
+			</ContainerItem>
+			<ContainerItem>
+				<ERPLineID/>
+				<EnterpriseSkuID>H72437000000000</EnterpriseSkuID>
+				<ProductName>TASCAM DR-05 Solid State Recorder</ProductName>
+				<ProductDescription/>
+				<ProductImageURL>https://media.GuitarCenter.com/is/image/MMGS7/H72437000000000-00-120x120.jpg</ProductImageURL>
+				<OrderLineTransaction>
+					<TransactionType>Shipped</TransactionType>
+					<Quantity>5</Quantity>
+				</OrderLineTransaction>
+				<ExtPrice>385</ExtPrice>
+				<ShipAndHandlingCost>10</ShipAndHandlingCost>
+				<Tax>5</Tax>
+				<Discount>10</Discount>
+			</ContainerItem>
+		</ShipContainerDetails>
+        <ShippingGroupTotal>
+           <SubTotal>1</SubTotal>
+        </ShippingGroupTotal>
+	</ShippingGroup>
+	<ShipConfirmationTotal>
+		<SubTotal>1144.96</SubTotal>
+		<TotalShipAndHandlingCost>34</TotalShipAndHandlingCost>
+		<TotalTax>15</TotalTax>
+		<TotalDiscount>34</TotalDiscount>
+		<GroupTotal>1159.96</GroupTotal>
+	</ShipConfirmationTotal>
+</ns0:ShipConfirmationNotification>
