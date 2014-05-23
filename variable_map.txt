@@ -43,7 +43,7 @@ KIT_ITEM_NAME           = //Component/ProductName
 PRODUCT_NAME            = //ContainerItem/ProductName
 PRODUCT_IMAGE           = //ContainerItem/ProductImageURL
 PRODUCT_NUM             = //ContainerItem/EnterpriseSkuID
-UNIT_PRICE              = //ContainerItem/UnitPrice
+UNIT_PRICE              = //ContainerItem/ExtPrice
 QUANTITY                = //ContainerItem/OrderLineTransaction/Quantity
 
 KIT_ITEM_NAME           = //Component/ProductName
