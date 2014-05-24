@@ -37,7 +37,7 @@
    <ReturnAuthorizedItem>
       <ERPLineID>11</ERPLineID>
       <EnterpriseSkuID>271264000000000</EnterpriseSkuID>
-      <ProductName/>
+      <ProductName>Product Name 1</ProductName>
       <ProductDescription/>
       <ProductImageURL>https://media.GuitarCenter.com/is/image/MMGS7/271264000000000-00-120x120.jpg</ProductImageURL>
       <OrderLineTransaction>
@@ -62,7 +62,7 @@
    <ReturnAuthorizedItem>
       <ERPLineID>21</ERPLineID>
       <EnterpriseSkuID>270774000000000</EnterpriseSkuID>
-      <ProductName/>
+      <ProductName>Product Name 2</ProductName>
       <ProductDescription/>
       <ProductImageURL>https://media.GuitarCenter.com/is/image/MMGS7/270774000000000-00-120x120.jpg</ProductImageURL>
       <OrderLineTransaction>
@@ -87,7 +87,7 @@
    <ReturnAuthorizedItem>
       <ERPLineID>31</ERPLineID>
       <EnterpriseSkuID>H94565000000000</EnterpriseSkuID>
-      <ProductName/>
+      <ProductName>Product Name 3</ProductName>
       <ProductDescription/>
       <ProductImageURL>https://media.GuitarCenter.com/is/image/MMGS7/H94565000000000-00-120x120.jpg</ProductImageURL>
       <OrderLineTransaction>

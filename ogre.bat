@@ -44,9 +44,10 @@ my $xmlDoc;
 my $DEBUG_INCLUDE_FILES             = 0;
 my $DEBUG_VARIABLE_MAP              = 0;
 my $DEBUG_HTML_START_AND_END_CUSTOM = 0;
+my $DEBUG_VARIABLE_VALUES           = 0;
 
-my $GLOBAL_PACKAGE_NUMBER = "PackageNumber";
-my $GLOBAL_PAYMENT_NUMBER = "PaymentNumber";
+my $GLOBAL_PACKAGE_NUMBER        = "PackageNumber";
+my $GLOBAL_PAYMENT_NUMBER        = "PaymentNumber";
 
 # -----------------------------------------------------------------------------
 sub validateBrandIdentifier($) {
@@ -253,14 +254,14 @@ my $file1   = "";
 
 my @testFiles = (
    "sample_data_2014-05-23\\E1-Return-Auth-MSC.xml",
-   ## "sample_data_2014-05-23\\F1-Return-Receive-MSC.xml",
-   ## "MSC-OrderConfirm-Sample-kitItems+Warranty.xml",
-   ## "sample_data_2014-05-06\\MSC-ShipConfirm-kitItems_Sample_1.xml",
-   ## "sample_data_2014-05-06\\MSC-ShipConfirm-kitItems_Sample_2.xml",
-   ## "sample_data_2014-05-07\\MSC-OrderCancel-Sample_1.xml",
-   ## "sample_data_2014-05-16\\MSC_BackOrder_sample1.xml",
-   ## "sample_data_2014-05-16\\MSC_BackOrder_sample2.xml",
-   ## "sample_data_2014-05-22\\B7-ShipConfirm-MSC.xml",
+   "sample_data_2014-05-23\\F1-Return-Receive-MSC.xml",
+   "MSC-OrderConfirm-Sample-kitItems+Warranty.xml",
+   "sample_data_2014-05-06\\MSC-ShipConfirm-kitItems_Sample_1.xml",
+   "sample_data_2014-05-06\\MSC-ShipConfirm-kitItems_Sample_2.xml",
+   "sample_data_2014-05-07\\MSC-OrderCancel-Sample_1.xml",
+   "sample_data_2014-05-16\\MSC_BackOrder_sample1.xml",
+   "sample_data_2014-05-16\\MSC_BackOrder_sample2.xml",
+   "sample_data_2014-05-22\\B7-ShipConfirm-MSC.xml",
 );
 
 my $outdir  = ".\\";
@@ -369,7 +370,8 @@ sub getValueForField($;$) {
    } elsif ($variable =~ /source_code/i) {
       $s = getSourceCode($brand, $notificationType);
    } else {
-      $s = "PCR_$variable";
+      my $default_variable_value = "PCR_$variable";
+      $s = $default_variable_value;
       
       my $localNotificationType = substr($notificationType, 4) . "/";
       $localNotificationType =~ s/\s//g;
@@ -378,7 +380,7 @@ sub getValueForField($;$) {
       if (defined($variableMap{$varToFind})) {
          ## First try to find the NotificationType's variable
          $s = $xmlDoc->findvalue($variableMap{$varToFind});
-         #print "SEEK 1 $varToFind \n\txpath=$variableMap{$varToFind}\n\ts=$s\n";
+         print "SEEK 1 $varToFind \n\txpath=$variableMap{$varToFind}\n\ts=$s\n" if ($DEBUG_VARIABLE_VALUES);
 
          if (1 == 1) {
             my @nodes = $xmlDoc->findnodes($variableMap{$varToFind});
@@ -390,15 +392,23 @@ sub getValueForField($;$) {
          }
       } elsif (defined($variableMap{uc($variable)})) {
          ## Second try to find the general variable
-         #print "SEEK 2 $variable\n";
+         print "SEEK 2 $variable => ($variableMap{uc($variable)})\n" if ($DEBUG_VARIABLE_VALUES);
          $s = $xmlDoc->findvalue($variableMap{uc($variable)});
+         
+         if ( ! defined($s) || $s eq "" || $s eq $default_variable_value) {
+            ## Check global variables if we didn't find anything
+            if (defined($globalVariables{$variableMap{uc($variable)}})) {
+               print "\t $variable => ($globalVariables{$variable}), found in globals\n" if ($DEBUG_VARIABLE_VALUES);
+               $s = $globalVariables{$variableMap{uc($variable)}};
+            }
+         }         
       } elsif ($globalVariables{$variable}) {
          ## Second try to find the general variable
-         #print "SEEK 3 $variable\n";
+         print "SEEK 3 $variable\n" if ($DEBUG_VARIABLE_VALUES);
          $s = $xmlDoc->findvalue($globalVariables{$variable});
       } else {
          if ($mustFindVariable) {
-            print "SEEK 4 $varToFind\n";
+            print "SEEK 4 $varToFind\n" if ($DEBUG_VARIABLE_VALUES);
             if ($DEBUG_VARIABLE_MAP) {
                print "DYING DUMPING VARIABLE MAP\n";
                foreach my $key (sort(keys(%variableMap))) {
@@ -558,7 +568,9 @@ sub start {
 
             } elsif ($attributes->{'name'} eq "order-return-label") {
                my @returnLabels = $xmlDoc->findnodes('//ReturnAuthorizedItem');
+               $globalVariables{$GLOBAL_PACKAGE_NUMBER} = 0;
                for (my $count = 0; $count < @returnLabels; $count++) {
+                  $globalVariables{$GLOBAL_PACKAGE_NUMBER}++;
                   processSubordinateTree($returnLabels[$count], $attributes->{"name"});
                }
 
@@ -583,6 +595,7 @@ sub start {
       } elsif ($attributes->{"type"} =~ /field/i) {
          if ($origtext =~ /\/\>$/) {
             my $value = getValueForField($attributes->{'name'});
+            ##print "\n\nVAL=($value) for $origtext ($attributes->{'name'})\n\n" if ($attributes->{'name'} =~ /pkg_num/i);
             addToHtml(formatValueForHtml($value, $attributes->{'format'}));
          } else {
             incrementCustomDepth();
@@ -638,8 +651,13 @@ sub end {
                $newAnchor .= "$k=\"$a->{$k}\" ";
             }
          }
+         ##print "PRE NewAnchor=\n$customText[$customDepth]\n";
+
          $newAnchor = replaceBracketedTags($newAnchor);
          $newAnchor .= ">$customText[$customDepth]</a>";
+         
+         ##print "POSTNewAnchor=\n$newAnchor\n";
+         
          $customText[$customDepth] = ""; ## Clear out customText because it it about to be replaced with newAnchor         
 
          addToHtml($newAnchor);
