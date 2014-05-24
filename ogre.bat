@@ -43,7 +43,7 @@ my $xmlDoc;
 
 my $DEBUG_INCLUDE_FILES             = 0;
 my $DEBUG_VARIABLE_MAP              = 0;
-my $DEBUG_HTML_START_AND_END_CUSTOM = 0;
+my $DEBUG_HTML_START_AND_END_CUSTOM = 1;
 
 my $GLOBAL_PACKAGE_NUMBER = "PackageNumber";
 my $GLOBAL_PAYMENT_NUMBER = "PaymentNumber";
@@ -155,6 +155,7 @@ sub replaceBracketedTags($) {
       "[PRODUCT_NAME]"     => "PRODUCT_NAME",
       "[SOURCE_CODE]"      => "SOURCE_CODE",
       "[TRACKING_URL]"     => "TRACKING_URL",
+      "[RETURN_LABEL_URL]" => "RETURN_LABEL_URL",
    );
    
    if (@xmlDocStack == 0) {      
@@ -251,13 +252,15 @@ my $xsdFile = "";
 my $file1   = "";
 
 my @testFiles = (
-   "MSC-OrderConfirm-Sample-kitItems+Warranty.xml",
-   "sample_data_2014-05-06\\MSC-ShipConfirm-kitItems_Sample_1.xml",
-   "sample_data_2014-05-06\\MSC-ShipConfirm-kitItems_Sample_2.xml",
-   "sample_data_2014-05-07\\MSC-OrderCancel-Sample_1.xml",
-   "sample_data_2014-05-16\\MSC_BackOrder_sample1.xml",
-   "sample_data_2014-05-16\\MSC_BackOrder_sample2.xml",
-   "sample_data_2014-05-22\\B7-ShipConfirm-MSC.xml",
+   "sample_data_2014-05-23\\E1-Return-Auth-MSC.xml",
+   ## "sample_data_2014-05-23\\F1-Return-Receive-MSC.xml",
+   ## "MSC-OrderConfirm-Sample-kitItems+Warranty.xml",
+   ## "sample_data_2014-05-06\\MSC-ShipConfirm-kitItems_Sample_1.xml",
+   ## "sample_data_2014-05-06\\MSC-ShipConfirm-kitItems_Sample_2.xml",
+   ## "sample_data_2014-05-07\\MSC-OrderCancel-Sample_1.xml",
+   ## "sample_data_2014-05-16\\MSC_BackOrder_sample1.xml",
+   ## "sample_data_2014-05-16\\MSC_BackOrder_sample2.xml",
+   ## "sample_data_2014-05-22\\B7-ShipConfirm-MSC.xml",
 );
 
 my $outdir  = ".\\";
@@ -285,9 +288,11 @@ sub incrementCustomDepth() {
 
 # -----------------------------------------------------------------------------
 sub decrementCustomDepth() {
+   my $s = $customText[$customDepth];
    $customTags[$customDepth] = "";
    $customText[$customDepth] = "";
    $customDepth--;
+   addToHtml($s);
 }
 
 # -----------------------------------------------------------------------------
@@ -331,6 +336,12 @@ sub getBrandNotificationVariables($$) {
                "ns0:BackOrderNotification"         => ["BackOrdSrc",
                                                        "Item cancellation",
                                                        "mod-order-backorder"],
+               "ns0:ReturnAuthNotification"        => ["RetAuthSrc",
+                                                       "guitarcenter.com merchandise return instructions",
+                                                       "mod-order-return"],
+               "ns0:ReturnReceivedNotification"    => ["RetRecdSrc",
+                                                       "guitarcenter.com merchandise return received",
+                                                       "mod-order-return"],
               }
    );
 
@@ -497,6 +508,10 @@ sub start {
                   $xpathToOrderItems = "//CancelledItem";
                } elsif ($notificationType eq "ns0:BackOrderNotification") {
                   $xpathToOrderItems = "//BackOrderedItem";
+               } elsif ($notificationType eq "ns0:ReturnAuthNotification") {
+                  $xpathToOrderItems = "//ReturnAuthorizedItem";
+               } elsif ($notificationType eq "ns0:ReturnReceivedNotification") {
+                  $xpathToOrderItems = "//ReturnAuthorizedItem";
                } else {
                   if ($notificationType ne "ns0:OrderConfirmationNotification") {
                      die "\nIt seems that $notificationType has not been fully setup.\n\n";
@@ -541,6 +556,12 @@ sub start {
                   processSubordinateTree($cancelledPayments[$paymentCount], $attributes->{"name"});
                }
 
+            } elsif ($attributes->{'name'} eq "order-return-label") {
+               my @returnLabels = $xmlDoc->findnodes('//ReturnAuthorizedItem');
+               for (my $count = 0; $count < @returnLabels; $count++) {
+                  processSubordinateTree($returnLabels[$count], $attributes->{"name"});
+               }
+
             } else {
                die "Found a REPEATABLE '$attributes->{'name'}', but I don't recognize that name.\n";
             }
@@ -583,7 +604,7 @@ sub start {
 
 sub end {
    my ($self, $tag, $origtext) = @_;
-   print " END  $tag\n" if ($DEBUG_HTML_START_AND_END_CUSTOM && $tag =~ /custom/i);
+   print " END  $tag (type=" . $a->{"type"} . ")\n" if ($DEBUG_HTML_START_AND_END_CUSTOM && $tag =~ /custom/i);
    if ($origtext eq "</custom>") {
       ## print "CUSTOMTEXT\n>>$customText[$customDepth]\n<<\n";
       $a = $customTags[$customDepth];
@@ -599,9 +620,10 @@ sub end {
             if (($value + 0) >= ($a->{'minvalue'} + 0)) {
                ## print "\tAPPENDING " . formatValueForHtml($value, $a->{'format'}) . "\n\tPLUS $customText[$customDepth]\n";
                #$html .= formatValueForHtml($value, $a->{'format'});
-               $html .= $customText[$customDepth];
+               ##$html .= $customText[$customDepth];
             } else {
                print "\tDID NOT MEET minvalue " . formatValueForHtml($value, $a->{'format'}) . "\n";
+               $customText[$customDepth] = "";
             }
             
             #decrementCustomDepth();
@@ -610,8 +632,11 @@ sub end {
             my $value = getValueForField($a->{'name'});
             
             ## For a simple optional field, do not display if value is empty/MIA
-            if ($value ne "") {
-               $html .= $customText[$customDepth];
+            ##if ($value ne "") {
+            ##   $html .= $customText[$customDepth];
+            ##}
+            if ($value eq "") {
+               $customText[$customDepth] = "";
             }
             
             ## print "\nNAME=($a->{'name'})\nVALUE=($value) (" . ($value ne "") . ")\n" if ($a->{'name'} =~ /kit/i);
@@ -627,12 +652,17 @@ sub end {
          }
          $newAnchor = replaceBracketedTags($newAnchor);
          $newAnchor .= ">$customText[$customDepth]</a>";
+         $customText[$customDepth] = ""; ## Clear out customText because it it about to be replaced with newAnchor         
 
-         ## print "\$newAnchor=\n\n$newAnchor\n\n";
-         ## print "\$customText was=\n\n$customText[$customDepth]\n\n";
+         ##print "\$newAnchor=\n\n$newAnchor\n\n";
+         ##print "\$customText (depth=$customDepth) was=\n\n$customText[$customDepth]\n\n";
          
          ##exit(1) if ($customText[$customDepth] =~ /order details/i);
-         $html .= $newAnchor;
+         ##$html .= $customText[$customDepth];
+         ##$html .= $newAnchor;
+         addToHtml($newAnchor);
+         
+         ##print ">>" . substr($html, -50), "\n";
       }
       
       decrementCustomDepth();

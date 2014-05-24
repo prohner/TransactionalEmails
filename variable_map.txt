@@ -113,3 +113,29 @@ UNIT_PRICE              = //BackOrderedItem/UnitPrice
 QUANTITY                = //BackOrderedItem/OrderLineTransaction/Quantity
 
 KIT_ITEM_NAME           = //Component/ProductName
+
+## ============================================================================
+[ReturnAuthNotification]
+RA_NUM                  = //ReturnAuthCode
+RETURN_LABEL_URL        = //ReturnLabelURL
+
+PRODUCT_NAME            = //ReturnAuthorizedItem/ProductName
+PRODUCT_IMAGE           = //ReturnAuthorizedItem/ProductImageURL
+PRODUCT_NUM             = //ReturnAuthorizedItem/EnterpriseSkuID
+UNIT_PRICE              = //ReturnAuthorizedItem/UnitPrice
+QUANTITY                = //ReturnAuthorizedItem/OrderLineTransaction/Quantity
+
+KIT_ITEM_NAME           = //Component/ProductName
+
+## ============================================================================
+[ReturnReceivedNotification]
+RA_NUM                  = //ReturnAuthCode
+RETURN_LABEL_URL        = //ReturnLabelURL
+
+PRODUCT_NAME            = //ReturnAuthorizedItem/ProductName
+PRODUCT_IMAGE           = //ReturnAuthorizedItem/ProductImageURL
+PRODUCT_NUM             = //ReturnAuthorizedItem/EnterpriseSkuID
+UNIT_PRICE              = //ReturnAuthorizedItem/UnitPrice
+QUANTITY                = //ReturnAuthorizedItem/OrderLineTransaction/Quantity
+
+KIT_ITEM_NAME           = //Component/ProductName
