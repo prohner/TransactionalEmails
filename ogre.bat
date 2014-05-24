@@ -43,7 +43,7 @@ my $xmlDoc;
 
 my $DEBUG_INCLUDE_FILES             = 0;
 my $DEBUG_VARIABLE_MAP              = 0;
-my $DEBUG_HTML_START_AND_END_CUSTOM = 1;
+my $DEBUG_HTML_START_AND_END_CUSTOM = 0;
 
 my $GLOBAL_PACKAGE_NUMBER = "PackageNumber";
 my $GLOBAL_PAYMENT_NUMBER = "PaymentNumber";
@@ -618,30 +618,18 @@ sub end {
             my $value = getValueForField($a->{'name'});
             ## print "\n\tvalue for $a->{'name'} is $value and min=$a->{'minvalue'}\n";
             if (($value + 0) >= ($a->{'minvalue'} + 0)) {
-               ## print "\tAPPENDING " . formatValueForHtml($value, $a->{'format'}) . "\n\tPLUS $customText[$customDepth]\n";
-               #$html .= formatValueForHtml($value, $a->{'format'});
-               ##$html .= $customText[$customDepth];
+               ;  ## No-operation
             } else {
                print "\tDID NOT MEET minvalue " . formatValueForHtml($value, $a->{'format'}) . "\n";
                $customText[$customDepth] = "";
             }
             
-            #decrementCustomDepth();
          } else {
-            
             my $value = getValueForField($a->{'name'});
-            
-            ## For a simple optional field, do not display if value is empty/MIA
-            ##if ($value ne "") {
-            ##   $html .= $customText[$customDepth];
-            ##}
             if ($value eq "") {
                $customText[$customDepth] = "";
             }
-            
-            ## print "\nNAME=($a->{'name'})\nVALUE=($value) (" . ($value ne "") . ")\n" if ($a->{'name'} =~ /kit/i);
          }
-         
          
       } elsif ($a->{"type"} =~ /anchor/i) {
          my $newAnchor = "<a ";
@@ -654,15 +642,7 @@ sub end {
          $newAnchor .= ">$customText[$customDepth]</a>";
          $customText[$customDepth] = ""; ## Clear out customText because it it about to be replaced with newAnchor         
 
-         ##print "\$newAnchor=\n\n$newAnchor\n\n";
-         ##print "\$customText (depth=$customDepth) was=\n\n$customText[$customDepth]\n\n";
-         
-         ##exit(1) if ($customText[$customDepth] =~ /order details/i);
-         ##$html .= $customText[$customDepth];
-         ##$html .= $newAnchor;
          addToHtml($newAnchor);
-         
-         ##print ">>" . substr($html, -50), "\n";
       }
       
       decrementCustomDepth();
