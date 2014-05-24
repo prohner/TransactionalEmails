@@ -16,13 +16,14 @@
          The label is located on the back of your invoice.
          <custom type="field" name="RETURN_LABEL_URL" optional="yes">
             If you need to print a new return shipping label, use the link(s) below.<br />
-               <table border="0" cellpadding="0" cellspacing="0" style="font-family:arial,helvetica,sans-serif; font-size:13px; color:#222222; mso-line-height-rule:exactly; line-height:17px; -webkit-text-size-adjust:100%;">
+               <table border="0" cellpadding="0" cellspacing="0" style="font-family:arial,helvetica,sans-serif; font-size:13px; color:#222222; mso-line-height-rule:exactly; line-height:17px; -webkit-text-size-adjust:100%; margin-bottom:0px;">
                   <custom type="file" name="order-return-label" repeatable="yes" />
                   <tr>
                      <td colspan="2" height="13" style="font-size:13px; line-height:1px;">&nbsp;</td>
                   </tr>
                </table>
          </custom>
+         <br /><br />
          
          <b>2) Use the original packaging to return your item(s):</b><br />
          Place the invoice inside the package with your items. Include all materials such as warranty cards, owner's manuals, etc. Pack carefully to avoid potential damage during shipment. We recommend that you insure your return shipment, since you are responsible for the items until our warehouse receives them. (If you were sent a prepaid label the package is already insured.)<br /><br />

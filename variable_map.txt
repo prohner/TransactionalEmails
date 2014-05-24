@@ -132,10 +132,10 @@ KIT_ITEM_NAME           = //Component/ProductName
 RA_NUM                  = //ReturnAuthCode
 RETURN_LABEL_URL        = //ReturnLabelURL
 
-PRODUCT_NAME            = //ReturnAuthorizedItem/ProductName
-PRODUCT_IMAGE           = //ReturnAuthorizedItem/ProductImageURL
-PRODUCT_NUM             = //ReturnAuthorizedItem/EnterpriseSkuID
-UNIT_PRICE              = //ReturnAuthorizedItem/UnitPrice
-QUANTITY                = //ReturnAuthorizedItem/OrderLineTransaction/Quantity
+PRODUCT_NAME            = //ReturnReceivedItem/ProductName
+PRODUCT_IMAGE           = //ReturnReceivedItem/ProductImageURL
+PRODUCT_NUM             = //ReturnReceivedItem/EnterpriseSkuID
+UNIT_PRICE              = //ReturnReceivedItem/UnitPrice
+QUANTITY                = //ReturnReceivedItem/OrderLineTransaction/Quantity
 
 KIT_ITEM_NAME           = //Component/ProductName

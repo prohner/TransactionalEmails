@@ -253,8 +253,8 @@ my $xsdFile = "";
 my $file1   = "";
 
 my @testFiles = (
-   "sample_data_2014-05-23\\E1-Return-Auth-MSC.xml",
    "sample_data_2014-05-23\\F1-Return-Receive-MSC.xml",
+   "sample_data_2014-05-23\\E1-Return-Auth-MSC.xml",
    "MSC-OrderConfirm-Sample-kitItems+Warranty.xml",
    "sample_data_2014-05-06\\MSC-ShipConfirm-kitItems_Sample_1.xml",
    "sample_data_2014-05-06\\MSC-ShipConfirm-kitItems_Sample_2.xml",
@@ -521,7 +521,7 @@ sub start {
                } elsif ($notificationType eq "ns0:ReturnAuthNotification") {
                   $xpathToOrderItems = "//ReturnAuthorizedItem";
                } elsif ($notificationType eq "ns0:ReturnReceivedNotification") {
-                  $xpathToOrderItems = "//ReturnAuthorizedItem";
+                  $xpathToOrderItems = "//ReturnReceivedItem";
                } else {
                   if ($notificationType ne "ns0:OrderConfirmationNotification") {
                      die "\nIt seems that $notificationType has not been fully setup.\n\n";
