@@ -339,10 +339,10 @@ sub getBrandNotificationVariables($$) {
                                                        "mod-order-backorder"],
                "ns0:ReturnAuthNotification"        => ["RetAuthSrc",
                                                        "guitarcenter.com merchandise return instructions",
-                                                       "mod-order-return"],
+                                                       "mod-order-return-auth"],
                "ns0:ReturnReceivedNotification"    => ["RetRecdSrc",
                                                        "guitarcenter.com merchandise return received",
-                                                       "mod-order-return"],
+                                                       "mod-order-return-received"],
               }
    );
 
@@ -380,7 +380,7 @@ sub getValueForField($;$) {
       if (defined($variableMap{$varToFind})) {
          ## First try to find the NotificationType's variable
          $s = $xmlDoc->findvalue($variableMap{$varToFind});
-         print "SEEK 1 $varToFind \n\txpath=$variableMap{$varToFind}\n\ts=$s\n" if ($DEBUG_VARIABLE_VALUES);
+         print "SEEK 1 $varToFind \n\txpath=$variableMap{$varToFind} (depth=$customDepth)\n\ts=$s\n" if ($DEBUG_VARIABLE_VALUES);
 
          if (1 == 1) {
             my @nodes = $xmlDoc->findnodes($variableMap{$varToFind});
@@ -521,7 +521,7 @@ sub start {
                } elsif ($notificationType eq "ns0:ReturnAuthNotification") {
                   $xpathToOrderItems = "//ReturnAuthorizedItem";
                } elsif ($notificationType eq "ns0:ReturnReceivedNotification") {
-                  $xpathToOrderItems = "//ReturnAuthorizedItem";
+                  $xpathToOrderItems = "//ReturnReceivedItem";
                } else {
                   if ($notificationType ne "ns0:OrderConfirmationNotification") {
                      die "\nIt seems that $notificationType has not been fully setup.\n\n";
@@ -567,7 +567,7 @@ sub start {
                }
 
             } elsif ($attributes->{'name'} eq "order-return-label") {
-               my @returnLabels = $xmlDoc->findnodes('//ReturnAuthorizedItem');
+               my @returnLabels = $xmlDoc->findnodes('//ReturnLabelURL');
                $globalVariables{$GLOBAL_PACKAGE_NUMBER} = 0;
                for (my $count = 0; $count < @returnLabels; $count++) {
                   $globalVariables{$GLOBAL_PACKAGE_NUMBER}++;
