@@ -33,5 +33,4 @@
 			<td width="465" align="right" style="padding:10px 0 0 0; font-size:16px; font-weight:bold; mso-line-height-rule:exactly; line-height:20px;">Shipping Total:</td>
 			<td width="115" align="right" style="padding:10px 0 0 0; font-size:16px; font-weight:bold; mso-line-height-rule:exactly; line-height:20px;">$<custom type="field" name="TOTAL" format="currency" /></td>
 		</tr>
-		<custom type="file" name="order-shipped-payment" repeatable="yes" />
 	</table>
