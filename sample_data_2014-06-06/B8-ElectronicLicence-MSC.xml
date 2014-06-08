@@ -1,72 +1,74 @@
 <?xml version = "1.0" encoding = "UTF-8"?>
 <ns0:ElectronicLicenseNotification xmlns:ns0 = "http://www.guitarcenter.com/schemas/CDM/CDMOrderNotification">
-	<OrderSource>
-		<ChannelID>GC_WEB</ChannelID>
-		<Brand brandID = "GC">
-			<BrandName>GuitarCenter</BrandName>
-			<BrandURL>www.guitarcenter.com</BrandURL>
-		</Brand>
-		<SiteID>5</SiteID>
-	</OrderSource>
-	<OrderHeader>
-		<OrderDateTime>2014-04-10T15:16:10-04:00</OrderDateTime>
-		<OrderID>123456789</OrderID>
-		<Customer>
-			<FirstName>Deb</FirstName>
-			<LastName>Stewart</LastName>
-			<MiddleName/>
-			<DefaultAddress>
-				<CompanyName/>
-				<AddressLine1>Guitar Center, Inc.</AddressLine1>
-				<AddressLine2>5795 Lindero Canyon Road</AddressLine2>
-				<City>Westlake Village</City>
-				<State>CA</State>
-				<CountryName>US</CountryName>
-				<PostalCode>91362-4013</PostalCode>
-				<TelephoneNumber>
-					<Type>9818006174</Type>
-					<Phone>9818006174</Phone>
-					<isPrimary>true</isPrimary>
-				</TelephoneNumber>
-				<EMailAddress>
-					<Email>Samson.Paul@gmail.com</Email>
-					<isPrimary>true</isPrimary>
-				</EMailAddress>
-			</DefaultAddress>
-		</Customer>
-	</OrderHeader>
-	<ELDItem>
-		<ERPLineID/>
-		<EnterpriseSkuID>H83023000000000</EnterpriseSkuID>
-		<ProductName>Rogue RD80PK Dreadnought Acoustic Guitar Pack</ProductName>
-		<ProductDescription/>
-		<ProductImageURL>https://media.GuitarCenter.com/is/image/MMGS7/H83023000000000-00-120x120.jpg</ProductImageURL>
-		<OrderLineTransaction>
-			<TransactionType>Shipped</TransactionType>
-			<Quantity>2</Quantity>
-		</OrderLineTransaction>
-		<UnitPrice>99.99</UnitPrice>
-		<ExtPrice>199.98</ExtPrice>
-		<ShipAndHandlingCost>10</ShipAndHandlingCost>
-		<Tax>5</Tax>
-		<Discount>10</Discount>
-		<ELDKey/>
-	</ELDItem>
-	<ELDItem>
-		<ERPLineID/>
-		<EnterpriseSkuID>H72437000000000</EnterpriseSkuID>
-		<ProductName>TASCAM DR-05 Solid State Recorder</ProductName>
-		<ProductDescription/>
-		<ProductImageURL>https://media.GuitarCenter.com/is/image/MMGS7/H72437000000000-00-120x120.jpg</ProductImageURL>
-		<OrderLineTransaction>
-			<TransactionType>Shipped</TransactionType>
-			<Quantity>5</Quantity>
-		</OrderLineTransaction>
-		<UnitPrice>77</UnitPrice>
-		<ExtPrice>385</ExtPrice>
-		<ShipAndHandlingCost>10</ShipAndHandlingCost>
-		<Tax>5</Tax>
-		<Discount>10</Discount>
-		<ELDKey/>
-	</ELDItem>
+   <OrderSource>
+      <ChannelID>GC_WEB</ChannelID>
+      <Brand brandID = "GC">
+         <BrandName>GuitarCenter</BrandName>
+         <BrandURL>www.guitarcenter.com</BrandURL>
+      </Brand>
+      <SiteID>5</SiteID>
+   </OrderSource>
+   <OrderHeader>
+      <OrderDateTime>2014-04-10T15:16:10-04:00</OrderDateTime>
+      <OrderID>123456789</OrderID>
+      <Customer>
+         <FirstName>Deb</FirstName>
+         <LastName>Stewart</LastName>
+         <MiddleName/>
+         <DefaultAddress>
+            <CompanyName/>
+            <AddressLine1>Guitar Center, Inc.</AddressLine1>
+            <AddressLine2>5795 Lindero Canyon Road</AddressLine2>
+            <City>Westlake Village</City>
+            <State>CA</State>
+            <CountryName>US</CountryName>
+            <PostalCode>91362-4013</PostalCode>
+            <TelephoneNumber>
+               <Type>9818006174</Type>
+               <Phone>9818006174</Phone>
+               <isPrimary>true</isPrimary>
+            </TelephoneNumber>
+            <EMailAddress>
+               <Email>Samson.Paul@gmail.com</Email>
+               <isPrimary>true</isPrimary>
+            </EMailAddress>
+         </DefaultAddress>
+      </Customer>
+   </OrderHeader>
+   <ELDItem>
+      <ERPLineID/>
+      <EnterpriseSkuID>H83023000000000</EnterpriseSkuID>
+      <ProductName>Rogue RD80PK Dreadnought Acoustic Guitar Pack</ProductName>
+      <ProductDescription/>
+      <ProductImageURL>https://media.GuitarCenter.com/is/image/MMGS7/H83023000000000-00-120x120.jpg</ProductImageURL>
+      <OrderLineTransaction>
+         <TransactionType>Shipped</TransactionType>
+         <Quantity>2</Quantity>
+      </OrderLineTransaction>
+      <UnitPrice>99.99</UnitPrice>
+      <ExtPrice>199.98</ExtPrice>
+      <ShipAndHandlingCost>10</ShipAndHandlingCost>
+      <Tax>5</Tax>
+      <Discount>10</Discount>
+      <ELDKey>ELDKey's value SKU 1</ELDKey>
+      <ELDDownloadURL>http://downloadurl.com/sku_1</ELDDownloadURL>
+   </ELDItem>
+   <ELDItem>
+      <ERPLineID/>
+      <EnterpriseSkuID>H72437000000000</EnterpriseSkuID>
+      <ProductName>TASCAM DR-05 Solid State Recorder</ProductName>
+      <ProductDescription/>
+      <ProductImageURL>https://media.GuitarCenter.com/is/image/MMGS7/H72437000000000-00-120x120.jpg</ProductImageURL>
+      <OrderLineTransaction>
+         <TransactionType>Shipped</TransactionType>
+         <Quantity>5</Quantity>
+      </OrderLineTransaction>
+      <UnitPrice>77</UnitPrice>
+      <ExtPrice>385</ExtPrice>
+      <ShipAndHandlingCost>10</ShipAndHandlingCost>
+      <Tax>5</Tax>
+      <Discount>10</Discount>
+      <ELDKey>ELDKey's value SKU 2</ELDKey>
+      <ELDDownloadURL>http://downloadurl.com/sku_2</ELDDownloadURL>
+   </ELDItem>
 </ns0:ElectronicLicenseNotification>

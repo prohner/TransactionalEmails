@@ -157,6 +157,7 @@ sub replaceBracketedTags($) {
       "[SOURCE_CODE]"      => "SOURCE_CODE",
       "[TRACKING_URL]"     => "TRACKING_URL",
       "[RETURN_LABEL_URL]" => "RETURN_LABEL_URL",
+      "[DOWNLOAD_LINK]"    => "DOWNLOAD_LINK",
    );
    
    if (@xmlDocStack == 0) {      
@@ -261,6 +262,9 @@ my $xsdFile = "";
 my $file1   = "";
 
 my @testFiles = (
+   "sample_data_2014-06-06\\B8-ElectronicLicence-MSC.xml",
+   "sample_data_2014-06-06\\ElectronicLicence.xml",
+##   "sample_data_2014-06-06\\G1-CC_Decline-MSC.xml",
    "sample_data_2014-05-23\\E1-Return-Auth-MSC.xml",
    "sample_data_2014-05-23\\F1-Return-Receive-MSC.xml",
    "MSC-OrderConfirm-Sample-kitItems+Warranty.xml",
@@ -351,6 +355,9 @@ sub getBrandNotificationVariables($$) {
                "ns0:ReturnReceivedNotification"    => ["RetRecdSrc",
                                                        "guitarcenter.com merchandise return received",
                                                        "mod-order-return-received"],
+               "ns0:ElectronicLicenseNotification" => ["ElecLicSrc",
+                                                       "guitarcenter.com electronic license",
+                                                       "mod-order-eld"],
               }
    );
 
@@ -530,6 +537,8 @@ sub start {
                   $xpathToOrderItems = "//ReturnAuthorizedItem";
                } elsif ($notificationType eq "ns0:ReturnReceivedNotification") {
                   $xpathToOrderItems = "//ReturnReceivedItem";
+               } elsif ($notificationType eq "ns0:ElectronicLicenseNotification") {
+                  $xpathToOrderItems = "//ELDItem";
                } else {
                   if ($notificationType ne "ns0:OrderConfirmationNotification") {
                      die "\nIt seems that $notificationType has not been fully setup.\n\n";
