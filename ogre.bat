@@ -244,9 +244,38 @@ sub processXmlFile($$$) {
 
 # -----------------------------------------------------------------------------
 sub processAdlucentTracking() {
-   my $s = "";
+   ## Search Confluence for "adlucent" for details
+   ## This is looking in the current document, assuming it is OrderConfirmationNotification
+   ## so that it can just look for the details it needs. This is intended for only the one
+   ## notification type (unlike everything else in this program that is intended to be more
+   ## generic).
    
-   $s = "<span style=\"color:red;font-weight:bold;\">INSERT_ADLUCENT_IMAGE_HERE</span>";
+   my $orderId    = getValueForField("ORDER_NUM");
+   my $customerId = getValueForField("CUSTOMER_ID");
+   
+   my $s = <<EOT;
+   https://tracking.deepsearch.adlucent.com/adlucent/PixelOrderTracking
+   ?retailer=music123
+   &orderKey=$orderId
+   &orderchannel=CallCenter
+   &ordersite=$brand
+   &customerId=$customerId
+EOT
+   $s =~ s/[ \n]//g;
+   
+   my @products = $xmlDoc->findnodes("//OrderedItem");
+
+   for (my $productCounter = 0; $productCounter < @products; $productCounter++) {
+      my $node    = $products[$productCounter];
+      my $sku     = $node->findnodes('./EnterpriseSkuID');
+      my $qty     = $node->findnodes('./OrderLineTransaction/Quantity');
+      my $price   = $node->findnodes('./ExtPrice');
+
+      $s .= "&sku=$sku&qty=$qty;price=$price";
+   }
+
+   $s = "<img src=\"$s\" height=1 width=1 border=0 />";
+   
    addToHtml($s);
 }
 
@@ -262,12 +291,12 @@ my $xsdFile = "";
 my $file1   = "";
 
 my @testFiles = (
+   "MSC-OrderConfirm-Sample-kitItems+Warranty.xml",
    "sample_data_2014-06-06\\B8-ElectronicLicence-MSC.xml",
    "sample_data_2014-06-06\\ElectronicLicence.xml",
 ##   "sample_data_2014-06-06\\G1-CC_Decline-MSC.xml",
    "sample_data_2014-05-23\\E1-Return-Auth-MSC.xml",
    "sample_data_2014-05-23\\F1-Return-Receive-MSC.xml",
-   "MSC-OrderConfirm-Sample-kitItems+Warranty.xml",
    "sample_data_2014-05-06\\MSC-ShipConfirm-kitItems_Sample_1.xml",
    "sample_data_2014-05-06\\MSC-ShipConfirm-kitItems_Sample_2.xml",
    "sample_data_2014-05-07\\MSC-OrderCancel-Sample_1.xml",

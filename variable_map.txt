@@ -38,6 +38,8 @@ PRODUCT_IMAGE           = //OrderedItem/ProductImageURL
 KIT_ITEM_NAME           = //Component/ProductName
 KIT_QUANTITY            = //Component/OrderLineTransaction/Quantity
 
+CUSTOMER_ID             = //Customer/CustomerID
+
 ## ============================================================================
 [ShipConfirmationNotification]
 PRODUCT_NAME            = //ContainerItem/ProductName
