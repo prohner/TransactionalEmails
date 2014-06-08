@@ -242,6 +242,14 @@ sub processXmlFile($$$) {
 }
 
 # -----------------------------------------------------------------------------
+sub processAdlucentTracking() {
+   my $s = "";
+   
+   $s = "<span style=\"color:red;font-weight:bold;\">INSERT_ADLUCENT_IMAGE_HERE</span>";
+   addToHtml($s);
+}
+
+# -----------------------------------------------------------------------------
 $p = new HtmlParser;
 
 find(\&findAllIncludeFiles, ".");
@@ -566,12 +574,18 @@ sub start {
                   processSubordinateTree($cancelledPayments[$paymentCount], $attributes->{"name"});
                }
 
-            } elsif ($attributes->{'name'} eq "order-return-label") {
+            } elsif ($attributes->{'name'} eq "order-return-label-url") {
                my @returnLabels = $xmlDoc->findnodes('//ReturnLabelURL');
                $globalVariables{$GLOBAL_PACKAGE_NUMBER} = 0;
                for (my $count = 0; $count < @returnLabels; $count++) {
                   $globalVariables{$GLOBAL_PACKAGE_NUMBER}++;
                   processSubordinateTree($returnLabels[$count], $attributes->{"name"});
+               }
+
+            } elsif ($attributes->{'name'} eq "order-confirmation-payment") {
+               my @paymentDetails = $xmlDoc->findnodes('//PaymentDetails');
+               for (my $count = 0; $count < @paymentDetails; $count++) {
+                  processSubordinateTree($paymentDetails[$count], $attributes->{"name"});
                }
 
             } else {
@@ -602,6 +616,8 @@ sub start {
             $customTags[$customDepth] = $attributes;
             #print "($self, $tag, $attributes, $attrseq, $origtext)\n";
          }
+      } elsif ($attributes->{"type"} =~ /adlucent/i) {
+         processAdlucentTracking();
       } else {
          die "Did not recognize 'custom' type\n>>>$origtext\n";
       }

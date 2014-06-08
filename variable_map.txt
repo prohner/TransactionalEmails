@@ -26,7 +26,7 @@ TOTAL                   = //OrderTotal/GroupTotal
 MISC_CHARGES            = //OrderTotal/TotalMiscCharges
 
 PAYMENT_AMOUNT          = //PaymentDetails/PaymentAmount
-
+PAYMENT_TYPE            = //PaymentType
 
 ## These are extracted from each OrderedItem, each as its own XML document
 PRODUCT_NAME            = //OrderedItem/ProductName
@@ -35,8 +35,8 @@ UNIT_PRICE              = //OrderedItem/UnitPrice
 QUANTITY                = //OrderedItem/OrderLineTransaction/Quantity
 PRODUCT_IMAGE           = //OrderedItem/ProductImageURL
 
-
 KIT_ITEM_NAME           = //Component/ProductName
+KIT_QUANTITY            = //Component/OrderLineTransaction/Quantity
 
 ## ============================================================================
 [ShipConfirmationNotification]
@@ -47,6 +47,7 @@ UNIT_PRICE              = //ContainerItem/ExtPrice
 QUANTITY                = //ContainerItem/OrderLineTransaction/Quantity
 
 KIT_ITEM_NAME           = //Component/ProductName
+KIT_QUANTITY            = //Component/OrderLineTransaction/Quantity
 
 SHIPPING_METHOD         = //ShipContainerDetails/ShipMethod
 SHIPPING_CARRIER        = //ShipContainerDetails/ShipCarrierName
@@ -83,6 +84,7 @@ UNIT_PRICE              = //CancelledItem/UnitPrice
 QUANTITY                = //CancelledItem/OrderLineTransaction/Quantity
 
 KIT_ITEM_NAME           = //Component/ProductName
+KIT_QUANTITY            = //Component/OrderLineTransaction/Quantity
 
 SUBTOTAL                = //CancellationTotal/SubTotal
 SHIPPING_HANDLING       = //CancellationTotal/TotalShipAndHandlingCost
@@ -113,6 +115,7 @@ UNIT_PRICE              = //BackOrderedItem/UnitPrice
 QUANTITY                = //BackOrderedItem/OrderLineTransaction/Quantity
 
 KIT_ITEM_NAME           = //Component/ProductName
+KIT_QUANTITY            = //Component/OrderLineTransaction/Quantity
 
 ## ============================================================================
 [ReturnAuthNotification]
@@ -126,6 +129,7 @@ UNIT_PRICE              = //UnitPrice
 QUANTITY                = //OrderLineTransaction/Quantity
 
 KIT_ITEM_NAME           = //Component/ProductName
+KIT_QUANTITY            = //Component/OrderLineTransaction/Quantity
 
 ## ============================================================================
 [ReturnReceivedNotification]
