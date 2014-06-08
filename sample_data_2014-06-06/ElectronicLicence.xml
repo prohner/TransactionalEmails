@@ -1,0 +1,47 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<ns0:ElectronicLicenseNotification xmlns:ns0 = "http://www.guitarcenter.com/schemas/CDM/CDMOrderNotification">
+	<OrderSource>
+		<ChannelID>GC_WEB</ChannelID>
+		<Brand brandID = "GC"/>
+		<SiteID/>
+	</OrderSource>
+	<OrderHeader>
+		<OrderDateTime>2014-04-10T15:16:10-04:00</OrderDateTime>
+		<OrderID>GC100000014</OrderID>
+		<Customer>
+			<FirstName>Samson</FirstName>
+			<LastName>Paul</LastName>
+			<MiddleName/>
+			<DefaultAddress>
+				<CompanyName/>
+				<AddressLine1>The Crest</AddressLine1>
+				<AddressLine2>2011 Fort Lee</AddressLine2>
+				<City>Crane Hill</City>
+				<State>AL</State>
+				<CountryName>US</CountryName>
+				<PostalCode>35040</PostalCode>
+				<TelephoneNumber>
+					<Type>9818006174</Type>
+					<Phone>9818006174</Phone>
+					<isPrimary>true</isPrimary>
+				</TelephoneNumber>
+				<EMailAddress>
+					<Email>Samson.Paul@gmail.com</Email>
+					<isPrimary>true</isPrimary>
+				</EMailAddress>
+			</DefaultAddress>
+		</Customer>
+	</OrderHeader>
+	<ELDItem>
+		<ERPLineID>1</ERPLineID>
+		<EnterpriseSkuID>GCRI00001</EnterpriseSkuID>
+		<ProductName>GCRI00001</ProductName>
+		<ProductDescription/>
+		<ProductImageURL>[http|https]://media.[GC.com/is/image/MMGS7/GCRI00001-00-120x120.jpg</ProductImageURL>
+		<OrderLineTransaction>
+			<TransactionType>Shipped</TransactionType>
+			<Quantity>12</Quantity>
+		</OrderLineTransaction>
+		<ELDKey>89898989989090</ELDKey>
+	</ELDItem>
+</ns0:ElectronicLicenseNotification>
