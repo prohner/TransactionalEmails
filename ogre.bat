@@ -291,10 +291,10 @@ my $xsdFile = "";
 my $file1   = "";
 
 my @testFiles = (
+   "sample_data_2014-06-09\\G1-CC_Decline-MSC.xml",
    "MSC-OrderConfirm-Sample-kitItems+Warranty.xml",
    "sample_data_2014-06-06\\B8-ElectronicLicence-MSC.xml",
    "sample_data_2014-06-06\\ElectronicLicence.xml",
-##   "sample_data_2014-06-06\\G1-CC_Decline-MSC.xml",
    "sample_data_2014-05-23\\E1-Return-Auth-MSC.xml",
    "sample_data_2014-05-23\\F1-Return-Receive-MSC.xml",
    "sample_data_2014-05-06\\MSC-ShipConfirm-kitItems_Sample_1.xml",
@@ -387,6 +387,10 @@ sub getBrandNotificationVariables($$) {
                "ns0:ElectronicLicenseNotification" => ["ElecLicSrc",
                                                        "guitarcenter.com electronic license",
                                                        "mod-order-eld"],
+               "ns0:CreditCardDeclineNotification" => ["CCDeclineSrc",
+                                                       "guitarcenter.com payment issue",
+                                                       "mod-order-issue-cc-declined"],
+
               }
    );
 
