@@ -366,30 +366,43 @@ sub getBrandNotificationVariables($$) {
    my $moduleName = "";
    
    my %vars = (
-      "GC" => {"ns0:OrderConfirmationNotification" => ["OrdConfSrc",
+      "GC" => {"ns0:OrderConfirmationNotification" => ["4TEM4H1G",
                                                        "Guitar Center Order Confirmation",
                                                        "mod-order-confirmation"],
-               "ns0:ShipConfirmationNotification"  => ["OrdShipSrc",
+               "ns0:ShipConfirmationNotification"  => ["4TEM4H1H",
                                                        "Guitar Center Order Shipping Confirmation",
                                                        "mod-order-shipped"],
-               "ns0:OrderCancelNotification"       => ["OrdCancSrc",
+               "ns0:OrderCancelNotification"       => ["4TEM4H1F",
                                                        "Item cancellation",
                                                        "mod-order-cancellation"],
-               "ns0:BackOrderNotification"         => ["BackOrdSrc",
+               "ns0:BackOrderNotification"         => ["4TEM4H1C",
                                                        "Item cancellation",
                                                        "mod-order-backorder"],
-               "ns0:ReturnAuthNotification"        => ["RetAuthSrc",
+               "ns0:ReturnAuthNotification"        => ["4TEM4H1J",
                                                        "guitarcenter.com merchandise return instructions",
                                                        "mod-order-return-auth"],
-               "ns0:ReturnReceivedNotification"    => ["RetRecdSrc",
+               "ns0:ReturnReceivedNotification"    => ["4TEM4H1K",
                                                        "guitarcenter.com merchandise return received",
                                                        "mod-order-return-received"],
-               "ns0:ElectronicLicenseNotification" => ["ElecLicSrc",
+               "ns0:ElectronicLicenseNotification" => ["4TEM4H1E",
                                                        "guitarcenter.com electronic license",
                                                        "mod-order-eld"],
-               "ns0:CreditCardDeclineNotification" => ["CCDeclineSrc",
+               "ns0:CreditCardDeclineNotification" => ["4TEM4H1D",
                                                        "guitarcenter.com payment issue",
                                                        "mod-order-issue-cc-declined"],
+                                                       
+               ##  Source codes provided by Deb 6/9/2014
+               ##  4TEM4H1A Customer Contact  OMS Backorder FTC 30
+               ##  4TEM4H1B Customer Contact  OMS Backorder FTC 60
+               ##  4TEM4H1I Customer Contact  OMS Order Verification
+               ##x 4TEM4H1C Customer Contact  OMS Backorder
+               ##x 4TEM4H1D Customer Contact  OMS CC Declined
+               ##x 4TEM4H1E Customer Contact  OMS Software ELD
+               ##x 4TEM4H1F Customer Contact  OMS Order Cancellation
+               ##x 4TEM4H1G Customer Contact  OMS Order Confirmation
+               ##x 4TEM4H1H Customer Contact  OMS Order Shipped
+               ##x 4TEM4H1J Customer Contact  OMS Return Authorization
+               ##x 4TEM4H1K Customer Contact  OMS Return Received
 
               }
    );
