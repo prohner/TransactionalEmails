@@ -291,7 +291,8 @@ my $xsdFile = "";
 my $file1   = "";
 
 my @testFiles = (
-   "sample_data_2014-06-09\\G1-CC_Decline-MSC.xml",
+   "sample_data_2014-06-10\\G2-CC_Decline-MSC.xml",
+   "sample_data_2014-06-10\\G3-OrderVerification-MSC.xml",
    "MSC-OrderConfirm-Sample-kitItems+Warranty.xml",
    "sample_data_2014-06-06\\B8-ElectronicLicence-MSC.xml",
    "sample_data_2014-06-06\\ElectronicLicence.xml",
@@ -315,7 +316,7 @@ if (@ARGV == 4) {
    die "This program expects 0 or 4 arguments.\n1. XML file\n2. XSD file\n3. Base template HTML/include\n4. Output directory\n";
 } else {
    foreach (@testFiles) {
-      processXmlFile($_, "sample_data_2014-05-22\\MSC-CDMOrderNotification.xsd", "transactional\\coded\\base-template.html");
+      processXmlFile($_, "sample_data_2014-06-10\\MSC-CDMOrderNotification.xsd", "transactional\\coded\\base-template.html");
    }
 }
 $outdir .= "\\" unless ($outdir =~ /\\$/);
@@ -387,14 +388,14 @@ sub getBrandNotificationVariables($$) {
                "ns0:ElectronicLicenseNotification" => ["4TEM4H1E",
                                                        "guitarcenter.com electronic license",
                                                        "mod-order-eld"],
-               "ns0:CreditCardDeclineNotification" => ["4TEM4H1D",
+               "ns0:OrderVerification_CreditCardDeclineNotification" => ["4TEM4H1D",
                                                        "guitarcenter.com payment issue",
                                                        "mod-order-issue-cc-declined"],
                                                        
                ##  Source codes provided by Deb 6/9/2014
                ##  4TEM4H1A Customer Contact  OMS Backorder FTC 30
                ##  4TEM4H1B Customer Contact  OMS Backorder FTC 60
-               ##  4TEM4H1I Customer Contact  OMS Order Verification
+               ##  4TEM4H1I Customer Contact  OMS Order Verification (they merged with CC decline)
                ##x 4TEM4H1C Customer Contact  OMS Backorder
                ##x 4TEM4H1D Customer Contact  OMS CC Declined
                ##x 4TEM4H1E Customer Contact  OMS Software ELD

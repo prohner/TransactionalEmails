@@ -1,0 +1,39 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<ns0:OrderVerification_CreditCardDeclineNotification xmlns:ns0 = "http://www.guitarcenter.com/schemas/CDM/CDMOrderNotification">
+   <OrderSource>
+      <ChannelID>GC_WEB</ChannelID>
+      <Brand brandID = "GC">
+         <BrandName>GuitarCenter</BrandName>
+         <BrandURL>www.guitarcenter.com</BrandURL>
+      </Brand>
+      <SiteID>5</SiteID>
+   </OrderSource>
+   <OrderHeader>
+      <OrderDateTime>2013-12-03T15:16:10-04:00</OrderDateTime>
+      <OrderID>1212</OrderID>
+      <Customer>
+         <FirstName>Samson</FirstName>
+         <LastName>Paul</LastName>
+         <DefaultAddress>
+            <CompanyName/>
+            <AddressLine1>The Crest</AddressLine1>
+            <AddressLine2>2011 Fort Lee</AddressLine2>
+            <AddressLine3/>
+            <City>Crane Hill</City>
+            <State>AL</State>
+            <CountryName>US</CountryName>
+            <PostalCode>35040</PostalCode>
+            <TelephoneNumber>
+               <Type>9818006174</Type>
+               <Phone>9818006174</Phone>
+               <isPrimary>true</isPrimary>
+            </TelephoneNumber>
+            <EMailAddress>
+               <Email>Samson.Paul@gmail.com</Email>
+               <isPrimary>true</isPrimary>
+            </EMailAddress>
+         </DefaultAddress>
+      </Customer>
+   </OrderHeader>
+   <NotificationType>CC_DECLINED</NotificationType>
+</ns0:OrderVerification_CreditCardDeclineNotification>
