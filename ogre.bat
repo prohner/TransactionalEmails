@@ -27,7 +27,8 @@ use File::Basename;
 use File::Find;
 use DateTime::Format::Strptime;
 use DateTime::Format::RFC3339;
-use Data::Dumper; 
+use Data::Dumper;
+use JSON;
 
 my %allIncludeFiles;
 my $p;
@@ -663,6 +664,17 @@ sub start {
          $customTags[$customDepth] = $attributes;
          #print "($self, $tag, $attributes, $attrseq, $origtext)\n";
       } elsif ($attributes->{"type"} =~ /field/i) {
+         my @validAttributes = ("/", "name", "type", "format", "optional", "minvalue", "mustequal");
+         foreach my $attr (sort(keys($attributes))) {
+            my @matches = grep(/$attr/i, @validAttributes);
+            if (@matches != 1) {
+               die "\n\n$tag tag came in with invalid '$attr' attribute\n"
+                 . "Valid attributes are: " . join(", ", @validAttributes). "\n"
+                 . "Input attributes: " . to_json($attributes) . "\n"
+                 . "\n";
+            }
+         }
+         
          if ($origtext =~ /\/\>$/) {
             my $value = getValueForField($attributes->{'name'});
             ##print "\n\nVAL=($value) for $origtext ($attributes->{'name'})\n\n" if ($attributes->{'name'} =~ /pkg_num/i);
@@ -708,7 +720,17 @@ sub end {
                print "\tDID NOT MEET minvalue " . formatValueForHtml($value, $a->{'format'}) . "\n";
                $customText[$customDepth] = "";
             }
-            
+         
+         } elsif (defined($a->{"mustequal"})) {
+            my $value = getValueForField($a->{'name'});
+            ## print "\n\tvalue for $a->{'name'} is $value and min=$a->{'mustequal'}\n";
+            if ($value eq $a->{'mustequal'}) {
+               ;  ## No-operation
+            } else {
+               print "\tDID NOT MEET mustequal " . formatValueForHtml($value, $a->{'format'}) . "\n";
+               $customText[$customDepth] = "";
+            }
+
          } else {
             my $value = getValueForField($a->{'name'});
             if ($value eq "") {

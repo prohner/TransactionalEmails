@@ -154,9 +154,13 @@ PRODUCT_NUM             = //ELDItem/EnterpriseSkuID
 UNIT_PRICE              = //ELDItem/UnitPrice
 QUANTITY                = //ELDItem/OrderLineTransaction/Quantity
 
-SERIAL_NUM              = //ELDItem/ELDKey
 SOFTWARE_KEY            = //ELDItem/ELDKey
+
+## 2014-06-12 serial # can go away after Deb sends next templates
+SERIAL_NUM              = //ELDItem/ELDKey
 DOWNLOAD_LINK           = //ELDItem/ELDDownloadURL
+ELD_CONTACT_NAME        = //ELDItem/ELDContactName
+ELD_CONTACT_INFO        = //ELDItem/ELDContactInfo
 
 KIT_ITEM_NAME           = //Component/ProductName
 KIT_QUANTITY            = //Component/OrderLineTransaction/Quantity
