@@ -54,7 +54,7 @@ my $GLOBAL_PAYMENT_NUMBER        = "PaymentNumber";
 sub validateBrandIdentifier($) {
    my $brand = shift;
    if ($brand ne "GC") {
-      die "Could not find brand.\n";
+      die "Could not find brand '$brand' (validateBrandIdentifier).\n";
    }
 }
 
@@ -219,8 +219,14 @@ sub processXmlFile($$$) {
    $notificationType = $xmlDoc->getDocumentElement()->getName();
    loadVariableMap();
 
-   my $query = "$notificationType/OrderSource/Brand/\@brandID";
-   $brand = $xmlDoc->findnodes($query);
+   ## my $query = "$notificationType/OrderSource/Brand/\@brandID";
+   my $query = "$notificationType/OrderSource/Brand/BrandName";
+   my $brandName = $xmlDoc->findnodes($query);
+   if ($brandName =~ /^GuitarCenter$/i) {
+      $brand = "GC";
+   } else {
+      $brand = "unknown";
+   }
    validateBrandIdentifier($brand);
 
    print "Sending notification type: <$notificationType> for brand <$brand>\n";

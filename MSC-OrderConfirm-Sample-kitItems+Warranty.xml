@@ -2,7 +2,10 @@
 <ns0:OrderConfirmationNotification xmlns:ns0 = "http://www.guitarcenter.com/schemas/CDM/CDMOrderNotification">
    <OrderSource>
       <ChannelID>GC_WEB</ChannelID>
-      <Brand brandID = "GC"/>
+      <Brand brandID = "GC">
+         <BrandName>GuitarCenter</BrandName>
+         <BrandURL>www.guitarcenter.com</BrandURL>
+      </Brand>
    </OrderSource>
    <OrderHeader>
       <OrderDateTime>2013-12-03T15:16:10-04:00</OrderDateTime>

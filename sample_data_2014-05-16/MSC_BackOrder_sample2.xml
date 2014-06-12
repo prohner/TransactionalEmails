@@ -3,7 +3,7 @@
    <OrderSource>
       <ChannelID>GC_WEB</ChannelID>
       <Brand brandID = "GC">
-         <BrandName>Guitar Center</BrandName>
+         <BrandName>GuitarCenter</BrandName>
          <BrandURL>www.guitarcenter.com</BrandURL>
       </Brand>
       <SiteID>5</SiteID>

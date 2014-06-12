@@ -2,7 +2,10 @@
 <ns0:ElectronicLicenseNotification xmlns:ns0 = "http://www.guitarcenter.com/schemas/CDM/CDMOrderNotification">
    <OrderSource>
       <ChannelID>GC_WEB</ChannelID>
-      <Brand brandID = "GC"/>
+      <Brand brandID = "GC">
+         <BrandName>GuitarCenter</BrandName>
+         <BrandURL>www.guitarcenter.com</BrandURL>
+      </Brand>
       <SiteID/>
    </OrderSource>
    <OrderHeader>
