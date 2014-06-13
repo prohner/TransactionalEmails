@@ -1,0 +1,199 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<ns0:OrderConfirmationNotification xmlns:ns0 = "http://www.guitarcenter.com/schemas/CDM/CDMOrderNotification">
+   <OrderSource>
+      <ChannelID>GC_STORE</ChannelID>
+      <Brand brandID = "GC">
+         <BrandName>GuitarCenter</BrandName>
+         <BrandURL>www.guitarcenter.com</BrandURL>
+      </Brand>
+   </OrderSource>
+   <OrderHeader>
+      <OrderDateTime>2013-12-03T15:16:10-04:00</OrderDateTime>
+      <OrderID>1212</OrderID>
+      <Customer>
+         <FirstName>Samson</FirstName>
+         <LastName>Paul</LastName>
+         <DefaultAddress>
+            <CompanyName/>
+            <AddressLine1>The Crest</AddressLine1>
+            <AddressLine2>2011 Fort Lee</AddressLine2>
+            <AddressLine3/>
+            <City>Crane Hill</City>
+            <State>AL</State>
+            <CountryName>US</CountryName>
+            <PostalCode>35040</PostalCode>
+            <TelephoneNumber>
+               <Phone>1234567890</Phone>
+               <isPrimary>true</isPrimary>
+            </TelephoneNumber>
+            <EMailAddress>
+               <Email>Samson.Paul@gmail.com</Email>
+               <isPrimary>true</isPrimary>
+            </EMailAddress>
+         </DefaultAddress>
+      </Customer>
+      <PurchaseOrderID/>
+   </OrderHeader>
+   <OrderLineGroup>
+      <ShippingAddress>
+         <FirstName>Samson</FirstName>
+         <LastName>Paul</LastName>
+         <CompanyName/>
+         <AddressLine1>The Crest</AddressLine1>
+         <AddressLine2>2011 Fort Lee</AddressLine2>
+         <City>Crane Hill</City>
+         <State>AL</State>
+         <CountryName>US</CountryName>
+         <PostalCode>35040</PostalCode>
+         <TelephoneNumber>
+            <Type>9818006174</Type>
+            <Phone>9818006174</Phone>
+            <isPrimary>true</isPrimary>
+         </TelephoneNumber>
+         <EMailAddress>
+            <Email>Samson.Paul@gmail.com</Email>
+            <isPrimary>true</isPrimary>
+         </EMailAddress>
+      </ShippingAddress>
+      <ShipmentMethod/>
+      <OrderedItem>
+         <ERPLineID>11</ERPLineID>
+         <EnterpriseSkuID>BundleParentItem0001</EnterpriseSkuID>
+         <ProductName>Product name one</ProductName>
+         <ProductDescription>BAONE</ProductDescription>
+         <ProductImageURL>http://media.guitarcenter.com/is/image/MMGS7/Gibson-Custom-Alex-Lifeson-Les-Paul-Axcess-Electric-Guitar-Viceroy-Brown/H71395000001000-00-250x250.jpg</ProductImageURL>
+         <OrderLineTransaction>
+            <TransactionType>Ordered</TransactionType>
+            <Quantity>10</Quantity>
+         </OrderLineTransaction>
+         <UnitPrice>5</UnitPrice>
+         <ExtPrice>50</ExtPrice>
+         <ShipAndHandlingCost>1.22</ShipAndHandlingCost>
+         <Tax>5</Tax>
+         <MiscCharges>1</MiscCharges>
+         <Discount>4</Discount>
+         <KitMessage/>
+         <Component>
+            <ERPLineID>21</ERPLineID>
+            <EnterpriseSkuID>BundleComponentItem0001</EnterpriseSkuID>
+            <ProductName>Component product name one</ProductName>
+            <ProductDescription>Regular Item</ProductDescription>
+            <ProductImageURL>http://media.guitarcenter.com/is/image/MMGS7/Gibson-Custom-Alex-Lifeson-Les-Paul-Axcess-Electric-Guitar-Viceroy-Brown/H71395000001000-00-250x250.jpg</ProductImageURL>
+            <OrderLineTransaction>
+               <TransactionType>Ordered</TransactionType>
+               <Quantity>10</Quantity>
+            </OrderLineTransaction>
+            <UnitPrice>5</UnitPrice>
+            <ExtPrice>50</ExtPrice>
+            <ShipAndHandlingCost>1.22</ShipAndHandlingCost>
+            <Tax>5</Tax>
+            <MiscCharges>1</MiscCharges>
+            <Discount>4</Discount>
+            <KitMessage>Bundle items may be shipped separately.</KitMessage>
+         </Component>
+         <Component>
+            <ERPLineID>21</ERPLineID>
+            <EnterpriseSkuID>BundleComponentItem0001</EnterpriseSkuID>
+            <ProductName>Component product name two</ProductName>
+            <ProductDescription>Regular Item</ProductDescription>
+            <ProductImageURL>http://media.guitarcenter.com/is/image/MMGS7/Gibson-Custom-Alex-Lifeson-Les-Paul-Axcess-Electric-Guitar-Viceroy-Brown/H71395000001000-00-250x250.jpg</ProductImageURL>
+            <OrderLineTransaction>
+               <TransactionType>Ordered</TransactionType>
+               <Quantity>10</Quantity>
+            </OrderLineTransaction>
+            <UnitPrice>5</UnitPrice>
+            <ExtPrice>50</ExtPrice>
+            <ShipAndHandlingCost>1.22</ShipAndHandlingCost>
+            <Tax>5</Tax>
+            <MiscCharges>1</MiscCharges>
+            <Discount>4</Discount>
+            <KitMessage>Bundle items may be shipped separately.</KitMessage>
+         </Component>
+         <WarrantyComponent>
+            <ERPLineID>31</ERPLineID>
+            <EnterpriseSkuID>WarrantyItem0001</EnterpriseSkuID>
+            <ProductName/>
+            <ProductDescription>WarrantyONE</ProductDescription>
+            <ProductImageURL>[http|https]://media.[GC.com/is/image/MMGS7/WarrantyItem0001-00-120x120.jpg</ProductImageURL>
+            <OrderLineTransaction>
+               <TransactionType>Ordered</TransactionType>
+               <Quantity>1</Quantity>
+            </OrderLineTransaction>
+            <UnitPrice>15</UnitPrice>
+            <ExtPrice>15</ExtPrice>
+            <ShipAndHandlingCost>0</ShipAndHandlingCost>
+            <Tax>2</Tax>
+            <MiscCharges>0</MiscCharges>
+            <Discount>5</Discount>
+         </WarrantyComponent>
+      </OrderedItem>
+      <OrderedItem>
+         <ERPLineID>41</ERPLineID>
+         <EnterpriseSkuID>RegularItem0001</EnterpriseSkuID>
+         <ProductName>Product name two (black guitar)</ProductName>
+         <ProductDescription>BAONE</ProductDescription>
+         <ProductImageURL>http://media.guitarcenter.com/is/image/MMGS7/Epiphone-Limited-Edition-Les-Paul-Traditional-PRO-Electric-Guitar-Ebony/423561000018000-00-250x250.jpg</ProductImageURL>
+         <OrderLineTransaction>
+            <TransactionType>Ordered</TransactionType>
+            <Quantity>3</Quantity>
+         </OrderLineTransaction>
+         <UnitPrice>3.5</UnitPrice>
+         <ExtPrice>10.5</ExtPrice>
+         <ShipAndHandlingCost>0</ShipAndHandlingCost>
+         <Tax>0</Tax>
+         <MiscCharges>0</MiscCharges>
+         <Discount>0</Discount>
+         <KitMessage/>
+      </OrderedItem>
+      <OrderedItem>
+         <ERPLineID>41</ERPLineID>
+         <EnterpriseSkuID>BundleParentItem0002</EnterpriseSkuID>
+         <ProductName>Product name three (drums)</ProductName>
+         <ProductDescription>BAONE</ProductDescription>
+         <ProductImageURL>http://media.guitarcenter.com/is/image/MMGS7/Gretsch-Drums-Marquee-4-Piece-Shell-Pack-with-FREE-8---Tom-Satin-Walnut-22--Bass-Drum/J04489000002001-00-250x250.jpg</ProductImageURL>
+         <OrderLineTransaction>
+            <TransactionType>Ordered</TransactionType>
+            <Quantity>4</Quantity>
+         </OrderLineTransaction>
+         <UnitPrice>4.5</UnitPrice>
+         <ExtPrice>10.5</ExtPrice>
+         <ShipAndHandlingCost>0</ShipAndHandlingCost>
+         <Tax>0</Tax>
+         <MiscCharges>0</MiscCharges>
+         <Discount>0</Discount>
+         <KitMessage/>
+         <Component>
+            <ERPLineID>21</ERPLineID>
+            <EnterpriseSkuID>BundleComponentItem0001</EnterpriseSkuID>
+            <ProductName>Component product name three</ProductName>
+            <ProductDescription>Regular Item</ProductDescription>
+            <ProductImageURL>http://media.guitarcenter.com/is/image/MMGS7/Gibson-Custom-Alex-Lifeson-Les-Paul-Axcess-Electric-Guitar-Viceroy-Brown/H71395000001000-00-250x250.jpg</ProductImageURL>
+            <OrderLineTransaction>
+               <TransactionType>Ordered</TransactionType>
+               <Quantity>10</Quantity>
+            </OrderLineTransaction>
+            <UnitPrice>5</UnitPrice>
+            <ExtPrice>50</ExtPrice>
+            <ShipAndHandlingCost>1.22</ShipAndHandlingCost>
+            <Tax>5</Tax>
+            <MiscCharges>1</MiscCharges>
+            <Discount>4</Discount>
+            <KitMessage>Bundle items may be shipped separately.</KitMessage>
+         </Component>
+      </OrderedItem>
+   </OrderLineGroup>
+   <PaymentDetails>
+      <PaymentType>CREDIT_CARD</PaymentType>
+      <CreditCardType>VISA</CreditCardType>
+      <AuthorizationID>AUTH1</AuthorizationID>
+      <CreditCardExp>07/2016</CreditCardExp>
+      <PaymentAmount>52.22</PaymentAmount>
+   </PaymentDetails>
+   <OrderTotal>
+      <SubTotal>65</SubTotal>
+      <TotalShipAndHandlingCost>2.22</TotalShipAndHandlingCost>
+      <TotalTax>7</TotalTax>
+      <TotalDiscount>10</TotalDiscount>
+      <GroupTotal>64.22</GroupTotal>
+   </OrderTotal>
+</ns0:OrderConfirmationNotification>

@@ -298,9 +298,10 @@ my $xsdFile = "";
 my $file1   = "";
 
 my @testFiles = (
+   "MSC-OrderConfirm-Sample-kitItems+Warranty.xml",
+   "sample_data_2014-06-10\\MSC-OrderConfirm-Sample-kitItems+Warranty+Adlucent.xml",
    "sample_data_2014-06-10\\G2-CC_Decline-MSC.xml",
    "sample_data_2014-06-10\\G3-OrderVerification-MSC.xml",
-   "MSC-OrderConfirm-Sample-kitItems+Warranty.xml",
    "sample_data_2014-06-06\\B8-ElectronicLicence-MSC.xml",
    "sample_data_2014-06-06\\ElectronicLicence.xml",
    "sample_data_2014-05-23\\E1-Return-Auth-MSC.xml",
@@ -729,7 +730,7 @@ sub end {
          
          } elsif (defined($a->{"mustequal"})) {
             my $value = getValueForField($a->{'name'});
-            ## print "\n\tvalue for $a->{'name'} is $value and min=$a->{'mustequal'}\n";
+            print "\n\tvalue for $a->{'name'} is $value and min=$a->{'mustequal'}\n" if ($DEBUG_HTML_START_AND_END_CUSTOM);
             if ($value eq $a->{'mustequal'}) {
                ;  ## No-operation
             } else {
