@@ -52,6 +52,8 @@
       <Discount>10</Discount>
       <ELDKey>ELDKey's value SKU 1</ELDKey>
       <ELDDownloadURL>http://downloadurl.com/sku_1</ELDDownloadURL>
+      <ELDContactName>ELD Contact Name</ELDContactName>
+      <ELDContactInfo>ELD Contact Info</ELDContactInfo>
    </ELDItem>
    <ELDItem>
       <ERPLineID/>
