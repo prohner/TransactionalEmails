@@ -104,7 +104,7 @@ sub validate_xml_against_xsd($$) {
     my $schema = XML::LibXML::Schema->new(location => $xsd);
     my $parser = XML::LibXML->new;
 
-    my $doc = $parser->parse_file($xml);
+    my $doc = $parser->load_xml(string => $xml);
     eval { $schema->validate( $doc ) };
 
     if ( my $ex = $@ ) {
@@ -202,20 +202,21 @@ sub loadVariableMap() {
 }
 
 # -----------------------------------------------------------------------------
-sub processXmlFile($$$) {
-   my ($xmlFile, $xsdFile, $file1) = @_;
+sub processXml($$$$) {
+   my ($outputFile, $xmlString, $xsdFile, $file1) = @_;
+   
    print "-" x 60, "\n"; ## Processing:\n\t$xmlFile\n\t$xsdFile\n\t$file1 is present\n";
-   if ( my $error = validate_xml_against_xsd($xmlFile, $xsdFile) ) {
+   if ( my $error = validate_xml_against_xsd($xmlString, $xsdFile) ) {
        die "Validation failed: $error\n";
    }
    die "Could not find base template $file1\n" if ( ! -e $file1);
    
    $html = "";
 
-   print "Validated:\n\t$xmlFile\n\t$xsdFile\n\t$file1 is present\n";
+   print "Validated:\n\t$outputFile\n\t$xsdFile\n\t$file1 is present\n";
 
    my $xmlParser = XML::LibXML->new();
-   $xmlDoc = $xmlParser->parse_file($xmlFile);
+   $xmlDoc = $xmlParser->load_xml(string => $xmlString);
    $notificationType = $xmlDoc->getDocumentElement()->getName();
    loadVariableMap();
 
@@ -234,10 +235,6 @@ sub processXmlFile($$$) {
 
    $p->parse_file($file1) || die $!;
 
-   my ($volume, $directories, $outputFile) = File::Spec->splitpath($xmlFile);
-   $outputFile =~ s/\.xml/\.html/ig;
-   $outputFile = "output\\$outputFile";
-
    open(OUT, ">$outputFile") || die "Couldn't open $outputFile\n$!\n";
    print "Writing output: \n\t$outputFile\n";
    ## print OUT "" . localtime();
@@ -247,6 +244,17 @@ sub processXmlFile($$$) {
    ## foreach my $f (sort(keys(%allIncludeFiles))) {
    ##    print $f, "\n";
    ## }
+}
+
+# -----------------------------------------------------------------------------
+sub processXmlFile($$$) {
+   my ($xmlFile, $xsdFile, $file1) = @_;
+   
+   my ($volume, $directories, $outputFile) = File::Spec->splitpath($xmlFile);
+   $outputFile =~ s/\.xml/\.html/ig;
+   $outputFile = "output\\$outputFile";
+   
+   processXml($outputFile, slurpFile($xmlFile), $xsdFile, $file1);
 }
 
 # -----------------------------------------------------------------------------
@@ -398,7 +406,7 @@ sub getBrandNotificationVariables($$) {
                                                        "mod-order-eld"],
                "ns0:OrderVerification_CreditCardDeclineNotification" => ["4TEM4H1D",
                                                        "guitarcenter.com payment issue",
-                                                       "mod-order-issue-cc-declined"],
+                                                       "mod-order-cc-declined-fraud"],
                                                        
                ##  Source codes provided by Deb 6/9/2014
                ##  4TEM4H1A Customer Contact  OMS Backorder FTC 30
