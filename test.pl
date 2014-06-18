@@ -1,5 +1,5 @@
 use DBI;
-my $DSN = "dbi:ODBC:Driver={SQL Server Native Client 11.0};Server=gcdb2;Database=gcProd;Trusted_Connection=yes;";
+my $DSN = "dbi:ODBC:Driver={SQL Server Native Client 10.0};Server=gcdb2;Database=gcProd;Trusted_Connection=yes;";
 
 my $dbh = DBI->connect($DSN)
                 or die "Couldn't connect to database: " . DBI->errstr;

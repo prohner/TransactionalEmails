@@ -42,6 +42,7 @@ my @customText;
 my @xmlDocStack;
 my $notificationType;
 my $xmlDoc;
+my $outputDir  = ".\\output\\";
 
 my $DEBUG_INCLUDE_FILES             = 0;
 my $DEBUG_VARIABLE_MAP              = 0;
@@ -296,6 +297,75 @@ EOT
 }
 
 # -----------------------------------------------------------------------------
+sub emailFileForTestPurposes($$) {
+   my $fileIn = shift;
+   my $subject = shift;
+   
+   $subject = strftime("$subject [TEST on %Y-%m-%d@%H:%M:%S]", localtime());
+   
+   my $fileOut = strftime("${outputDir}pmta_%Y%m%d%H%M%S_0000001_0001.txt", localtime());
+   ##die "\n\n$fileOut\n";
+   
+   open(IN, $fileIn) || die "emailFileForTestPurposes: Couldn't open input $fileIn\n$!\n";
+   open(OUT, ">$fileOut") || die "emailFileForTestPurposes: Couldn't open output $fileOut\n$!\n";
+
+   my $fromAddr      = "guitarcenter\@em.guitarcenter.com";
+   my $fromName      = "Guitar Center";
+   my $replyAddr     = $fromAddr;
+   my $bounceAddr    = "bounces\@em.guitarcenter.com";
+   my $vmta          = "GC";
+   
+   $replyAddr =~ s/\@/\-reply\@/;
+
+   print OUT "XMRG FROM:<$bounceAddr>\n";
+   
+   my @testRecipients;
+   push @testRecipients, 'preston@mscnet.com';
+   push @testRecipients, 'preston.rohner@gmail.com';
+   foreach (@testRecipients) {
+      print OUT "XDFN CUSTOMERID=\"1_1\" *parts=1 *jobid=\"1\" *vmta=\"$vmta\" SUBJECT=\"$subject\"\n";
+      print OUT "RCPT TO:<$_>\n";
+   }
+   
+   print OUT <<EOT;
+XPRT 1 LAST
+From: "$fromName" <$fromAddr>
+To: <[*to]>
+Date: [*date]
+Subject: [SUBJECT]
+Reply-To: $replyAddr
+X-CLIFF-EMAIL: [*to]
+X-CLIFF-LIST: [*jobid]
+X-CLIFF-RID: [CUSTOMERID]
+Mime-Version: 1.0
+Content-Type: multipart/alternative; 
+   boundary="----=_Part_37_8099147.1185488738520" 
+
+------=_Part_37_8099147.1185488738520
+Content-Type: text/html; charset="iso-8859-1" 
+Content-Transfer-Encoding: 7bit
+
+EOT
+
+   while(my $s = <IN>) {
+      chomp $s;
+      print OUT $s, "\n";
+   }
+   
+   print OUT <<EOT;
+
+------=_Part_37_8099147.1185488738520--
+
+.
+
+EOT
+   close(OUT);
+   close(IN);
+   
+   ShellOutAndRun("move $fileOut \\\\pmta\\pmta\\pickup_in");
+}
+
+# -----------------------------------------------------------------------------
 $p = new HtmlParser;
 
 find(\&findAllIncludeFiles, ".");
@@ -322,7 +392,6 @@ my @testFiles = (
    "sample_data_2014-05-22\\B7-ShipConfirm-MSC.xml",
 );
 
-my $outputDir  = ".\\output\\";
 my $xsdFile = "sample_data_2014-06-10\\MSC-CDMOrderNotification.xsd";
 my $modFile = "transactional\\coded\\base-template.html";
 
@@ -337,15 +406,19 @@ my $sql = <<EOT;
 EOT
 
 my $dbh;
+my $dbhUpdate;
 my $sth;
 my $rs;
-my $DSN = "Driver={SQL Server Native Client 11.0};Server=gcdb2;Database=gcProd;Trusted_Connection=yes;";
+my $DSN = "Driver={SQL Server Native Client 10.0};Server=gcdb2;Database=gcProd;Trusted_Connection=yes;";
 
 $dbh = DBI->connect("dbi:ODBC:$DSN") || die "Couldn't connect to database: " . DBI->errstr;
 $dbh->{LongReadLen} = 512 * 1024;
 
+$dbhUpdate = DBI->connect("dbi:ODBC:$DSN") || die "Couldn't connect to database: " . DBI->errstr;
+
 $sth = $dbh->prepare($sql) || die "Couldn't prepare statement: " . $dbh->errstr;
 $sth->execute() || die "Couldn't execute statement: " . $sth->errstr;
+
 
 while ($rs = $sth->fetchrow_hashref) {
    my $sourceTable            = $rs->{'sourceTable'};
@@ -355,9 +428,14 @@ while ($rs = $sth->fetchrow_hashref) {
    print "Process $outputFile\n";
    processXml($outputFile, $xml, $xsdFile, $modFile);
    
-   $sql = "update $sourceTable set DateProcessedForEmail = getdate() where TransactionalEmailId = $transactionalEmailId";
-   print $sql, "\n";
-   $dbh->do($sql) || die "Couldn't execute sql: $sql\n$dbh->errstr\n";
+   if ($sourceTable =~ /TransactionalEmailTest/i) {
+      emailFileForTestPurposes($outputFile, getSubject($brand, $notificationType));
+      ##die "\nSent test email\n";
+   }
+   
+   $sql = "update $sourceTable set DateProcessedForEmail = getdate() where TransactionalEmailId = ?";
+   my $updateStatementHandle = $dbhUpdate->prepare($sql) || die "Couldn't prepare statement: " . $dbhUpdate->errstr;
+   $updateStatementHandle->execute(($transactionalEmailId)) || die "\nCouldn't update $sourceTable for id = $transactionalEmailId\n";
 }
 
 if ($sth->rows == 0) {
@@ -836,6 +914,17 @@ sub findAllIncludeFiles() {
    if ($_ =~ /\.inc$/i) {
       $allIncludeFiles{lc($_)} = $File::Find::name;
       $allIncludeFiles{lc($_)} =~ s|/|\\|g;  ## system func returns / for path separator so I'm replacing
+   }
+}
+
+# -----------------------------------------------------------------------------
+sub ShellOutAndRun() {
+   my $cmd = shift;
+
+   print "$cmd\n";
+   system($cmd);
+   if ($? >> 8) {
+      die "Error executing ($cmd)\nERR MSG:($!)\n";
    }
 }
 

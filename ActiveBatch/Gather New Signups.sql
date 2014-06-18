@@ -27,7 +27,7 @@ select 'web02bal', *
 /*
 -- drop table TransactionalEmail
 create table TransactionalEmail (
-  TransactionalEmail int identity primary key,
+  TransactionalEmailId int identity primary key,
   ServerSource varchar(20),
   TransactionEmailId int,
   Contents varchar(max),
@@ -38,7 +38,7 @@ create table TransactionalEmail (
 )
 -- drop table TransactionalEmailTest
 create table TransactionalEmailTest (
-  TransactionalEmail int identity primary key,
+  TransactionalEmailId int identity primary key,
   ServerSource varchar(20),
   TransactionEmailId int,
   Contents varchar(max),
