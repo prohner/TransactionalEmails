@@ -19,6 +19,7 @@ use strict;
 use warnings;
 use XML::LibXML;
 use XML::Simple qw(:strict);
+use DBI;
 
 package HtmlParser;
 use POSIX qw(strftime);
@@ -302,7 +303,6 @@ find(\&findAllIncludeFiles, ".");
 my $customDepth = 0;
 
 my $xmlFile = "";
-my $xsdFile = "";
 my $file1   = "";
 
 my @testFiles = (
@@ -322,20 +322,63 @@ my @testFiles = (
    "sample_data_2014-05-22\\B7-ShipConfirm-MSC.xml",
 );
 
-my $outdir  = ".\\";
+my $outputDir  = ".\\output\\";
+my $xsdFile = "sample_data_2014-06-10\\MSC-CDMOrderNotification.xsd";
+my $modFile = "transactional\\coded\\base-template.html";
+
+my $sql = <<EOT;
+   select 'TransactionalEmailTest' sourceTable, * 
+     from gcprod.dbo.TransactionalEmailTest 
+    where DateProcessedForEmail is null
+   union
+   select 'TransactionalEmail'     sourceTable, * 
+     from gcprod.dbo.TransactionalEmail     
+    where DateProcessedForEmail is null
+EOT
+
+my $dbh;
+my $sth;
+my $rs;
+my $DSN = "Driver={SQL Server Native Client 11.0};Server=gcdb2;Database=gcProd;Trusted_Connection=yes;";
+
+$dbh = DBI->connect("dbi:ODBC:$DSN") || die "Couldn't connect to database: " . DBI->errstr;
+$dbh->{LongReadLen} = 512 * 1024;
+
+$sth = $dbh->prepare($sql) || die "Couldn't prepare statement: " . $dbh->errstr;
+$sth->execute() || die "Couldn't execute statement: " . $sth->errstr;
+
+while ($rs = $sth->fetchrow_hashref) {
+   my $sourceTable            = $rs->{'sourceTable'};
+   my $transactionalEmailId   = $rs->{'TransactionalEmailId'};
+   my $xml                    = $rs->{"Contents"};
+   my $outputFile             = "${outputDir}db_$transactionalEmailId.html";
+   print "Process $outputFile\n";
+   processXml($outputFile, $xml, $xsdFile, $modFile);
+   
+   $sql = "update $sourceTable set DateProcessedForEmail = getdate() where TransactionalEmailId = $transactionalEmailId";
+   print $sql, "\n";
+   $dbh->do($sql) || die "Couldn't execute sql: $sql\n$dbh->errstr\n";
+}
+
+if ($sth->rows == 0) {
+   print "No database records found.\n\n";
+}
+
+$dbh->disconnect;
+
 if (@ARGV == 4) {
    $xmlFile = $ARGV[0];
    $xsdFile = $ARGV[1];
    $file1   = $ARGV[2];
-   $outdir  = $ARGV[3];
+   $outputDir  = $ARGV[3];
 } elsif (@ARGV > 0) {
    die "This program expects 0 or 4 arguments.\n1. XML file\n2. XSD file\n3. Base template HTML/include\n4. Output directory\n";
 } else {
    foreach (@testFiles) {
-      processXmlFile($_, "sample_data_2014-06-10\\MSC-CDMOrderNotification.xsd", "transactional\\coded\\base-template.html");
+      processXmlFile($_, $xsdFile, $modFile);
    }
 }
-$outdir .= "\\" unless ($outdir =~ /\\$/);
+$outputDir .= "\\" unless ($outputDir =~ /\\$/);
 
 
 # -----------------------------------------------------------------------------
