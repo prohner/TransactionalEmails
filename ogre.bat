@@ -225,7 +225,7 @@ sub processXml($$$$) {
    ## my $query = "$notificationType/OrderSource/Brand/\@brandID";
    my $query = "$notificationType/OrderSource/Brand/BrandName";
    my $brandName = $xmlDoc->findnodes($query);
-   if ($brandName =~ /^GuitarCenter$/i) {
+   if ($brandName =~ /^Guitar.*Center$/i) {
       $brand = "GC";
    } else {
       $brand = "unknown";
@@ -301,7 +301,7 @@ sub emailFileForTestPurposes($$) {
    my $fileIn = shift;
    my $subject = shift;
    
-   $subject = strftime("$subject [TEST on %Y-%m-%d@%H:%M:%S]", localtime());
+   $subject = strftime("[Transactional Email Test] $subject [%Y-%m-%d@%H:%M:%S]", localtime());
    
    my $fileOut = strftime("${outputDir}pmta_%Y%m%d%H%M%S_0000001_0001.txt", localtime());
    ##die "\n\n$fileOut\n";
@@ -321,7 +321,17 @@ sub emailFileForTestPurposes($$) {
    
    my @testRecipients;
    push @testRecipients, 'preston@mscnet.com';
-   push @testRecipients, 'preston.rohner@gmail.com';
+   #push @testRecipients, 'preston.rohner@gmail.com';
+   
+   push @testRecipients, 'aaron.chambers@guitarcenter.com';
+   push @testRecipients, 'cvartak@guitarcenter.com';
+   push @testRecipients, 'dstewart@guitarcenter.com';
+   push @testRecipients, 'dtelford@guitarcenter.com';
+   push @testRecipients, 'geoff.robles@guitarcenter.com';
+   push @testRecipients, 'gerber.rivera@guitarcenter.com';
+   push @testRecipients, 'sophia@guitarcenter.com';
+   push @testRecipients, 'Simona.Todoroska@guitarcenter.com';
+
    foreach (@testRecipients) {
       print OUT "XDFN CUSTOMERID=\"1_1\" *parts=1 *jobid=\"1\" *vmta=\"$vmta\" SUBJECT=\"$subject\"\n";
       print OUT "RCPT TO:<$_>\n";
@@ -399,10 +409,13 @@ my $sql = <<EOT;
    select 'TransactionalEmailTest' sourceTable, * 
      from gcprod.dbo.TransactionalEmailTest 
     where DateProcessedForEmail is null
+      and contents like '%<?xml%'
+      and EmailProcessResult is null
    union
    select 'TransactionalEmail'     sourceTable, * 
      from gcprod.dbo.TransactionalEmail     
     where DateProcessedForEmail is null
+      and EmailProcessResult is null
 EOT
 
 my $dbh;
@@ -426,14 +439,20 @@ while ($rs = $sth->fetchrow_hashref) {
    my $xml                    = $rs->{"Contents"};
    my $outputFile             = "${outputDir}db_$transactionalEmailId.html";
    print "Process $outputFile\n";
+
+   $sql = "update $sourceTable set EmailProcessResult = 'A', EmailProcessDate = getdate() where TransactionalEmailId = ?";
+   my $updateStatementHandle = $dbhUpdate->prepare($sql) || die "Couldn't prepare statement: " . $dbhUpdate->errstr;
+   $updateStatementHandle->execute(($transactionalEmailId)) || die "\nCouldn't update $sourceTable for id = $transactionalEmailId\n";
+
    processXml($outputFile, $xml, $xsdFile, $modFile);
    
    if ($sourceTable =~ /TransactionalEmailTest/i) {
       emailFileForTestPurposes($outputFile, getSubject($brand, $notificationType));
-      ##die "\nSent test email\n";
+   } else {
+      die "We received NON-TEST DATA, but we are not ready to be live yet.\n";
    }
    
-   $sql = "update $sourceTable set DateProcessedForEmail = getdate() where TransactionalEmailId = ?";
+   $sql = "update $sourceTable set DateProcessedForEmail = getdate(), EmailProcessResult = 'S', EmailProcessDate = getdate() where TransactionalEmailId = ?";
    my $updateStatementHandle = $dbhUpdate->prepare($sql) || die "Couldn't prepare statement: " . $dbhUpdate->errstr;
    $updateStatementHandle->execute(($transactionalEmailId)) || die "\nCouldn't update $sourceTable for id = $transactionalEmailId\n";
 }
