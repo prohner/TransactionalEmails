@@ -533,7 +533,7 @@ sub getBrandNotificationVariables($$) {
                                                        "Item cancellation",
                                                        "mod-order-cancellation"],
                "ns0:BackOrderNotification"         => ["4TEM4H1C",
-                                                       "Item cancellation",
+                                                       "Your guitarcenter.com order status",
                                                        "mod-order-backorder"],
                "ns0:ReturnAuthNotification"        => ["4TEM4H1J",
                                                        "guitarcenter.com merchandise return instructions",
