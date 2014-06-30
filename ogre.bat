@@ -43,6 +43,7 @@ my @xmlDocStack;
 my $notificationType;
 my $xmlDoc;
 my $outputDir  = ".\\output\\";
+my $transactionalEmailId;
 
 my $DEBUG_INCLUDE_FILES             = 0;
 my $DEBUG_VARIABLE_MAP              = 0;
@@ -301,7 +302,7 @@ sub emailFileForTestPurposes($$) {
    my $fileIn = shift;
    my $subject = shift;
    
-   $subject = strftime("[Transactional Email Test] $subject [%Y-%m-%d@%H:%M:%S]", localtime());
+   $subject = strftime("[Transactional Email Test] $subject [%Y-%m-%d@%H:%M:%S (id=$transactionalEmailId)]", localtime());
    
    my $fileOut = strftime("${outputDir}pmta_%Y%m%d%H%M%S_0000001_0001.txt", localtime());
    ##die "\n\n$fileOut\n";
@@ -321,16 +322,17 @@ sub emailFileForTestPurposes($$) {
    
    my @testRecipients;
    push @testRecipients, 'preston@mscnet.com';
-   #push @testRecipients, 'preston.rohner@gmail.com';
-   
-   push @testRecipients, 'aaron.chambers@guitarcenter.com';
-   push @testRecipients, 'cvartak@guitarcenter.com';
-   push @testRecipients, 'dstewart@guitarcenter.com';
-   push @testRecipients, 'dtelford@guitarcenter.com';
-   push @testRecipients, 'geoff.robles@guitarcenter.com';
-   push @testRecipients, 'gerber.rivera@guitarcenter.com';
-   push @testRecipients, 'sophia@guitarcenter.com';
-   push @testRecipients, 'Simona.Todoroska@guitarcenter.com';
+
+   if (1 == 1) {   
+      push @testRecipients, 'aaron.chambers@guitarcenter.com';
+      push @testRecipients, 'cvartak@guitarcenter.com';
+      push @testRecipients, 'dstewart@guitarcenter.com';
+      push @testRecipients, 'dtelford@guitarcenter.com';
+      push @testRecipients, 'geoff.robles@guitarcenter.com';
+      push @testRecipients, 'gerber.rivera@guitarcenter.com';
+      push @testRecipients, 'sophia@guitarcenter.com';
+      push @testRecipients, 'Simona.Todoroska@guitarcenter.com';
+   }
 
    foreach (@testRecipients) {
       print OUT "XDFN CUSTOMERID=\"1_1\" *parts=1 *jobid=\"1\" *vmta=\"$vmta\" SUBJECT=\"$subject\"\n";
@@ -435,7 +437,7 @@ $sth->execute() || die "Couldn't execute statement: " . $sth->errstr;
 
 while ($rs = $sth->fetchrow_hashref) {
    my $sourceTable            = $rs->{'sourceTable'};
-   my $transactionalEmailId   = $rs->{'TransactionalEmailId'};
+   $transactionalEmailId      = $rs->{'TransactionalEmailId'};
    my $xml                    = $rs->{"Contents"};
    my $outputFile             = "${outputDir}db_$transactionalEmailId.html";
    print "Process $outputFile\n";
