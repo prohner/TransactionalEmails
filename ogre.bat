@@ -118,7 +118,7 @@ sub validate_xml_against_xsd($$) {
 # -----------------------------------------------------------------------------
 sub includeFile($) {
    my $actualFilename = shift;
-   print "includeFile ", $actualFilename, "\n" if ($DEBUG_INCLUDE_FILES);
+   print "includeFile " , $actualFilename , "\n" if ($DEBUG_INCLUDE_FILES);
    
    my $p = new HtmlParser;
    $p->parse_file($actualFilename) || die $!;
@@ -128,6 +128,11 @@ sub includeFile($) {
 sub importIncludeFile($) {
    my $baseFilename = shift;
    print "importIncludeFile ", $baseFilename, "\n" if ($DEBUG_INCLUDE_FILES);
+   
+   if ($baseFilename =~ /preheader/i) {
+      $baseFilename = getPreheaderName($brand, $notificationType);
+      print "changed name to  ", $baseFilename, "\n" if ($DEBUG_INCLUDE_FILES);
+   }
    
    my $actualFilename = "";
    $actualFilename = actualFilenameForBrand($baseFilename);
@@ -149,6 +154,23 @@ sub loadModule($) {
    print "  Module ($moduleFilename)\n";
    die "Couldn't find $moduleFilename" if ( ! -e $moduleFilename);
    includeFile($moduleFilename);
+}
+
+# -----------------------------------------------------------------------------
+sub loadPreheader($) {
+   my $notificationType = shift;
+   my $preheaderName = $notificationType;
+   print "\$preheaderName = $preheaderName\n";
+   
+   ## if ($preheaderName eq "") {
+   ##    die "Got request for <$notificationType> but I couldn't determine which preheader to use.\n";
+   ## }
+   ## 
+   ## my $preheaderFilename = "transactional\\coded\\modules\\${preheaderName}.inc";
+   ## 
+   ## print "    Preheader ($preheaderName)\n";
+   ## die "Couldn't find $preheaderFilename" if ( ! -e $preheaderFilename);
+   ## includeFile($preheaderFilename);
 }
 
 # -----------------------------------------------------------------------------
@@ -378,6 +400,13 @@ EOT
 }
 
 # -----------------------------------------------------------------------------
+sub getSubject($$) {
+   my ($brand, $notificationType) = @_;
+   my @vars = getBrandNotificationVariables($brand, $notificationType);
+   return $vars[0];
+}
+
+# -----------------------------------------------------------------------------
 $p = new HtmlParser;
 
 find(\&findAllIncludeFiles, ".");
@@ -455,7 +484,7 @@ while ($rs = $sth->fetchrow_hashref) {
    }
    
    $sql = "update $sourceTable set DateProcessedForEmail = getdate(), EmailProcessResult = 'S', EmailProcessDate = getdate() where TransactionalEmailId = ?";
-   my $updateStatementHandle = $dbhUpdate->prepare($sql) || die "Couldn't prepare statement: " . $dbhUpdate->errstr;
+   $updateStatementHandle = $dbhUpdate->prepare($sql) || die "Couldn't prepare statement: " . $dbhUpdate->errstr;
    $updateStatementHandle->execute(($transactionalEmailId)) || die "\nCouldn't update $sourceTable for id = $transactionalEmailId\n";
 }
 
@@ -497,13 +526,6 @@ sub decrementCustomDepth() {
 }
 
 # -----------------------------------------------------------------------------
-sub getSubject($$) {
-   my ($brand, $notificationType) = @_;
-   my @vars = getBrandNotificationVariables($brand, $notificationType);
-   return $vars[0];
-}
-
-# -----------------------------------------------------------------------------
 sub getSourceCode($$) {
    my ($brand, $notificationType) = @_;
    my @vars = getBrandNotificationVariables($brand, $notificationType);
@@ -518,37 +540,53 @@ sub getModule($$) {
 }
 
 # -----------------------------------------------------------------------------
+sub getPreheaderName($$) {
+   my ($brand, $notificationType) = @_;
+   my @vars = getBrandNotificationVariables($brand, $notificationType);
+   return $vars[3];
+}
+
+# -----------------------------------------------------------------------------
 sub getBrandNotificationVariables($$) {
    my ($brand, $notificationType) = @_;
-   my $sourceCode = "";
-   my $subject    = "";
-   my $moduleName = "";
+   my $sourceCode    = "";
+   my $subject       = "";
+   my $moduleName    = "";
+   my $preheaderName = "";
    
    my %vars = (
       "GC" => {"ns0:OrderConfirmationNotification" => ["4TEM4H1G",
                                                        "Guitar Center Order Confirmation",
-                                                       "mod-order-confirmation"],
+                                                       "mod-order-confirmation",
+                                                       "order-confirmation-preheader"],
                "ns0:ShipConfirmationNotification"  => ["4TEM4H1H",
                                                        "Guitar Center Order Shipping Confirmation",
-                                                       "mod-order-shipped"],
+                                                       "mod-order-shipped",
+                                                       "order-shipped-preheader"],
                "ns0:OrderCancelNotification"       => ["4TEM4H1F",
                                                        "Item cancellation",
-                                                       "mod-order-cancellation"],
+                                                       "mod-order-cancellation",
+                                                       "order-cancellation-preheader"],
                "ns0:BackOrderNotification"         => ["4TEM4H1C",
                                                        "Your guitarcenter.com order status",
-                                                       "mod-order-backorder"],
+                                                       "mod-order-backorder",
+                                                       "order-backorder-preheader"],
                "ns0:ReturnAuthNotification"        => ["4TEM4H1J",
                                                        "guitarcenter.com merchandise return instructions",
-                                                       "mod-order-return-auth"],
+                                                       "mod-order-return-auth",
+                                                       "order-return-auth-preheader"],
                "ns0:ReturnReceivedNotification"    => ["4TEM4H1K",
                                                        "guitarcenter.com merchandise return received",
-                                                       "mod-order-return-received"],
+                                                       "mod-order-return-received",
+                                                       "order-return-received-preheader"],
                "ns0:ElectronicLicenseNotification" => ["4TEM4H1E",
                                                        "guitarcenter.com electronic license",
-                                                       "mod-order-eld"],
+                                                       "mod-order-eld",
+                                                       "order-eld-preheader"],
                "ns0:OrderVerification_CreditCardDeclineNotification" => ["4TEM4H1D",
                                                        "guitarcenter.com payment issue",
-                                                       "mod-order-cc-declined-fraud"],
+                                                       "mod-order-cc-declined-fraud",
+                                                       "order-cc-declined-fraud-preheader"],
                                                        
                ##  Source codes provided by Deb 6/9/2014
                ##  4TEM4H1A Customer Contact  OMS Backorder FTC 30
@@ -567,15 +605,17 @@ sub getBrandNotificationVariables($$) {
    );
 
    my @variables = $vars{$brand}{$notificationType};
-   $sourceCode = $variables[0][0];
-   $subject    = $variables[0][1];
-   $moduleName = $variables[0][2];
+   $sourceCode    = $variables[0][0];
+   $subject       = $variables[0][1];
+   $moduleName    = $variables[0][2];
+   $preheaderName = $variables[0][3];
 
-   die "\nCould not find source code  for brand ($brand) and notification type ($notificationType)\n" if ($sourceCode eq "");
-   die "\nCould not find subject line for brand ($brand) and notification type ($notificationType)\n" if ($subject eq "");
-   die "\nCould not find module name  for brand ($brand) and notification type ($notificationType)\n" if ($moduleName eq "");
+   die "\nCould not find source code    for brand ($brand) and notification type ($notificationType)\n" if ($sourceCode eq "");
+   die "\nCould not find subject line   for brand ($brand) and notification type ($notificationType)\n" if ($subject eq "");
+   die "\nCould not find module name    for brand ($brand) and notification type ($notificationType)\n" if ($moduleName eq "");
+   die "\nCould not find preheader name for brand ($brand) and notification type ($notificationType)\n" if ($preheaderName eq "");
 
-   return ($subject, $sourceCode, $moduleName);
+   return ($subject, $sourceCode, $moduleName, $preheaderName);
 }
 
 # -----------------------------------------------------------------------------
@@ -807,7 +847,7 @@ sub start {
             }
             
          } else {
-            importIncludeFile($attributes->{"name"});
+            importIncludeFile($attributes->{"name"}); ## unless ($attributes->{"name"} =~ /preheader/i);
          }         
          
       } elsif ($attributes->{"type"} =~ /module/i) {
