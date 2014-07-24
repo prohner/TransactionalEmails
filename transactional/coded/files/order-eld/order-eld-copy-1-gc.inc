@@ -8,7 +8,7 @@
 	</table>
 	<table width="580" border="0" cellpadding="0" cellspacing="0" align="center" class="deviceWidth">
 		<tr>
-			<td style="padding:20px 0 0 0; font-family:arial,helvetica,sans-serif; font-size:13px; color:#222222; mso-line-height-rule:exactly; line-height:16px; -webkit-text-size-adjust:100%;"><b style="font-size:16px; mso-line-height-rule:exactly; line-height:20px;">Hello Deb,</b><br /><br />
+			<td style="padding:20px 0 0 0; font-family:arial,helvetica,sans-serif; font-size:13px; color:#222222; mso-line-height-rule:exactly; line-height:16px; -webkit-text-size-adjust:100%;"><b style="font-size:16px; mso-line-height-rule:exactly; line-height:20px;">Hello <custom type="field" name="BILLING_FNAME" /></b><br /><br />
 			
 			Thank you for your recent order. Here is the information you need to download and register your new software.
 			
@@ -91,7 +91,7 @@
 					</tr>
 				</table>
 			
-			Please note, certain software titles require a <a style="color:#222222; text-decoration:underline;" href="http://www.guitarcenter.com/Pace-iLok-2-106393259-i1753051.gc?source=TBD">Pace iLok</a> or a Steinberg eLicenser Key/USB dongle in order to authorize and store the license for the software purchased. You may be asked to create an account prior to downloading.<br /><br />
+			Please note, certain software titles require a <a style="color:#222222; text-decoration:underline;" href="http://www.guitarcenter.com/Pace-iLok-2-106393259-i1753051.gc?source=[SOURCE_CODE]">Pace iLok</a> or a Steinberg eLicenser Key/USB dongle in order to authorize and store the license for the software purchased. You may be asked to create an account prior to downloading.<br /><br />
 
 			If you have any questions please contact the manufacturer or call us at <span style="font-weight:bold;" class="mobileLink">866-498-7882</span>.</td>
 		</tr>
