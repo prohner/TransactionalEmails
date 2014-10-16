@@ -3,7 +3,7 @@
 			<td width="580" align="right" style="padding:12px 0 0 0; font-size:16px; font-weight:bold; mso-line-height-rule:exactly; line-height:20px;" class="deviceWidth">Order Cancellation</td>
 		</tr>
 		<tr>
-			<td width="580" align="right" style="padding:2px 0 0 0; font-size:12px; mso-line-height-rule:exactly; line-height:16px;" class="deviceWidth">Order #: <custom type="anchor" style="color:#222222; text-decoration:underline;" href="https://www.guitarcenter.com/myaccount/order.aspx?source=[SOURCE_CODE]&on=[ORDER_NUM]"><custom type="field" name="ORDER_NUM" /></custom></td>
+			<td width="580" align="right" style="padding:2px 0 0 0; font-size:12px; mso-line-height-rule:exactly; line-height:16px;" class="deviceWidth">Order #: <custom type="field" name="ORDER_NUM" /></td>
 		</tr>
 	</table>
 	<table width="580" border="0" cellpadding="0" cellspacing="0" align="center" class="deviceWidth">
