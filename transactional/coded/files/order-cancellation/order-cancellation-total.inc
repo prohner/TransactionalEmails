@@ -1,6 +1,6 @@
 <table width="580" border="0" cellpadding="0" cellspacing="0" align="center" style="font-family:arial,helvetica,sans-serif; font-size:13px; color:#222222; mso-line-height-rule:exactly; line-height:17px; -webkit-text-size-adjust:100%;" class="deviceWidth">
 		<tr>
-			<td width="100%" colspan="2" height="8" style="font-size:80px; line-height:1px;" class="deviceWidth">&nbsp;</td>
+			<td width="100%" colspan="2" height="8" style="font-size:8px; line-height:1px;" class="deviceWidth">&nbsp;</td>
 		</tr>
 		<tr>
 			<td width="100%" colspan="2" style="padding:0 0 0 0; border-bottom:4px double #dfdfdf;" class="deviceWidth">&nbsp;</td>

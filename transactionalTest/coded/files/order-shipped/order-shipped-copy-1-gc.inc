@@ -10,7 +10,7 @@
 		<tr>
 			<td style="padding:20px 0 15px 0; font-family:arial,helvetica,sans-serif; font-size:13px; color:#222222; mso-line-height-rule:exactly; line-height:16px; -webkit-text-size-adjust:100%;"><b style="font-size:16px; mso-line-height-rule:exactly; line-height:20px;">Hello <custom type="field" name="BILLING_FNAME" />,</b><br /><br />
 			
-			Thanks for shopping with us. Your order has been shipped and is on its way. Changes can no longer be made to this order, but if you need to return an item from this shipment or want to manage other orders, please visit <custom type="anchor" style="color:#222222; text-decoration:underline;" href="https://www.guitarcenter.com/myaccount/?source=[SOURCE_CODE]">My Account</custom> on <custom type="anchor" style="color:#222222; text-decoration:none;" href="http://www.guitarcenter.com/?source=[SOURCE_CODE]">GuitarCenter.com</custom>.<br /><br />
+			Thanks for shopping with us. Your order has been shipped and is on its way. Changes can no longer be made to this order, however if you need to assistance please call us at <span style="font-weight:bold;" class="mobileLink">866-498-7882</span>.<br /><br />
 
 				<table width="100%" border="0" cellpadding="0" cellspacing="0" style="font-family:arial,helvetica,sans-serif; font-size:13px; color:#222222; mso-line-height-rule:exactly; line-height:17px; -webkit-text-size-adjust:100%;">
 					<tr>
