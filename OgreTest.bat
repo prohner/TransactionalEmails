@@ -236,6 +236,26 @@ sub loadVariableMap() {
 }
 
 # -----------------------------------------------------------------------------
+## 2015-02-28 pcr Added new function
+sub overrideNotificationType($) {
+   my $xmlString = shift;
+   
+   ## They send only BackOrderNotification.  However, Deb needs to have separate notification
+   ## types for an FTC30 and FTC60 notification emailing.  So, when they send a TransactionType
+   ## of FTC30 or FTC60 we are changing the whole notification type in the XML.  Ideally, OMS
+   ## or Tibco should've had a different notification type or Deb should've gotten it all into
+   ## the same template.
+	if ($xmlString =~ /\<TransactionType\>FTC30\<\/TransactionType\>/ig) {
+		print "\tNotification OVERRIDDING to: BackOrderFTC30Notification\n";
+		$xmlString =~ s/ns0\:BackOrderNotification/ns0\:BackOrderFTC30Notification/ig
+	} elsif ($xmlString =~ /\<TransactionType\>FTC60\<\/TransactionType\>/ig) {
+		print "\tNotification OVERRIDDING to: BackOrderFTC60Notification\n";
+		$xmlString =~ s/ns0\:BackOrderNotification/ns0\:BackOrderFTC60Notification/ig
+	}
+	return $xmlString;
+}
+
+# -----------------------------------------------------------------------------
 sub processXml($$$$) {
    my ($outputFile, $xmlString, $xsdFile, $file1) = @_;
 
@@ -250,10 +270,11 @@ sub processXml($$$$) {
    $html = "";
 
    print "Validated:\n\t$outputFile\n\t$xsdFile\n\t$file1 is present\n";
+   $xmlString = overrideNotificationType($xmlString);    			## 2015-02-28 pcr Possibly change notification type
 
    my $xmlParser = XML::LibXML->new();
    $xmlDoc = $xmlParser->load_xml(string => $xmlString);
-   $notificationType = $xmlDoc->getDocumentElement()->getName();
+   $notificationType = $xmlDoc->getDocumentElement()->getName();	
    loadVariableMap();
 
    ## my $query = "$notificationType/OrderSource/Brand/\@brandID";
@@ -275,7 +296,7 @@ sub processXml($$$$) {
    my $recipientEmailAddressQuery 	= "$notificationType/OrderHeader/Customer/DefaultAddress/EMailAddress/Email";
    $recipientEmailAddress 				= $xmlDoc->findnodes($recipientEmailAddressQuery);
 
-   print "Sending notification type: <$notificationType> for brand <$brand> \n\tto <$recipientEmailAddress>\n";
+   print "\tSending notification type: <$notificationType> for brand <$brand> \n\tto <$recipientEmailAddress>\n";
    print "\tThere is no email address. Presumably this is a Contact Center order.\n" if ($recipientEmailAddress eq "");
 
    $p->parse_file($file1) || die $!;
@@ -546,6 +567,8 @@ my @testFiles = (
    "sample_data_2014-05-16\\MSC_BackOrder_sample1.xml",
    "sample_data_2014-05-16\\MSC_BackOrder_sample2.xml",
    "sample_data_2014-05-22\\B7-ShipConfirm-MSC.xml",
+   "sample_data_2015-02-28\\MSC_FTC30.xml",
+   "sample_data_2015-02-28\\MSC_FTC60.xml",
 );
 
 my $xsdFile = "sample_data_2014-06-10\\MSC-CDMOrderNotification.xsd";
@@ -719,6 +742,16 @@ sub getBrandNotificationVariables($$) {
                                                        "mod-order-cancellation",
                                                        "order-cancellation-preheader",
                                                        2022921],
+               "ns0:BackOrderFTC30Notification"    => ["4TEM4H1A",									## 2015-02-28 pcr New notification type
+                                                       "Your guitarcenter.com order status",
+                                                       "mod-order-backorder-ftc30",
+                                                       "order-backorder-preheader",
+                                                       2022922],
+               "ns0:BackOrderFTC60Notification"    => ["4TEM4H1B",									## 2015-02-28 pcr New notification type
+                                                       "Your guitarcenter.com order status",
+                                                       "mod-order-backorder-ftc60",
+                                                       "order-backorder-preheader",
+                                                       2022922],
                "ns0:BackOrderNotification"         => ["4TEM4H1C",
                                                        "Your guitarcenter.com order status",
                                                        "mod-order-backorder",
@@ -832,16 +865,20 @@ sub getValueForField($;$) {
          print "SEEK 3 $variable\n" if ($DEBUG_VARIABLE_VALUES);
          $s = $xmlDoc->findvalue($globalVariables{$variable});
       } else {
-         if ($mustFindVariable) {
-            print "SEEK 4 $varToFind\n" if ($DEBUG_VARIABLE_VALUES);
-            if ($DEBUG_VARIABLE_MAP) {
-               print "DYING DUMPING VARIABLE MAP\n";
-               foreach my $key (sort(keys(%variableMap))) {
-                  print "$key = <$variableMap{$key}>\n";
-               }
-            }
-            die "\n\nFAILED TO FIND VARIABLE '$varToFind'\n";
-         }
+      	unless ($varToFind =~ /SERIAL_NUM/i) {	## 2015-02-28 pcr Allowed serial # to be blank because Deb's using it in odd places in templates
+				if ($mustFindVariable) {
+					print "SEEK 4 $varToFind\n" if ($DEBUG_VARIABLE_VALUES);
+					if ($DEBUG_VARIABLE_MAP) {
+						print "DYING DUMPING VARIABLE MAP\n";
+						foreach my $key (sort(keys(%variableMap))) {
+							print "$key = <$variableMap{$key}>\n";
+						}
+					}
+					die "\n\nFAILED TO FIND VARIABLE '$varToFind'\n";
+				}
+			} else {
+				$s = "";	## 2015-02-28 pcr This is the default for serial #
+			}
       }
       
    }
@@ -942,6 +979,10 @@ sub start {
                } elsif ($notificationType eq "ns0:OrderCancelNotification") {
                   $xpathToOrderItems = "//CancelledItem";
                } elsif ($notificationType eq "ns0:BackOrderNotification") {
+                  $xpathToOrderItems = "//BackOrderedItem";
+               } elsif ($notificationType eq "ns0:BackOrderFTC30Notification") {	## 2015-02-28 pcr Added new type
+                  $xpathToOrderItems = "//BackOrderedItem";
+               } elsif ($notificationType eq "ns0:BackOrderFTC60Notification") {	## 2015-02-28 pcr Added new type
                   $xpathToOrderItems = "//BackOrderedItem";
                } elsif ($notificationType eq "ns0:ReturnAuthNotification") {
                   $xpathToOrderItems = "//ReturnAuthorizedItem";
