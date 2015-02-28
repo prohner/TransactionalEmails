@@ -374,7 +374,7 @@ sub emailFileForTestPurposes($$) {
       ## push @testRecipients, 'geoff.robles@guitarcenter.com';
       push @testRecipients, 'gerber.rivera@guitarcenter.com';
       push @testRecipients, 'sophia@guitarcenter.com';
-      push @testRecipients, 'Simona.Todoroska@guitarcenter.com';
+      ## push @testRecipients, 'Simona.Todoroska@guitarcenter.com';
       push @testRecipients, 'gctestermcs@yahoo.com';
 
 		if ($recipientEmailAddress =~ /musiciansfriend.com/i || $recipientEmailAddress =~ /guitarcenter.com/i) {
@@ -387,7 +387,7 @@ sub emailFileForTestPurposes($$) {
    }
 
    foreach (@testRecipients) {
-      print OUT "XDFN CUSTOMERID=\"1_1\" *parts=1 *jobid=\"1\" *vmta=\"$vmta\" SUBJECT=\"$subject\"\n";
+      print OUT "XDFN CUSTOMERID=\"$transactionalEmailId\" *parts=1 *jobid=\"1\" *vmta=\"$vmta\" SUBJECT=\"$subject\"\n";
       print OUT "RCPT TO:<$_>\n";
    }
    
@@ -432,6 +432,7 @@ EOT
    close(OUT);
    close(IN);
    
+   sleep(1);
    ShellOutAndRun("copy $fileOut \\\\pmta\\pmta\\pickup_in");
 }
 
@@ -458,12 +459,14 @@ sub emailFile($$) {
    
    my @testRecipients;
    push @testRecipients, 'preston@mscnet.com';
-   print "\n\nThis email was supposed to be sent to $recipientEmailAddress\n\n";
+   ## print "\n\nThis email was supposed to be sent to $recipientEmailAddress\n\n";
 
    foreach (@testRecipients) {
-      print OUT "XDFN CUSTOMERID=\"1_1\" *parts=1 *jobid=\"1\" *vmta=\"$vmta\" SUBJECT=\"$subject\"\n";
+      print OUT "XDFN CUSTOMERID=\"$transactionalEmailId\" *parts=1 *jobid=\"1\" *vmta=\"$vmta\" SUBJECT=\"$subject\"\n";
       print OUT "RCPT TO:<$_>\n";
    }
+	print OUT "XDFN CUSTOMERID=\"$transactionalEmailId\" *parts=1 *jobid=\"1\" *vmta=\"$vmta\" SUBJECT=\"$subject\"\n";
+	print OUT "RCPT TO:<$recipientEmailAddress>\n";
    
    print OUT <<EOT;
 XPRT 1 LAST
@@ -507,7 +510,8 @@ EOT
    close(IN);
    
    print "\n\nFileOut=($fileOut)\n";
-   ##ShellOutAndRun("copy $fileOut \\\\pmta\\pmta\\pickup_in");
+   sleep(1);
+   ShellOutAndRun("copy $fileOut \\\\pmta\\pmta\\pickup_in");
 }
 
 # -----------------------------------------------------------------------------

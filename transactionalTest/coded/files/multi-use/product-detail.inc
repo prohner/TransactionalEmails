@@ -9,6 +9,11 @@
                <tr>
                   <td width="100%" style="padding:1px 0 0 0; font-size:12px; font-style:italic; mso-line-height-rule:exactly; line-height:16px;">Item #: <span class="mobileLink"><custom type="field" name="PRODUCT_NUM" /></span></td>
                </tr>
+               <custom type="field" name="SERIAL_NUM" optional="yes">
+				<tr>
+					<td width="100%" style="padding:1px 0 0 0; font-size:12px; font-style:italic; mso-line-height-rule:exactly; line-height:16px;">Serial #: <custom type="field" name="SERIAL_NUM" /></td>
+				</tr>
+			</custom>
                <tr>
                   <td width="100%" style="padding:15px 0 0 0; font-weight:bold; mso-line-height-rule:exactly; line-height:17px;">$<custom type="field" name="UNIT_PRICE" format="currency" /> <custom type="field" name="QUANTITY" optional="yes" minvalue="2">&nbsp;(<custom type="field" name="QUANTITY" format="number" />)</custom></td>
                </tr>
