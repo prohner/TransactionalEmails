@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- edited with XMLSpy v2013 sp1 (http://www.altova.com) by ﻿Simona (Interworks) -->
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:odr="http://www.guitarcenter.com/schemas/CDM/CDMOrderNotification" targetNamespace="http://www.guitarcenter.com/schemas/CDM/CDMOrderNotification" elementFormDefault="unqualified" attributeFormDefault="unqualified">
 	<xs:element name="EmailNotification">
 		<xs:complexType>
@@ -20,8 +19,77 @@
 					<xs:element ref="odr:ProductReviewNotification"/>
 					<xs:element ref="odr:ReturnAuthNotification"/>
 					<xs:element ref="odr:ReturnReceivedNotification"/>
+					<xs:element ref="odr:CustomerPickedConfirmationNotification"/>
+					<xs:element ref="odr:OrderFeedbackNotification"/>
+					<xs:element ref="odr:ReadyForCustomerNotification"/>
 				</xs:choice>
 			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ReadyForCustomerNotification">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="odr:baseOrderNotification">
+					<xs:sequence>
+						<xs:element name="OrderLineGroup" maxOccurs="unbounded">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="ShippingAddress" type="odr:AddressType"/>
+									<xs:element name="ShipmentMethod" type="xs:string"/>
+									<xs:element name="OrderedItem" type="odr:OrderedItemType" maxOccurs="unbounded"/>
+									<xs:element name="GroupTotals" type="odr:OrderTotalType" minOccurs="0"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="PaymentDetails" type="odr:PaymentType" minOccurs="0" maxOccurs="unbounded"/>
+						<xs:element name="OrderTotal" type="odr:OrderTotalType"/>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="OrderFeedbackNotification">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="odr:baseOrderNotification">
+					<xs:sequence>
+						<xs:element name="OrderLineGroup" maxOccurs="unbounded">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="ShippingAddress" type="odr:AddressType"/>
+									<xs:element name="ShipmentMethod" type="xs:string"/>
+									<xs:element name="OrderedItem" type="odr:OrderedItemType" maxOccurs="unbounded"/>
+									<xs:element name="GroupTotals" type="odr:OrderTotalType" minOccurs="0"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="PaymentDetails" type="odr:PaymentType" minOccurs="0" maxOccurs="unbounded"/>
+						<xs:element name="OrderTotal" type="odr:OrderTotalType"/>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="CustomerPickedConfirmationNotification">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="odr:baseOrderNotification">
+					<xs:sequence>
+						<xs:element name="OrderLineGroup" maxOccurs="unbounded">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="ShippingAddress" type="odr:AddressType"/>
+									<xs:element name="ShipmentMethod" type="xs:string"/>
+									<xs:element name="OrderedItem" type="odr:OrderedItemType" maxOccurs="unbounded"/>
+									<xs:element name="GroupTotals" type="odr:OrderTotalType" minOccurs="0"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="PaymentDetails" type="odr:PaymentType" minOccurs="0" maxOccurs="unbounded"/>
+						<xs:element name="OrderTotal" type="odr:OrderTotalType"/>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="OrderConfirmationNotification">

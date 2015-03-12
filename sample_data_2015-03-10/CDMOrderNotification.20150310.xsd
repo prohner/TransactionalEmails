@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- edited with XMLSpy v2013 sp1 (http://www.altova.com) by ﻿Simona (Interworks) -->
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:odr="http://www.guitarcenter.com/schemas/CDM/CDMOrderNotification" targetNamespace="http://www.guitarcenter.com/schemas/CDM/CDMOrderNotification" elementFormDefault="unqualified" attributeFormDefault="unqualified">
+
+<!-- edited with XMLSpy v2011 sp1 (x64) (http://www.altova.com) by Sim (Simona) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	 xmlns:odr="http://www.guitarcenter.com/schemas/CDM/CDMOrderNotification"
+	 targetNamespace="http://www.guitarcenter.com/schemas/CDM/CDMOrderNotification"
+	 elementFormDefault="unqualified"
+	 attributeFormDefault="unqualified">
 	<xs:element name="EmailNotification">
 		<xs:complexType>
 			<xs:sequence>
@@ -117,6 +122,7 @@
 								</xs:sequence>
 							</xs:complexType>
 						</xs:element>
+
 						<!--									<xs:element name="ShipContainerDetails" type="odr:ShipContainerType" minOccurs="0" maxOccurs="unbounded"/> -->
 						<xs:element name="PaymentDetails" type="odr:PaymentType" minOccurs="0" maxOccurs="unbounded"/>
 						<xs:element name="CancellationTotal" type="odr:OrderTotalType"/>
@@ -237,7 +243,6 @@
 			<xs:element name="KitMessage" type="xs:string" minOccurs="0"/>
 			<xs:element name="Component" type="odr:OrderedItemType" minOccurs="0" maxOccurs="unbounded"/>
 			<xs:element name="WarrantyComponent" type="odr:OrderedItemType" minOccurs="0" maxOccurs="unbounded"/>
-			<xs:element name="BatchNo" type="xs:string" minOccurs="0"/>
 		</xs:sequence>
 	</xs:complexType>
 	<xs:complexType name="OrderLineTransactionType">
@@ -331,6 +336,7 @@
 			<xs:element name="CustomerPO" type="xs:string" minOccurs="0"/>
 			<xs:element name="TaxExemptID" type="xs:string" minOccurs="0"/>
 			<xs:element name="CustomerCreationDate" type="xs:string" minOccurs="0"/>
+
 			<!-- This is a generic field for name/value pairs -->
 			<xs:element name="Preference" minOccurs="0" maxOccurs="unbounded">
 				<xs:complexType>
