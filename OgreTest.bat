@@ -532,7 +532,8 @@ EOT
    
    print "\n\nFileOut=($fileOut)\n";
    sleep(1);
-   ShellOutAndRun("copy $fileOut \\\\pmta\\pmta\\pickup_in");
+   ShellOutAndRun("copy $fileOut \\\\pmta\\pmta\\pickup_in") if ($recipientEmailAddress ne "");
+   
 }
 
 # -----------------------------------------------------------------------------
