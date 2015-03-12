@@ -532,7 +532,8 @@ EOT
    
    print "\n\nFileOut=($fileOut)\n";
    sleep(1);
-   ShellOutAndRun("copy $fileOut \\\\pmta\\pmta\\pickup_in");
+   ShellOutAndRun("copy $fileOut \\\\pmta\\pmta\\pickup_in") if ($recipientEmailAddress ne "");
+   
 }
 
 # -----------------------------------------------------------------------------
@@ -571,7 +572,7 @@ my @testFiles = (
    "sample_data_2015-02-28\\MSC_FTC60.xml",
 );
 
-my $xsdFile = "sample_data_2015-03-10\\CDMOrderNotification.xsd";
+my $xsdFile = "sample_data_2015-03-12\\CDMOrderNotification.xsd";
 my $modFile = "${templateDirectory}\\coded\\base-template.html";
 
 my $sql = <<EOT;
