@@ -571,7 +571,7 @@ my @testFiles = (
    "sample_data_2015-02-28\\MSC_FTC60.xml",
 );
 
-my $xsdFile = "sample_data_2014-06-10\\MSC-CDMOrderNotification.xsd";
+my $xsdFile = "sample_data_2015-03-10\\CDMOrderNotification.xsd";
 my $modFile = "${templateDirectory}\\coded\\base-template.html";
 
 my $sql = <<EOT;
