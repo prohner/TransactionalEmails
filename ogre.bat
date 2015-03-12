@@ -48,6 +48,8 @@ my $transactionalEmailId;
 my $thisScriptIsRunningInTestMode	= ($0 =~ /test/i);
 my $templateDirectory = "transactional";
 my $recipientEmailAddress;
+my $dbhOpenTag;
+my $sthOpenTag;
 
 my $DEBUG_INCLUDE_FILES             = 0;
 my $DEBUG_VARIABLE_MAP              = 0;
@@ -362,6 +364,22 @@ EOT
 }
 
 # -----------------------------------------------------------------------------
+sub getEmailOpenTagFor($$$) {
+	my ($brand, $notificationType, $fromAddr) = @_;
+	my $openTag = "";
+	
+	$sthOpenTag->bind_param(1, $brand, DBI::SQL_VARCHAR); 
+	$sthOpenTag->bind_param(2, $notificationType, DBI::SQL_VARCHAR); 
+	$sthOpenTag->bind_param(3, $fromAddr, DBI::SQL_VARCHAR); 
+	$sthOpenTag->execute() or die $dbhOpenTag -> errstr;
+	my $rs = $sthOpenTag->fetchrow_hashref;
+	die "Error getting getEmailOpenTagFor($brand, $notificationType, $fromAddr)\n" unless ($rs);
+	
+	$openTag = "<img src=\"http://r.em.guitarcenter.com/r4.asp?r=" . $rs->{'ListId'} . "_" . $rs->{'RecipientId'} . "&i=GC14080601_01001\" width=\"1\" height=\"1\">";
+	return $openTag;
+}
+
+# -----------------------------------------------------------------------------
 sub emailFileForTestPurposes($$) {
    my $fileIn = shift;
    my $subject = shift;
@@ -379,6 +397,7 @@ sub emailFileForTestPurposes($$) {
    my $replyAddr     = $fromAddr;
    my $bounceAddr    = "bounces\@em.guitarcenter.com";
    my $vmta          = "GC";
+   my $emailOpenTag  = getEmailOpenTagFor($brand, $notificationType, $fromAddr);
    
    $replyAddr =~ s/\@/\-reply\@/;
 
@@ -441,6 +460,12 @@ EOT
      $sFileContents .= $_;
    }
    
+   if ($sFileContents =~ /\<\/body\>/i) {
+   	$sFileContents =~ s/\<\/body\>/$emailOpenTag/i;
+   } else {
+   	$sFileContents .= $emailOpenTag;
+   }
+   
    print OUT encode_qp($sFileContents);
    
    print OUT <<EOT;
@@ -473,6 +498,7 @@ sub emailFile($$) {
    my $replyAddr     = $fromAddr;
    my $bounceAddr    = getBounceAddress($brand, $notificationType);
    my $vmta          = $brand;
+   my $emailOpenTag  = getEmailOpenTagFor($brand, $notificationType, $fromAddr);
    
    $replyAddr =~ s/\@/\-reply\@/;
 
@@ -516,6 +542,12 @@ EOT
    my $sFileContents = "";
    while (<IN>) {
      $sFileContents .= $_;
+   }
+   
+   if ($sFileContents =~ /\<\/body\>/i) {
+   	$sFileContents =~ s/\<\/body\>/$emailOpenTag/i;
+   } else {
+   	$sFileContents .= $emailOpenTag;
    }
    
    print OUT encode_qp($sFileContents);
@@ -592,7 +624,12 @@ my $dbh;
 my $dbhUpdate;
 my $sth;
 my $rs;
-my $DSN = "Driver={SQL Server Native Client 10.0};Server=gcdb2;Database=gcProd;Trusted_Connection=yes;";
+
+my $DSN 				= "Driver={SQL Server Native Client 10.0};Server=gcdb2;Database=gcProd;Trusted_Connection=yes;";
+my $DSN_GCEMRDB 	= "Driver={SQL Server Native Client 10.0};Server=gcemrdb;Database=EmailAdmin;Trusted_Connection=yes;";
+
+$dbhOpenTag = DBI->connect("dbi:ODBC:$DSN_GCEMRDB") || die "Couldn't connect to database: " . DBI->errstr;
+$sthOpenTag = $dbhOpenTag->prepare("exec GetRecipientInfoForTransactionalEmailing ?, ?, ?") || die "Couldn't prepare statement: " . $dbhOpenTag->errstr;
 
 $dbh = DBI->connect("dbi:ODBC:$DSN") || die "Couldn't connect to database: " . DBI->errstr;
 $dbh->{LongReadLen} = 512 * 1024;
@@ -643,7 +680,21 @@ if (@ARGV == 4) {
 } else {
 	if ($thisScriptIsRunningInTestMode) {
 		foreach (@testFiles) {
+			my $sendTestXMLFilesViaSMTP = 0;
+			my $outputFile = $_;
 			processXmlFile($_, $xsdFile, $modFile);
+			
+			if ($sendTestXMLFilesViaSMTP) {
+				$outputFile =~ s/\.xml/\.html/ig;
+				$outputFile = "output\\$outputFile";
+
+				$brand = "GC";
+				$notificationType = "Preston's Notification";
+				my $subject = "Preston's Test";
+				$transactionalEmailId = 1234;
+				emailFileForTestPurposes($outputFile, $subject);
+				last;
+			}
 		}
 	}
 }

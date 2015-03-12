@@ -397,7 +397,7 @@ sub emailFileForTestPurposes($$) {
    my $replyAddr     = $fromAddr;
    my $bounceAddr    = "bounces\@em.guitarcenter.com";
    my $vmta          = "GC";
-   my $emailOpenTag  = getEmailOpenTagFor($brand, $notificationType, $fromAddr);
+   my $emailOpenTag  = getEmailOpenTagFor($brand, $notificationType, "test_email@guitarcenter.com");
    
    $replyAddr =~ s/\@/\-reply\@/;
 
@@ -498,7 +498,7 @@ sub emailFile($$) {
    my $replyAddr     = $fromAddr;
    my $bounceAddr    = getBounceAddress($brand, $notificationType);
    my $vmta          = $brand;
-   my $emailOpenTag  = getEmailOpenTagFor($brand, $notificationType, $fromAddr);
+   my $emailOpenTag  = getEmailOpenTagFor($brand, $notificationType, $recipientEmailAddress);
    
    $replyAddr =~ s/\@/\-reply\@/;
 
