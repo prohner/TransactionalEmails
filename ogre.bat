@@ -374,9 +374,11 @@ sub getEmailOpenTagFor($$$) {
 	$sthOpenTag->execute() or die $dbhOpenTag -> errstr;
 	my $rs = $sthOpenTag->fetchrow_hashref;
 	die "Error getting getEmailOpenTagFor($brand, $notificationType, $fromAddr)\n" unless ($rs);
+	my $emailListId 		= $rs->{'ListId'};
+	my $emailRecipientId	= $rs->{'RecipientId'};
 	
-	$openTag = "<img src=\"http://r.em.guitarcenter.com/r4.asp?r=" . $rs->{'ListId'} . "_" . $rs->{'RecipientId'} . "&i=GC14080601_01001\" width=\"1\" height=\"1\">";
-	return $openTag;
+	$openTag = "<img src=\"http://r.em.guitarcenter.com/r4.asp?r=${emailListId}_${emailRecipientId}&i=GC14080601_01001\" width=\"1\" height=\"1\">";
+	return ($emailListId, $emailRecipientId, $openTag);
 }
 
 # -----------------------------------------------------------------------------
@@ -397,7 +399,7 @@ sub emailFileForTestPurposes($$) {
    my $replyAddr     = $fromAddr;
    my $bounceAddr    = "bounces\@em.guitarcenter.com";
    my $vmta          = "GC";
-   my $emailOpenTag  = getEmailOpenTagFor($brand, $notificationType, $fromAddr);
+   my ($emailListId, $emailRecipientId, $emailOpenTag) = getEmailOpenTagFor($brand, $notificationType, "test_email\@guitarcenter.com");
    
    $replyAddr =~ s/\@/\-reply\@/;
 
@@ -409,7 +411,7 @@ sub emailFileForTestPurposes($$) {
    if ( ! $thisScriptIsRunningInTestMode) {   
       ## push @testRecipients, 'aaron.chambers@guitarcenter.com';
       push @testRecipients, 'cvartak@guitarcenter.com';
-      push @testRecipients, 'dstewart@guitarcenter.com';
+      ## push @testRecipients, 'dstewart@guitarcenter.com';
       ## push @testRecipients, 'dtelford@guitarcenter.com';
       ## push @testRecipients, 'geoff.robles@guitarcenter.com';
       push @testRecipients, 'gerber.rivera@guitarcenter.com';
@@ -427,7 +429,7 @@ sub emailFileForTestPurposes($$) {
    }
 
    foreach (@testRecipients) {
-      print OUT "XDFN CUSTOMERID=\"$transactionalEmailId\" *parts=1 *jobid=\"1\" *vmta=\"$vmta\" SUBJECT=\"$subject\"\n";
+      print OUT "XDFN CUSTOMERID=\"${emailListId}_${emailRecipientId}\" *parts=1 *jobid=\"${emailListId}\" *vmta=\"$vmta\" SUBJECT=\"$subject\"\n";
       print OUT "RCPT TO:<$_>\n";
    }
    
@@ -498,7 +500,7 @@ sub emailFile($$) {
    my $replyAddr     = $fromAddr;
    my $bounceAddr    = getBounceAddress($brand, $notificationType);
    my $vmta          = $brand;
-   my $emailOpenTag  = getEmailOpenTagFor($brand, $notificationType, $fromAddr);
+   my ($emailListId, $emailRecipientId, $emailOpenTag) = getEmailOpenTagFor($brand, $notificationType, $recipientEmailAddress);
    
    $replyAddr =~ s/\@/\-reply\@/;
 
@@ -509,10 +511,10 @@ sub emailFile($$) {
    ## print "\n\nThis email was supposed to be sent to $recipientEmailAddress\n\n";
 
    foreach (@testRecipients) {
-      print OUT "XDFN CUSTOMERID=\"$transactionalEmailId\" *parts=1 *jobid=\"1\" *vmta=\"$vmta\" SUBJECT=\"$subject\"\n";
+      print OUT "XDFN CUSTOMERID=\"${emailListId}_${emailRecipientId}\" *parts=1 *jobid=\"${emailListId}\" *vmta=\"$vmta\" SUBJECT=\"$subject\"\n";
       print OUT "RCPT TO:<$_>\n";
    }
-	print OUT "XDFN CUSTOMERID=\"$transactionalEmailId\" *parts=1 *jobid=\"1\" *vmta=\"$vmta\" SUBJECT=\"$subject\"\n";
+	print OUT "XDFN CUSTOMERID=\"${emailListId}_${emailRecipientId}\" *parts=1 *jobid=\"${emailListId}\" *vmta=\"$vmta\" SUBJECT=\"$subject\"\n";
 	print OUT "RCPT TO:<$recipientEmailAddress>\n";
    
    print OUT <<EOT;
@@ -680,7 +682,7 @@ if (@ARGV == 4) {
 } else {
 	if ($thisScriptIsRunningInTestMode) {
 		foreach (@testFiles) {
-			my $sendTestXMLFilesViaSMTP = 0;
+			my $sendTestXMLFilesViaSMTP = 1;
 			my $outputFile = $_;
 			processXmlFile($_, $xsdFile, $modFile);
 			
@@ -810,6 +812,11 @@ sub getBrandNotificationVariables($$) {
                                                        "order-backorder-preheader",
                                                        2022922],
                "ns0:ReturnAuthNotification"        => ["4TEM4H1J",
+                                                       "guitarcenter.com merchandise return instructions",
+                                                       "mod-order-return-auth",
+                                                       "order-return-auth-preheader",
+                                                       2022923],
+               "ns1:ReturnAuthNotification"        => ["4TEM4H1J",
                                                        "guitarcenter.com merchandise return instructions",
                                                        "mod-order-return-auth",
                                                        "order-return-auth-preheader",
