@@ -42,6 +42,8 @@ my @customTags;
 my @customText;
 my @xmlDocStack;
 my $notificationType;
+my $baseNotificationType;
+my $namespace = "ns0";
 my $xmlDoc;
 my $outputDir  = ".\\output\\";
 my $transactionalEmailId;
@@ -51,6 +53,11 @@ my $recipientEmailAddress;
 my $dbhOpenTag;
 my $sthOpenTag;
 
+my $XSD_Customer 	= "Customer Notification XSD";
+my $XSD_Order 		= "Order Notification XSD";
+my $typeOfXSDFile;
+
+my $DEBUG_SKIP_DATABASE_ACCESS		= 1;
 my $DEBUG_INCLUDE_FILES             = 0;
 my $DEBUG_VARIABLE_MAP              = 0;
 my $DEBUG_HTML_START_AND_END_CUSTOM = 0;
@@ -62,6 +69,11 @@ my $GLOBAL_PAYMENT_NUMBER        = "PaymentNumber";
 if ($thisScriptIsRunningInTestMode) {
 	print "\n\nTHIS IS RUNNING IN TEST MODE\n\n" ;
 	$templateDirectory = "transactionalTest";
+} else {
+	if ($DEBUG_SKIP_DATABASE_ACCESS) {
+		$DEBUG_SKIP_DATABASE_ACCESS = 0;
+		print "\n\nDEBUG_SKIP_DATABASE_ACCESS was turned on, but the program is not in test mode.  Forcing DEBUG_SKIP_DATABASE_ACCESS off.\n\n";
+	}
 }
 
 # -----------------------------------------------------------------------------
@@ -195,6 +207,9 @@ sub replaceBracketedTags($) {
       "[TRACKING_URL]"     => "TRACKING_URL",
       "[RETURN_LABEL_URL]" => "RETURN_LABEL_URL",
       "[DOWNLOAD_LINK]"    => "DOWNLOAD_LINK",
+      "[STAR_RATING]"    	=> "STAR_RATING",
+      "[CART_URL]"	    	=> "CART_URL",
+      "[PASSWORD_URL]"	   => "PASSWORD_URL",
    );
    
    if (@xmlDocStack == 0) {      
@@ -249,12 +264,99 @@ sub overrideNotificationType($) {
    ## the same template.
 	if ($xmlString =~ /\<TransactionType\>FTC30\<\/TransactionType\>/ig) {
 		print "\tNotification OVERRIDDING to: BackOrderFTC30Notification\n";
-		$xmlString =~ s/ns0\:BackOrderNotification/ns0\:BackOrderFTC30Notification/ig
+		$xmlString =~ s/$namespace\:BackOrderNotification/$namespace\:BackOrderFTC30Notification/ig
 	} elsif ($xmlString =~ /\<TransactionType\>FTC60\<\/TransactionType\>/ig) {
 		print "\tNotification OVERRIDDING to: BackOrderFTC60Notification\n";
-		$xmlString =~ s/ns0\:BackOrderNotification/ns0\:BackOrderFTC60Notification/ig
+		$xmlString =~ s/$namespace\:BackOrderNotification/$namespace\:BackOrderFTC60Notification/ig
 	}
 	return $xmlString;
+}
+
+# -----------------------------------------------------------------------------
+sub assignXSDFileType($) {
+	my $xsdFilename = shift;
+	
+	$typeOfXSDFile = "";
+	if ($xsdFilename =~/CDMCustomerNotification/i) {
+		$typeOfXSDFile = $XSD_Customer;
+	} elsif ($xsdFilename =~/CDMOrderNotification/i) {
+		$typeOfXSDFile = $XSD_Order;
+	} else {
+		die "Could not determine the type of the XSD file";
+	}
+}
+
+# -----------------------------------------------------------------------------
+sub processingCustomerNotification() {
+	return $typeOfXSDFile eq $XSD_Customer;
+}
+
+# -----------------------------------------------------------------------------
+sub processingOrderNotification() {
+	return $typeOfXSDFile eq $XSD_Order;
+}
+
+# -----------------------------------------------------------------------------
+sub getNotificationTypeFromXML($) {
+	my ($xmlDoc) = shift;
+
+   $notificationType 		= $xmlDoc->getDocumentElement()->getName();	
+   $baseNotificationType 	= "";
+   
+   if (processingCustomerNotification()) {
+   	my $query 					= "$notificationType/*/CustomerSource";
+	   $notificationType 		= $xmlDoc->findnodes($query)->[0]->parentNode->nodeName;
+	   $baseNotificationType	= "EmailNotification";
+   	($namespace, $notificationType) = split(/\:/, $notificationType);
+   	$baseNotificationType	= "$namespace:$baseNotificationType";
+   } else {
+   	($namespace, $notificationType) = split(/\:/, $notificationType);
+   }
+	print "\t2 Got notification type ($namespace, $notificationType)\n";
+   
+   return $notificationType;
+}
+
+# -----------------------------------------------------------------------------
+sub getBrandFromXML($) {
+	my ($xmlDoc) = shift;
+
+   ## my $query = "$notificationType/OrderSource/Brand/\@brandID";
+   my $query = "$namespace:$notificationType/OrderSource/Brand/BrandName";
+   
+   if (processingCustomerNotification()) {
+   	$query = "$baseNotificationType/$namespace:$notificationType/CustomerSource/Brand/\@brandID";
+   }
+
+   my $brandName = $xmlDoc->findnodes($query);
+   
+   if ($brandName =~ /^Guitar.*Center$/i || $brandName =~ /^gc\.com$/i) {
+      $brand = "GC";
+   } else {
+   	print "Failed to get brand name with \n\t$query\n";
+	   $query = "$namespace:$notificationType/OrderSource/Brand/\@brandID";
+	   $brandName = $xmlDoc->findnodes($query);
+	   if ($brandName =~ /^GC$/i) {
+	   	$brand = "GC";
+	   } else {
+      	$brand = "Couldn't find brand with query $query";
+      }
+   }
+}
+
+# -----------------------------------------------------------------------------
+sub getRecipientEmailFromXML($) {
+	my $xmlDoc = shift;
+	my $recipientEmailAddress = "";
+   my $query 	= "$notificationType/OrderHeader/Customer/DefaultAddress/EMailAddress/Email";
+   
+   if (processingCustomerNotification()) {
+   	$query = "$baseNotificationType/EmailTo";
+   }
+   
+   $recipientEmailAddress = $xmlDoc->findnodes($query);
+   
+	return $recipientEmailAddress;
 }
 
 # -----------------------------------------------------------------------------
@@ -262,6 +364,8 @@ sub processXml($$$$) {
    my ($outputFile, $xmlString, $xsdFile, $file1) = @_;
 
 	$recipientEmailAddress = "";
+	
+	assignXSDFileType($xsdFile);
 
    print "-" x 60, "\n"; ## Processing:\n\t$xmlFile\n\t$xsdFile\n\t$file1 is present\n";
    if ( my $error = validate_xml_against_xsd($xmlString, $xsdFile) ) {
@@ -276,27 +380,13 @@ sub processXml($$$$) {
 
    my $xmlParser = XML::LibXML->new();
    $xmlDoc = $xmlParser->load_xml(string => $xmlString);
-   $notificationType = $xmlDoc->getDocumentElement()->getName();	
+   $notificationType = getNotificationTypeFromXML($xmlDoc);	
    loadVariableMap();
 
-   ## my $query = "$notificationType/OrderSource/Brand/\@brandID";
-   my $query = "$notificationType/OrderSource/Brand/BrandName";
-   my $brandName = $xmlDoc->findnodes($query);
-   if ($brandName =~ /^Guitar.*Center$/i) {
-      $brand = "GC";
-   } else {
-	   $query = "$notificationType/OrderSource/Brand/\@brandID";
-	   $brandName = $xmlDoc->findnodes($query);
-	   if ($brandName =~ /^GC$/i) {
-	   	$brand = "GC";
-	   } else {
-      	$brand = "Couldn't find brand with query $query";
-      }
-   }
+   $brand = getBrandFromXML($xmlDoc);
    validateBrandIdentifier($brand);
 
-   my $recipientEmailAddressQuery 	= "$notificationType/OrderHeader/Customer/DefaultAddress/EMailAddress/Email";
-   $recipientEmailAddress 				= $xmlDoc->findnodes($recipientEmailAddressQuery);
+   $recipientEmailAddress 	= getRecipientEmailFromXML($xmlDoc);
 
    print "\tSending notification type: <$notificationType> for brand <$brand> \n\tto <$recipientEmailAddress>\n";
    print "\tThere is no email address. Presumably this is a Contact Center order.\n" if ($recipientEmailAddress eq "");
@@ -367,7 +457,7 @@ EOT
 sub getEmailOpenTagFor($$$) {
 	my ($brand, $notificationType, $fromAddr) = @_;
 	my $openTag = "";
-	
+
 	$sthOpenTag->bind_param(1, $brand, DBI::SQL_VARCHAR); 
 	$sthOpenTag->bind_param(2, $notificationType, DBI::SQL_VARCHAR); 
 	$sthOpenTag->bind_param(3, $fromAddr, DBI::SQL_VARCHAR); 
@@ -578,48 +668,76 @@ sub getSubject($$) {
 }
 
 # -----------------------------------------------------------------------------
+# -- BEGIN Record processing driver -------------------------------------------
+# -----------------------------------------------------------------------------
 $p = new HtmlParser;
 
-find(\&findAllIncludeFiles, ".");
+find(\&findAllIncludeFiles, "./${templateDirectory}/");
 
 my $customDepth = 0;
 
 my $xmlFile = "";
 my $file1   = "";
 
-my @testFiles = (
-   "MSC-OrderConfirm-Sample-kitItems+Warranty.xml",
-   "sample_data_2014-06-10\\MSC-OrderConfirm-Sample-kitItems+Warranty+Adlucent.xml",
-   "sample_data_2014-06-10\\G2-CC_Decline-MSC.xml",
-   "sample_data_2014-06-10\\G3-OrderVerification-MSC.xml",
-   "sample_data_2014-06-06\\B8-ElectronicLicence-MSC.xml",
-   "sample_data_2014-06-06\\ElectronicLicence.xml",
-   "sample_data_2014-05-23\\E1-Return-Auth-MSC.xml",
-   "sample_data_2014-05-23\\F1-Return-Receive-MSC.xml",
-   "sample_data_2014-05-06\\MSC-ShipConfirm-kitItems_Sample_1.xml",
-   "sample_data_2014-05-06\\MSC-ShipConfirm-kitItems_Sample_2.xml",
-   "sample_data_2014-05-07\\MSC-OrderCancel-Sample_1.xml",
-   "sample_data_2014-05-16\\MSC_BackOrder_sample1.xml",
-   "sample_data_2014-05-16\\MSC_BackOrder_sample2.xml",
-   "sample_data_2014-05-22\\B7-ShipConfirm-MSC.xml",
-   "sample_data_2015-02-28\\MSC_FTC30.xml",
-   "sample_data_2015-02-28\\MSC_FTC60.xml",
+my $orderNotificationXSDFile 		= "sample_data_2015-03-12\\CDMOrderNotification.xsd";
+my $customerNotificationXSDFile 	= "sample_data_2015-03-23\\CDMCustomerNotification.xsd";
+
+my %testFiles = (
+
+   "sample_data_2015-03-23\\AbandonedCartNotification1.xml" => $customerNotificationXSDFile,
+   "sample_data_2015-03-23\\AbandonedCartNotification2.xml" => $customerNotificationXSDFile,
+   "sample_data_2015-03-23\\AccountConfirmNotification.xml" => $customerNotificationXSDFile,
+   "sample_data_2015-03-23\\AccountConfirmNotification2.xml" => $customerNotificationXSDFile,
+   "sample_data_2015-03-23\\AccountConfirmNotification3.xml" => $customerNotificationXSDFile,
+   "sample_data_2015-03-23\\AccountConfirmNotification4.xml" => $customerNotificationXSDFile,
+   "sample_data_2015-03-23\\AccountConfirmNotification5.xml" => $customerNotificationXSDFile,
+   "sample_data_2015-03-23\\AlertNotification1.xml" => $customerNotificationXSDFile,
+   "sample_data_2015-03-23\\AlertNotification2.xml" => $customerNotificationXSDFile,
+   "sample_data_2015-03-23\\AlertNotification3.xml" => $customerNotificationXSDFile,
+   "sample_data_2015-03-23\\EmailForPriceNotification.xml" => $customerNotificationXSDFile,
+   "sample_data_2015-03-23\\PasswordResetConfirmNotification.xml" => $customerNotificationXSDFile,
+   "sample_data_2015-03-23\\PasswordResetConfirmNotification2.xml" => $customerNotificationXSDFile,
+   "sample_data_2015-03-23\\PasswordResetConfirmNotification3.xml" => $customerNotificationXSDFile,
+   "sample_data_2015-03-23\\PasswordResetConfirmNotification4.xml" => $customerNotificationXSDFile,
+   "sample_data_2015-03-23\\PasswordResetConfirmNotification5.xml" => $customerNotificationXSDFile,
+   "sample_data_2015-03-23\\PasswordResetNotification.xml" => $customerNotificationXSDFile,
+   "sample_data_2015-03-23\\PasswordResetNotification2.xml" => $customerNotificationXSDFile,
+   "sample_data_2015-03-23\\PasswordResetNotification3.xml" => $customerNotificationXSDFile,
+   "sample_data_2015-03-23\\QuoteNotification1.xml" => $customerNotificationXSDFile,
+   "sample_data_2015-03-23\\QuoteNotification2.xml" => $customerNotificationXSDFile,
+   ### 
+   "MSC-OrderConfirm-Sample-kitItems+Warranty.xml" => $orderNotificationXSDFile,
+   "sample_data_2014-06-10\\MSC-OrderConfirm-Sample-kitItems+Warranty+Adlucent.xml" => $orderNotificationXSDFile,
+   "sample_data_2014-06-10\\G2-CC_Decline-MSC.xml" => $orderNotificationXSDFile,
+   "sample_data_2014-06-10\\G3-OrderVerification-MSC.xml" => $orderNotificationXSDFile,
+   "sample_data_2014-06-06\\B8-ElectronicLicence-MSC.xml" => $orderNotificationXSDFile,
+   "sample_data_2014-06-06\\ElectronicLicence.xml" => $orderNotificationXSDFile,
+   "sample_data_2014-05-23\\E1-Return-Auth-MSC.xml" => $orderNotificationXSDFile,
+   "sample_data_2014-05-23\\F1-Return-Receive-MSC.xml" => $orderNotificationXSDFile,
+   "sample_data_2014-05-06\\MSC-ShipConfirm-kitItems_Sample_1.xml" => $orderNotificationXSDFile,
+   "sample_data_2014-05-06\\MSC-ShipConfirm-kitItems_Sample_2.xml" => $orderNotificationXSDFile,
+   "sample_data_2014-05-07\\MSC-OrderCancel-Sample_1.xml" => $orderNotificationXSDFile,
+   "sample_data_2014-05-16\\MSC_BackOrder_sample1.xml" => $orderNotificationXSDFile,
+   "sample_data_2014-05-16\\MSC_BackOrder_sample2.xml" => $orderNotificationXSDFile,
+   "sample_data_2014-05-22\\B7-ShipConfirm-MSC.xml" => $orderNotificationXSDFile,
+   "sample_data_2015-02-28\\MSC_FTC30.xml" => $orderNotificationXSDFile,
+   "sample_data_2015-02-28\\MSC_FTC60.xml" => $orderNotificationXSDFile,
 );
 
 my $xsdFile = "sample_data_2015-03-12\\CDMOrderNotification.xsd";
 my $modFile = "${templateDirectory}\\coded\\base-template.html";
 
 my $sql = <<EOT;
-   select 'TransactionalEmailTest' sourceTable, * 
-     from gcprod.dbo.TransactionalEmailTest with (nolock)
-    where DateProcessedForEmail is null
-      and contents like '%<?xml%'
-      and EmailProcessResult is null
-   union
-   select 'TransactionalEmail'     sourceTable, * 
-     from gcprod.dbo.TransactionalEmail with (nolock)
-    where DateProcessedForEmail is null
-      and EmailProcessResult is null
+	select 'TransactionalEmailTest' sourceTable, * 
+	  from gcprod.dbo.TransactionalEmailTest with (nolock)
+	 where DateProcessedForEmail is null
+		and contents like '%<?xml%'
+		and EmailProcessResult is null
+	union
+	select 'TransactionalEmail'     sourceTable, * 
+	  from gcprod.dbo.TransactionalEmail with (nolock)
+	 where DateProcessedForEmail is null
+		and EmailProcessResult is null
 EOT
 
 my $dbh;
@@ -638,39 +756,43 @@ $dbh->{LongReadLen} = 512 * 1024;
 
 $dbhUpdate = DBI->connect("dbi:ODBC:$DSN") || die "Couldn't connect to database: " . DBI->errstr;
 
-$sth = $dbh->prepare($sql) || die "Couldn't prepare statement: " . $dbh->errstr;
-$sth->execute() || die "Couldn't execute statement: " . $sth->errstr;
+unless ($DEBUG_SKIP_DATABASE_ACCESS) {
+	$sth = $dbh->prepare($sql) || die "Couldn't prepare statement: " . $dbh->errstr;
+	$sth->execute() || die "Couldn't execute statement: " . $sth->errstr;
 
 
-while ($rs = $sth->fetchrow_hashref) {
-   my $sourceTable            = $rs->{'sourceTable'};
-   $transactionalEmailId      = $rs->{'TransactionalEmailId'};
-   my $xml                    = $rs->{"Contents"};
-   my $outputFile             = "${outputDir}db_$transactionalEmailId.html";
-   print "Process $outputFile\n";
+	while ($rs = $sth->fetchrow_hashref) {
+		my $sourceTable            = $rs->{'sourceTable'};
+		$transactionalEmailId      = $rs->{'TransactionalEmailId'};
+		my $xml                    = $rs->{"Contents"};
+		my $outputFile             = "${outputDir}db_$transactionalEmailId.html";
+		print "Process $outputFile\n";
 
-   $sql = "update $sourceTable set EmailProcessResult = 'A', EmailProcessDate = getdate() where TransactionalEmailId = ?";
-   my $updateStatementHandle = $dbhUpdate->prepare($sql) || die "Couldn't prepare statement: " . $dbhUpdate->errstr;
-   $updateStatementHandle->execute(($transactionalEmailId)) || die "\nCouldn't update $sourceTable for id = $transactionalEmailId\n";
+		$sql = "update $sourceTable set EmailProcessResult = 'A', EmailProcessDate = getdate() where TransactionalEmailId = ?";
+		my $updateStatementHandle = $dbhUpdate->prepare($sql) || die "Couldn't prepare statement: " . $dbhUpdate->errstr;
+		$updateStatementHandle->execute(($transactionalEmailId)) || die "\nCouldn't update $sourceTable for id = $transactionalEmailId\n";
 
-   processXml($outputFile, $xml, $xsdFile, $modFile);
-   
-   if ($sourceTable =~ /TransactionalEmailTest/i) {
-      emailFileForTestPurposes($outputFile, getSubject($brand, $notificationType));
-   } else {
-      emailFile($outputFile, getSubject($brand, $notificationType));
-   }
-   
-   $sql = "update $sourceTable set DateProcessedForEmail = getdate(), EmailProcessResult = 'S', EmailProcessDate = getdate() where TransactionalEmailId = ?";
-   $updateStatementHandle = $dbhUpdate->prepare($sql) || die "Couldn't prepare statement: " . $dbhUpdate->errstr;
-   $updateStatementHandle->execute(($transactionalEmailId)) || die "\nCouldn't update $sourceTable for id = $transactionalEmailId\n";
+		processXml($outputFile, $xml, $xsdFile, $modFile);
+
+		if ($sourceTable =~ /TransactionalEmailTest/i) {
+			emailFileForTestPurposes($outputFile, getSubject($brand, $notificationType));
+		} else {
+			emailFile($outputFile, getSubject($brand, $notificationType));
+		}
+
+		$sql = "update $sourceTable set DateProcessedForEmail = getdate(), EmailProcessResult = 'S', EmailProcessDate = getdate() where TransactionalEmailId = ?";
+		$updateStatementHandle = $dbhUpdate->prepare($sql) || die "Couldn't prepare statement: " . $dbhUpdate->errstr;
+		$updateStatementHandle->execute(($transactionalEmailId)) || die "\nCouldn't update $sourceTable for id = $transactionalEmailId\n";
+	}
+
+	if ($sth->rows == 0) {
+		print "No database records found.\n\n";
+	}
+
+	$dbh->disconnect;
+} else {
+	print "\n\n\tSkipping all database access\n\n";
 }
-
-if ($sth->rows == 0) {
-   print "No database records found.\n\n";
-}
-
-$dbh->disconnect;
 
 if (@ARGV == 4) {
    $xmlFile = $ARGV[0];
@@ -681,16 +803,20 @@ if (@ARGV == 4) {
    die "This program expects 0 or 4 arguments.\n1. XML file\n2. XSD file\n3. Base template HTML/include\n4. Output directory\n";
 } else {
 	if ($thisScriptIsRunningInTestMode) {
-		foreach (@testFiles) {
-			my $sendTestXMLFilesViaSMTP = 1;
-			my $outputFile = $_;
-			processXmlFile($_, $xsdFile, $modFile);
+		print "\nProcessing test files list\n\n";
+		foreach my $xmlFileToProcess (sort(keys(%testFiles))) {
+			$xsdFile = $testFiles{$xmlFileToProcess};
+			print "\nProcessing test file $xmlFileToProcess\n";
+			my $sendTestXMLFilesViaSMTP = 0;
+			my $outputFile = $xmlFileToProcess;
+			$brand = "GC";
+			
+			processXmlFile($xmlFileToProcess, $xsdFile, $modFile);
 			
 			if ($sendTestXMLFilesViaSMTP) {
 				$outputFile =~ s/\.xml/\.html/ig;
 				$outputFile = "output\\$outputFile";
 
-				$brand = "GC";
 				$notificationType = "Preston's Notification";
 				my $subject = "Preston's Test";
 				$transactionalEmailId = 1234;
@@ -701,6 +827,10 @@ if (@ARGV == 4) {
 	}
 }
 $outputDir .= "\\" unless ($outputDir =~ /\\$/);
+
+# -----------------------------------------------------------------------------
+# --  END  Record processing driver -------------------------------------------
+# -----------------------------------------------------------------------------
 
 
 # -----------------------------------------------------------------------------
@@ -779,62 +909,98 @@ sub getBrandNotificationVariables($$) {
    my $listId			= -1;
    my $fromAddress   = "";
    my $fromName      = "";
+   my $ns 				= $namespace;	## just wanted a short variable name
    
    my %vars = (
-      "GC" => {"ns0:OrderConfirmationNotification" => ["4TEM4H1G",
+      "GC" => {"$ns:OrderConfirmationNotification" => ["4TEM4H1G",
                                                        "Your guitarcenter.com order is placed",
                                                        "mod-order-confirmation",
                                                        "order-confirmation-preheader",
                                                        2022919],
-               "ns0:ShipConfirmationNotification"  => ["4TEM4H1H",
+               "$ns:ShipConfirmationNotification"  => ["4TEM4H1H",
                                                        "Your guitarcenter.com order has shipped",
                                                        "mod-order-shipped",
                                                        "order-shipped-preheader",
                                                        2022920],
-               "ns0:OrderCancelNotification"       => ["4TEM4H1F",
+               "$ns:OrderCancelNotification"       => ["4TEM4H1F",
                                                        "Your guitarcenter.com item cancellation",
                                                        "mod-order-cancellation",
                                                        "order-cancellation-preheader",
                                                        2022921],
-               "ns0:BackOrderFTC30Notification"    => ["4TEM4H1A",									## 2015-02-28 pcr New notification type
+               "$ns:BackOrderFTC30Notification"    => ["4TEM4H1A",									## 2015-02-28 pcr New notification type
                                                        "Your guitarcenter.com order status",
                                                        "mod-order-backorder-ftc30",
                                                        "order-backorder-preheader",
                                                        2022922],
-               "ns0:BackOrderFTC60Notification"    => ["4TEM4H1B",									## 2015-02-28 pcr New notification type
+               "$ns:BackOrderFTC60Notification"    => ["4TEM4H1B",									## 2015-02-28 pcr New notification type
                                                        "Your guitarcenter.com order status",
                                                        "mod-order-backorder-ftc60",
                                                        "order-backorder-preheader",
                                                        2022922],
-               "ns0:BackOrderNotification"         => ["4TEM4H1C",
+               "$ns:BackOrderNotification"         => ["4TEM4H1C",
                                                        "Your guitarcenter.com order status",
                                                        "mod-order-backorder",
                                                        "order-backorder-preheader",
                                                        2022922],
-               "ns0:ReturnAuthNotification"        => ["4TEM4H1J",
+               "$ns:ReturnAuthNotification"        => ["4TEM4H1J",
                                                        "guitarcenter.com merchandise return instructions",
                                                        "mod-order-return-auth",
                                                        "order-return-auth-preheader",
                                                        2022923],
-               "ns1:ReturnAuthNotification"        => ["4TEM4H1J",
+               "$ns:ReturnAuthNotification"        => ["4TEM4H1J",
                                                        "guitarcenter.com merchandise return instructions",
                                                        "mod-order-return-auth",
                                                        "order-return-auth-preheader",
                                                        2022923],
-               "ns0:ReturnReceivedNotification"    => ["4TEM4H1K",
+               "$ns:ReturnReceivedNotification"    => ["4TEM4H1K",
                                                        "Your guitarcenter.com merchandise return",
                                                        "mod-order-return-received",
                                                        "order-return-received-preheader",
                                                        2022924],
-               "ns0:ElectronicLicenseNotification" => ["4TEM4H1E",
+               "$ns:ElectronicLicenseNotification" => ["4TEM4H1E",
                                                        "Your guitarcenter.com software purchase",
                                                        "mod-order-eld",
                                                        "order-eld-preheader",
                                                        2022925],
-               "ns0:OrderVerification_CreditCardDeclineNotification" => ["4TEM4H1D",
+               "$ns:OrderVerification_CreditCardDeclineNotification" => ["4TEM4H1D",
                                                        "Your guitarcenter.com order has an issue",
                                                        "mod-order-cc-declined-fraud",
                                                        "order-cc-declined-fraud-preheader",
+                                                       2022926],
+               "$ns:AbandonedCartNotification" 		=> ["4TEM5D1BA",
+                                                       "Your GuitarCenter.com Shopping Cart",
+                                                       "mod-abandoned-cart",
+                                                       "abandoned-cart-preheader",
+                                                       2022926],
+               "$ns:AlertNotification" 				=> ["4TEM5D1BG",
+                                                       "Your GuitarCenter.com Product Alert",
+                                                       "mod-product-alert",
+                                                       "product-alert-preheader",
+                                                       2022926],
+               "$ns:EmailForPriceNotification" 		=> ["4TEM5D1BD",
+                                                       "Your GuitarCenter.com Price Inquiry",
+                                                       "mod-email-for-price",
+                                                       "email-for-price-preheader",
+                                                       2022926],
+               "$ns:PasswordResetConfirmNotification"	=> ["4TEM5D1BF",
+                                                       "Your GuitarCenter.com Password",
+                                                       "mod-password-confirmation",
+                                                       "password-confirmation-preheader",
+                                                       2022926],
+               "$ns:QuoteNotification"					=> ["4TEM5D1BC",
+                                                       "Your GuitarCenter.com Custom Quote",
+                                                       "mod-custom-quote",
+                                                       "custom-quote-preheader",
+                                                       2022926],
+               "$ns:AccountConfirmNotification"		=> ["4TEM5D1BB",
+                                                       "Your GuitarCenter.com Account Has Been Created",
+                                                       "mod-account-confirmation",
+                                                       "account-confirmation-preheader",
+                                                       2022926],
+               "$ns:PasswordResetNotification"		=> ["4TEM5D1BE",
+                                                       "Your GuitarCenter.com Password Request",
+                                                       "mod-password-reset",
+                                                       "password-reset-preheader",
                                                        2022926],
                                                        
                ##  Source codes provided by Deb 6/9/2014
@@ -855,7 +1021,7 @@ sub getBrandNotificationVariables($$) {
               }
    );
 
-   my @variables = $vars{$brand}{$notificationType};
+   my @variables = $vars{$brand}{"$ns:$notificationType"};
    $sourceCode    = $variables[0][0];
    $subject       = $variables[0][1];
    $moduleName    = $variables[0][2];
@@ -864,11 +1030,11 @@ sub getBrandNotificationVariables($$) {
    $fromAddress   = $vars{$brand}{"emailInfo"}[0];
    $fromName      = $vars{$brand}{"emailInfo"}[1];
 
-   die "\nCould not find source code    for brand ($brand) and notification type ($notificationType)\n" if ($sourceCode eq "");
-   die "\nCould not find subject line   for brand ($brand) and notification type ($notificationType)\n" if ($subject eq "");
-   die "\nCould not find module name    for brand ($brand) and notification type ($notificationType)\n" if ($moduleName eq "");
-   die "\nCould not find preheader name for brand ($brand) and notification type ($notificationType)\n" if ($preheaderName eq "");
-   die "\nCould not find list id        for brand ($brand) and notification type ($notificationType)\n" if ($listId <= 0);
+   die "\nCould not find source code    for brand ($brand) and notification type ($ns:$notificationType)\n" if ($sourceCode eq "");
+   die "\nCould not find subject line   for brand ($brand) and notification type ($ns:$notificationType)\n" if ($subject eq "");
+   die "\nCould not find module name    for brand ($brand) and notification type ($ns:$notificationType)\n" if ($moduleName eq "");
+   die "\nCould not find preheader name for brand ($brand) and notification type ($ns:$notificationType)\n" if ($preheaderName eq "");
+   die "\nCould not find list id        for brand ($brand) and notification type ($ns:$notificationType)\n" if ($listId <= 0);
    die "\nCould not find from address   for brand ($brand)\n" if ($fromAddress eq "");
    die "\nCould not find from name   for brand ($brand)\n" if ($fromName eq "");
 
@@ -879,7 +1045,7 @@ sub getBrandNotificationVariables($$) {
 sub getValueForField($;$) {
    my ($variable, $mustFindVariable) = @_;
    my $s;
-   
+
    $mustFindVariable = 1 unless(defined($mustFindVariable));
    
    if ($variable =~ /current_year/i) {
@@ -890,7 +1056,8 @@ sub getValueForField($;$) {
       my $default_variable_value = "PCR_$variable";
       $s = $default_variable_value;
       
-      my $localNotificationType = substr($notificationType, 4) . "/";
+      ##my $localNotificationType = substr($notificationType, 4) . "/";
+      my $localNotificationType = $notificationType . "/";
       $localNotificationType =~ s/\s//g;
       my $varToFind = $localNotificationType . uc($variable);
 
@@ -906,6 +1073,22 @@ sub getValueForField($;$) {
                my $node = $nodes[0];
                $s = $node->textContent();
             }
+         }
+
+         if ($s eq "" && $namespace ne "cus" && processingCustomerNotification()) {
+         	## We're at the top level and we've tried doing an xpath query, 
+         	## but found nothing so we'll try adding the namespace.
+         	my $tmpXpath = $variableMap{$varToFind};
+         	$tmpXpath =~ s|\/\/|\/\/$namespace\:|g;
+            print "SEEK 1b $tmpXpath \n\t(customDepth=$customDepth)\n\ts=$s\n" if ($DEBUG_VARIABLE_VALUES);
+            my @nodes = $xmlDoc->findnodes($tmpXpath);
+            if (@nodes > 0) {
+               my $node = $nodes[0];
+               $s = $node->textContent();
+            }
+            print "SEEK 1c $tmpXpath \n\t$s\n" if ($DEBUG_VARIABLE_VALUES);
+         } elsif ($s eq "" && $customDepth == 0) {
+            print "SEEK 1b was skipped even though \$s is empty for \n\tVar:$varToFind\n\tVal:$variableMap{$varToFind}" if ($DEBUG_VARIABLE_VALUES);
          }
       } elsif (defined($variableMap{uc($variable)})) {
          ## Second try to find the general variable
@@ -923,6 +1106,8 @@ sub getValueForField($;$) {
          ## Second try to find the general variable
          print "SEEK 3 $variable\n" if ($DEBUG_VARIABLE_VALUES);
          $s = $xmlDoc->findvalue($globalVariables{$variable});
+      } elsif ("${notificationType}/NOTIFICATIONTYPE" =~ /$varToFind/i) {
+      	$s = $notificationType;
       } else {
       	unless ($varToFind =~ /SERIAL_NUM/i) {	## 2015-02-28 pcr Allowed serial # to be blank because Deb's using it in odd places in templates
 				if ($mustFindVariable) {
@@ -941,6 +1126,7 @@ sub getValueForField($;$) {
       }
       
    }
+   ##print "Get $variable, got $s ($variableMap{uc($variable)})\n";
 
    return $s;
 }
@@ -1033,24 +1219,32 @@ sub start {
             ## print "\t\t$attributes->{'name'} is REPEATABLE\n";
             if ($attributes->{'name'} eq "product-detail") {
                my $xpathToOrderItems = "//OrderedItem";
-               if ($notificationType eq "ns0:ShipConfirmationNotification") {
+               if ($notificationType eq "ShipConfirmationNotification") {
                   $xpathToOrderItems = "//ContainerItem";
-               } elsif ($notificationType eq "ns0:OrderCancelNotification") {
+               } elsif ($notificationType eq "OrderCancelNotification") {
                   $xpathToOrderItems = "//CancelledItem";
-               } elsif ($notificationType eq "ns0:BackOrderNotification") {
+               } elsif ($notificationType eq "BackOrderNotification") {
                   $xpathToOrderItems = "//BackOrderedItem";
-               } elsif ($notificationType eq "ns0:BackOrderFTC30Notification") {	## 2015-02-28 pcr Added new type
+               } elsif ($notificationType eq "BackOrderFTC30Notification") {	## 2015-02-28 pcr Added new type
                   $xpathToOrderItems = "//BackOrderedItem";
-               } elsif ($notificationType eq "ns0:BackOrderFTC60Notification") {	## 2015-02-28 pcr Added new type
+               } elsif ($notificationType eq "BackOrderFTC60Notification") {	## 2015-02-28 pcr Added new type
                   $xpathToOrderItems = "//BackOrderedItem";
-               } elsif ($notificationType eq "ns0:ReturnAuthNotification") {
+               } elsif ($notificationType eq "ReturnAuthNotification") {
                   $xpathToOrderItems = "//ReturnAuthorizedItem";
-               } elsif ($notificationType eq "ns0:ReturnReceivedNotification") {
+               } elsif ($notificationType eq "ReturnReceivedNotification") {
                   $xpathToOrderItems = "//ReturnReceivedItem";
-               } elsif ($notificationType eq "ns0:ElectronicLicenseNotification") {
+               } elsif ($notificationType eq "ElectronicLicenseNotification") {
                   $xpathToOrderItems = "//ELDItem";
+               } elsif ($notificationType eq "AbandonedCartNotification") {
+                  $xpathToOrderItems = "//ShoppingCartItems";
+               } elsif ($notificationType eq "AlertNotification") {
+                  $xpathToOrderItems = "//InStockItems";
+               } elsif ($notificationType eq "EmailForPriceNotification") {
+                  $xpathToOrderItems = "//PriceOfItems";
+               } elsif ($notificationType eq "QuoteNotification") {
+                  $xpathToOrderItems = "//ShoppingCartItems";
                } else {
-                  if ($notificationType ne "ns0:OrderConfirmationNotification") {
+                  if ($notificationType ne "OrderConfirmationNotification") {
                      die "\nIt seems that $notificationType has not been fully setup.\n\n";
                   }
                }

@@ -580,7 +580,7 @@ sub getSubject($$) {
 # -----------------------------------------------------------------------------
 $p = new HtmlParser;
 
-find(\&findAllIncludeFiles, ".");
+find(\&findAllIncludeFiles, "./${templateDirectory}/");
 
 my $customDepth = 0;
 

@@ -34,6 +34,8 @@ PRODUCT_NUM             = //OrderedItem/EnterpriseSkuID
 UNIT_PRICE              = //OrderedItem/UnitPrice
 QUANTITY                = //OrderedItem/OrderLineTransaction/Quantity
 PRODUCT_IMAGE           = //OrderedItem/ProductImageURL
+REVIEWS_NUM            	= //OrderedItem/TotalReviews
+STOCK_STATUS           	= //OrderedItem/ItemRating
 
 KIT_ITEM_NAME           = //Component/ProductName
 KIT_QUANTITY            = //Component/OrderLineTransaction/Quantity
@@ -79,6 +81,10 @@ PAYMENT_TYPE            = //ShippingGroup/ShippingGroupTotal
 PAYMENT_AMOUNT          = //ShippingGroup/GroupTotal
 SHIPPING_NOTE           = //ShipContainerDetails/ShipNote
 
+REVIEWS_NUM            	= 0
+STOCK_STATUS           	= 0
+
+
 ## ============================================================================
 [OrderCancelNotification]
 PRODUCT_NAME            = //CancelledItem/ProductName
@@ -99,6 +105,9 @@ TOTAL                   = //CancellationTotal/GroupTotal
 
 PAYMENT_TYPE            = //PaymentType
 PAYMENT_AMOUNT          = //PaymentAmount
+
+REVIEWS_NUM            	= 0
+STOCK_STATUS           	= 0
 
 ## ============================================================================
 [BackOrderNotification]
@@ -121,6 +130,9 @@ QUANTITY                = //BackOrderedItem/OrderLineTransaction/Quantity
 KIT_ITEM_NAME           = //Component/ProductName
 KIT_QUANTITY            = //Component/OrderLineTransaction/Quantity
 
+REVIEWS_NUM            	= 0
+STOCK_STATUS           	= 0
+
 ## ============================================================================
 [BackOrderFTC30Notification]
 SHIPPING_METHOD         = //BackOrderedItemGroup/ShipMethod
@@ -141,6 +153,9 @@ QUANTITY                = //BackOrderedItem/OrderLineTransaction/Quantity
 
 KIT_ITEM_NAME           = //Component/ProductName
 KIT_QUANTITY            = //Component/OrderLineTransaction/Quantity
+
+REVIEWS_NUM            	= 0
+STOCK_STATUS           	= 0
 
 ## ============================================================================
 [BackOrderFTC60Notification]
@@ -163,6 +178,9 @@ QUANTITY                = //BackOrderedItem/OrderLineTransaction/Quantity
 KIT_ITEM_NAME           = //Component/ProductName
 KIT_QUANTITY            = //Component/OrderLineTransaction/Quantity
 
+REVIEWS_NUM            	= 0
+STOCK_STATUS           	= 0
+
 ## ============================================================================
 [ReturnAuthNotification]
 RA_NUM                  = //ReturnAuthCode
@@ -177,6 +195,9 @@ QUANTITY                = //OrderLineTransaction/Quantity
 KIT_ITEM_NAME           = //Component/ProductName
 KIT_QUANTITY            = //Component/OrderLineTransaction/Quantity
 
+REVIEWS_NUM            	= 0
+STOCK_STATUS           	= 0
+
 ## ============================================================================
 [ReturnReceivedNotification]
 RA_NUM                  = //ReturnAuthCode
@@ -188,6 +209,9 @@ UNIT_PRICE              = //ReturnReceivedItem/UnitPrice
 QUANTITY                = //ReturnReceivedItem/OrderLineTransaction/Quantity
 
 KIT_ITEM_NAME           = //Component/ProductName
+
+REVIEWS_NUM            	= 0
+STOCK_STATUS           	= 0
 
 
 ## ============================================================================
@@ -209,6 +233,79 @@ ELD_CONTACT_INFO        = //ELDItem/ELDContactInfo
 KIT_ITEM_NAME           = //Component/ProductName
 KIT_QUANTITY            = //Component/OrderLineTransaction/Quantity
 
+REVIEWS_NUM            	= 0
+STOCK_STATUS           	= 0
+
 ## ============================================================================
 [OrderVerification_CreditCardDeclineNotification]
 NOTIFICATIONTYPE        = //NotificationType
+
+
+## ============================================================================
+[AbandonedCartNotification]
+##CHECKOUT_URL        		= //NotificationType
+FIRST_NAME					= //CustomerContact/Customer/FirstName
+PRODUCT_NAME            = //ShoppingCartItems/ProductName
+PRODUCT_NUM            	= //ShoppingCartItems/EnterpriseSkuID
+UNIT_PRICE            	= //ShoppingCartItems/UnitPrice
+QUANTITY						= //ShoppingCartItems/ItemTransactionDetails/Quantity
+STAR_RATING            	= //ShoppingCartItems/ItemRating
+REVIEWS_NUM            	= //ShoppingCartItems/TotalReviews
+STOCK_STATUS           	= //ShoppingCartItems/ItemRating
+KIT_ITEM_NAME				= //ShoppingCartItems/KitMessage
+PRODUCT_IMAGE				= //ShoppingCartItems/ProductImageURL
+TOTAL							= //CartTotal/SubTotal
+
+## ============================================================================
+[AlertNotification]
+FIRST_NAME					= //CustomerContact/Customer/FirstName
+PRODUCT_NAME            = //InStockItems/ProductName
+PRODUCT_NUM            	= //InStockItems/EnterpriseSkuID
+UNIT_PRICE            	= //InStockItems/UnitPrice
+QUANTITY						= //InStockItems/ItemTransactionDetails/Quantity
+REVIEWS_NUM            	= //InStockItems/TotalReviews
+STOCK_STATUS           	= //InStockItems/ItemRating
+KIT_ITEM_NAME				= //InStockItems/KitMessage
+PRODUCT_IMAGE				= //InStockItems/ProductImageURL
+
+## ============================================================================
+[EmailForPriceNotification]
+FIRST_NAME					= //CustomerContact/Customer/FirstName
+PRODUCT_NAME            = //PriceOfItems/ProductName
+PRODUCT_NUM            	= //PriceOfItems/EnterpriseSkuID
+UNIT_PRICE            	= //PriceOfItems/UnitPrice
+QUANTITY						= //PriceOfItems/ItemTransactionDetails/Quantity
+REVIEWS_NUM            	= //PriceOfItems/TotalReviews
+STOCK_STATUS           	= //PriceOfItems/ItemRating
+KIT_ITEM_NAME				= //PriceOfItems/KitMessage
+PRODUCT_IMAGE				= //PriceOfItems/ProductImageURL
+
+## ============================================================================
+[PasswordResetConfirmNotification]
+FIRST_NAME					= //CustomerContact/Customer/FirstName
+
+## ============================================================================
+[QuoteNotification]
+FIRST_NAME					= //CustomerContact/Customer/FirstName
+QUOTE_EXPIRATION			= //QuoteNotification/AddToUrl
+PRODUCT_NAME            = //ShoppingCartItems/ProductName
+PRODUCT_NUM            	= //ShoppingCartItems/EnterpriseSkuID
+UNIT_PRICE            	= //ShoppingCartItems/UnitPrice
+QUANTITY						= //ShoppingCartItems/ItemTransactionDetails/Quantity
+STAR_RATING            	= //ShoppingCartItems/ItemRating
+REVIEWS_NUM            	= //ShoppingCartItems/TotalReviews
+STOCK_STATUS           	= //ShoppingCartItems/ItemRating
+KIT_ITEM_NAME				= //ShoppingCartItems/KitMessage
+PRODUCT_IMAGE				= //ShoppingCartItems/ProductImageURL
+TOTAL							= //CartTotal/SubTotal
+CART_URL						= //QuoteNotification/AddToUrl
+
+
+## ============================================================================
+[AccountConfirmNotification]
+FIRST_NAME					= //CustomerContact/Customer/FirstName
+
+## ============================================================================
+[PasswordResetNotification]
+FIRST_NAME					= //CustomerContact/Customer/FirstName
+PASSWORD_URL				= //PasswordResetNotification/PasswordResetURL

@@ -23,7 +23,7 @@
 					</tr>
 					<tr>
 						<td valign="top" style="padding:0 5px 0 0; font-weight:bold; font-size:14px; mso-line-height-rule:exactly; line-height:18px;">&#8226;</td>
-						<td valign="top" style="padding:0 0 0 0;">Guitar Center Gift Cards ship USPS with no tracking. Delivery may take up to 7&#8211;10 business days</td>
+						<td valign="top" style="padding:0 0 0 0;">Guitar Center Gift Cards ship USPS with no tracking. Delivery may take up to 7&#8211;10 business days.</td>
 					</tr>
 				</table><br />
 						
