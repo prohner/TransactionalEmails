@@ -9,9 +9,9 @@
     <cus:AbandonedCartNotification>
         <CustomerSource>
             <ChannelID>ChannelID0</ChannelID>
-            <Brand brandID="brandID0">
+            <Brand brandID="GC.com">
                 <BrandLogoURL>BrandLogoURL0</BrandLogoURL>
-                <BrandName>BrandName0</BrandName>
+                <BrandName>Guitar Center</BrandName>
                 <BrandURL>BrandURL0</BrandURL>
             </Brand>
             <SiteID>SiteID0</SiteID>
@@ -71,7 +71,7 @@
             <ProductImageURL>ProductImageURL0</ProductImageURL>
             <ItemTransactionDetails>
                 <TransactionType>TransactionType0</TransactionType>
-                <Quantity>Quantity0</Quantity>
+                <Quantity>0</Quantity>
                 <LineTotal>0</LineTotal>
             </ItemTransactionDetails>
             <ShipDate>2006-05-04T18:13:51.0</ShipDate>
@@ -95,12 +95,12 @@
                 <PromotionEndDate>2006-05-04T18:13:51.0</PromotionEndDate>
                 <DiscountAmount>0</DiscountAmount>
             </Promotions>
-            <ItemRating>ItemRating0</ItemRating>
-            <TotalReviews>TotalReviews0</TotalReviews>
+            <ItemRating>1</ItemRating>
+            <TotalReviews>1</TotalReviews>
             <ReadReviewsURL>ReadReviewsURL0</ReadReviewsURL>
             <WriteReviewsURL>WriteReviewsURL0</WriteReviewsURL>
             <ComponentID>ComponentID0</ComponentID>
-            <KitMessage>KitMessage0</KitMessage>
+            <KitMessage></KitMessage>
         </ShoppingCartItems>
         <ShoppingCartItems>
             <EnterpriseSkuID>EnterpriseSkuID1</EnterpriseSkuID>
@@ -110,7 +110,7 @@
             <ProductImageURL>ProductImageURL1</ProductImageURL>
             <ItemTransactionDetails>
                 <TransactionType>TransactionType1</TransactionType>
-                <Quantity>Quantity1</Quantity>
+                <Quantity>1</Quantity>
                 <LineTotal>0</LineTotal>
             </ItemTransactionDetails>
             <ShipDate>2006-05-04T18:13:51.0</ShipDate>
@@ -134,12 +134,12 @@
                 <PromotionEndDate>2006-05-04T18:13:51.0</PromotionEndDate>
                 <DiscountAmount>0</DiscountAmount>
             </Promotions>
-            <ItemRating>ItemRating1</ItemRating>
-            <TotalReviews>TotalReviews1</TotalReviews>
+            <ItemRating>1</ItemRating>
+            <TotalReviews>2</TotalReviews>
             <ReadReviewsURL>ReadReviewsURL1</ReadReviewsURL>
             <WriteReviewsURL>WriteReviewsURL1</WriteReviewsURL>
             <ComponentID>ComponentID1</ComponentID>
-            <KitMessage>KitMessage1</KitMessage>
+            <KitMessage></KitMessage>
         </ShoppingCartItems>
         <CartTotal>
             <SubTotal>0</SubTotal>

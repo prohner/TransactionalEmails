@@ -1,27 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ns0:EmailNotification xmlns:ns0="http://www.guitarcenter.com/schemas/CDM/CDMCustomerNotification" xmlns:jms1="http://www.tibco.com/namespaces/tnt/plugins/jms">
-	<NotificationType>accountConfirmationEmail</NotificationType>
-	<NotificationTrackingID>1429507938144</NotificationTrackingID>
-	<EmailTo>simona.todoroska@guitarcenter.com</EmailTo>
-	<EmailSubject>Welcome To Guitar Center</EmailSubject>
-	<ns0:AccountConfirmNotification>
-		<CustomerSource>
-			<ChannelID>web</ChannelID>
-			<Brand brandID="GC.com"/>
-			<SiteID>5</SiteID>
-		</CustomerSource>
-		<CustomerContact>
-			<Customer>
-				<FirstName>test</FirstName>
-				<LastName>test</LastName>
-				<CustomerID>21230573</CustomerID>
-				<ContactAddress>
-					<EMailAddress>
-						<Email>simona.todoroska@guitarcenter.com</Email>
-						<isPrimary>false</isPrimary>
-					</EMailAddress>
-				</ContactAddress>
-			</Customer>
-		</CustomerContact>
-	</ns0:AccountConfirmNotification>
+  <NotificationType>accountConfirmationEmail</NotificationType>
+  <NotificationTrackingID>1431678614265</NotificationTrackingID>
+  <EmailTo>edzeh77xhr.gc25879@localuser.com</EmailTo>
+  <EmailSubject>Welcome To Guitar Center</EmailSubject>
+  <ns0:AccountConfirmNotification>
+    <CustomerSource>
+      <ChannelID>web</ChannelID>
+      <Brand brandID="GC.com" />
+      <SiteID>5</SiteID>
+    </CustomerSource>
+    <CustomerContact>
+      <Customer>
+        <FirstName>Test</FirstName>
+        <LastName>Perf</LastName>
+        <CustomerID>24292697</CustomerID>
+        <ContactAddress>
+          <EMailAddress>
+            <Email>edzeh77xhr.gc25879@localuser.com</Email>
+            <isPrimary>false</isPrimary>
+          </EMailAddress>
+        </ContactAddress>
+      </Customer>
+    </CustomerContact>
+  </ns0:AccountConfirmNotification>
 </ns0:EmailNotification>

@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2013 sp1 (http://www.altova.com) by ﻿Simona (Interworks) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:cus="http://www.guitarcenter.com/schemas/CDM/CDMCustomerNotification" targetNamespace="http://www.guitarcenter.com/schemas/CDM/CDMCustomerNotification" elementFormDefault="unqualified" attributeFormDefault="unqualified">
+	<xs:element name="EmailNotification">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="NotificationType" type="xs:string"/>
+				<xs:element name="NotificationTrackingID" type="xs:string"/>
+				<xs:element name="EmailTo" type="xs:string"/>
+				<xs:element name="EmailSubject" type="xs:string"/>
+				<xs:element name="ReceipientName" type="xs:string"  minOccurs="0" />
+				<xs:choice>
+					<xs:element ref="cus:AbandonedCartNotification"/>
+					<xs:element ref="cus:AccountConfirmNotification"/>
+					<xs:element ref="cus:PasswordResetNotification"/>
+					<xs:element ref="cus:PasswordResetConfirmNotification"/>
+					<xs:element ref="cus:WishlistNotification"/>
+					<xs:element ref="cus:AlertNotification"/>
+					<xs:element ref="cus:EmailForPriceNotification"/>
+					<xs:element ref="cus:TellYourFriendNotification"/>
+					<xs:element ref="cus:QuoteNotification"/>
+				</xs:choice>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="ItemType">
+		<xs:sequence>
+			<xs:element name="EnterpriseSkuID" type="xs:string"/>
+			<xs:element name="ProductName" type="xs:string"/>
+			<xs:element name="ProductDescription" type="xs:string"/>
+			<xs:element name="ProductURL" type="xs:string" minOccurs="0"/>
+			<xs:element name="ProductImageURL" type="xs:string" minOccurs="0"/>
+			<xs:element name="ItemTransactionDetails" type="cus:ItemTransactionType"/>
+			<xs:element name="ShipDate" type="xs:dateTime" minOccurs="0"/>
+			<xs:element name="UnitPrice" type="xs:decimal" minOccurs="0"/>
+			<xs:element name="ExtPrice" type="xs:decimal" minOccurs="0"/>
+			<xs:element name="ShipAndHandlingCost" type="xs:decimal" minOccurs="0"/>
+			<xs:element name="Tax" type="xs:decimal" minOccurs="0"/>
+			<xs:element name="MiscCharges" type="xs:decimal" minOccurs="0"/>
+			<xs:element name="Discount" type="xs:decimal" minOccurs="0"/>
+			<xs:element name="Promotions" type="cus:PromotionType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="ItemRating" type="xs:int" minOccurs="0"/>
+			<xs:sequence minOccurs="0">
+				<xs:element name="TotalReviews" type="xs:int" minOccurs="0"/>
+				<xs:element name="ReadReviewsURL" type="xs:string" minOccurs="0"/>
+				<xs:element name="WriteReviewsURL" type="xs:string" minOccurs="0"/>
+			</xs:sequence>
+			<xs:element name="RecommendedAccessories" type="cus:ItemType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="ComponentID" type="xs:string" minOccurs="0"/>
+			<xs:element name="KitMessage" type="xs:string" minOccurs="0"/>
+			<xs:element name="Component" type="cus:ItemType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="WarrantyComponent" type="cus:ItemType" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ItemTransactionType">
+		<xs:sequence>
+			<xs:element name="TransactionType" type="xs:string" minOccurs="0"/>
+			<xs:element name="Quantity" type="xs:int" minOccurs="0"/>
+			<xs:element name="LineTotal" type="xs:int" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="TransactionTotalType">
+		<xs:sequence>
+			<xs:element name="SubTotal" type="xs:decimal" minOccurs="0"/>
+			<xs:element name="TotalShipAndHandlingCost" type="xs:decimal" minOccurs="0"/>
+			<xs:element name="TotalTax" type="xs:decimal" minOccurs="0"/>
+			<xs:element name="TotalMiscCharges" type="xs:decimal" minOccurs="0"/>
+			<xs:element name="TotalDiscount" type="xs:decimal" minOccurs="0"/>
+			<xs:element name="GroupTotal" type="xs:decimal" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="PromotionType">
+		<xs:sequence>
+			<xs:element name="Promotion" type="xs:string" minOccurs="1"/>
+			<xs:element name="PromotionDescription" type="xs:string" minOccurs="0"/>
+			<xs:element name="PromotionStartDate" type="xs:dateTime" minOccurs="0"/>
+			<xs:element name="PromotionEndDate" type="xs:dateTime" minOccurs="0"/>
+			<xs:element name="DiscountAmount" type="xs:decimal" minOccurs="1"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="AddressType">
+		<xs:sequence>
+			<xs:element name="AddressType" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="FirstName" type="xs:string" minOccurs="0"/>
+			<xs:element name="LastName" type="xs:string" minOccurs="0"/>
+			<xs:element name="MiddleInitial" type="xs:string" minOccurs="0"/>
+			<xs:element name="CompanyName" type="xs:string" minOccurs="0"/>
+			<xs:element name="AddressLine1" type="xs:string" minOccurs="0"/>
+			<xs:element name="AddressLine2" type="xs:string" minOccurs="0"/>
+			<xs:element name="AddressLine3" type="xs:string" minOccurs="0"/>
+			<xs:element name="AddressLine4" type="xs:string" minOccurs="0"/>
+			<xs:element name="City" type="xs:string" minOccurs="0"/>
+			<xs:element name="State" type="xs:string" minOccurs="0"/>
+			<xs:element name="CountryCode" type="xs:string" minOccurs="0"/>
+			<xs:element name="CountryName" type="xs:string" minOccurs="0"/>
+			<xs:element name="PostalCode" type="xs:string" minOccurs="0"/>
+			<xs:element name="TelephoneNumber" type="cus:PhoneType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="EMailAddress" type="cus:EmailType" minOccurs="1" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="EmailType">
+		<xs:sequence>
+			<xs:element name="Type" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="Email" type="xs:string" minOccurs="1"/>
+			<xs:element name="isPrimary" type="xs:boolean"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="PhoneType">
+		<xs:sequence>
+			<xs:element name="Type" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="Phone" type="xs:string" minOccurs="0"/>
+			<xs:element name="isPrimary" type="xs:boolean"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="CustomerDataType">
+		<xs:sequence>
+			<xs:element name="FirstName" type="xs:string" minOccurs="0"/>
+			<xs:element name="LastName" type="xs:string" minOccurs="0"/>
+			<xs:element name="MiddleName" type="xs:string" minOccurs="0"/>
+			<xs:element name="Birthday" type="xs:date" minOccurs="0"/>
+			<xs:element name="LoyaltyMemberNumber" type="xs:string" minOccurs="0"/>
+			<xs:element name="CustomerID" type="xs:string" minOccurs="0"/>
+			<xs:element name="CustomerPO" type="xs:string" minOccurs="0"/>
+			<xs:element name="TaxExemptID" type="xs:string" minOccurs="0"/>
+			<xs:element name="CustomerCreationDate" type="xs:string" minOccurs="0"/>
+			<xs:element name="Preference" minOccurs="0" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="xs:string">
+							<xs:attribute name="name" type="xs:string"/>
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="ContactAddress" type="cus:AddressType" minOccurs="1"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="BrandType">
+		<xs:sequence>
+			<xs:element name="BrandLogoURL" type="xs:string" minOccurs="0"/>
+			<xs:element name="BrandName" type="xs:string" minOccurs="0"/>
+			<xs:element name="BrandURL" type="xs:string" minOccurs="0"/>
+		</xs:sequence>
+		<xs:attribute name="brandID" type="xs:string"/>
+	</xs:complexType>
+	<xs:complexType name="baseCustomerNotification">
+		<xs:sequence>
+			<xs:element name="CustomerSource">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="ChannelID" type="xs:string"/>
+						<xs:element name="Brand" type="cus:BrandType"/>
+						<xs:element name="SiteID" type="xs:string" minOccurs="0"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="CustomerContact">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Customer" type="cus:CustomerDataType"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="AbandonedCartNotification">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="cus:baseCustomerNotification">
+					<xs:sequence>
+						<xs:element name="DefaultCurrency" type="xs:string" minOccurs="1"/>
+						<xs:element name="ShoppingCartItems" type="cus:ItemType" minOccurs="1" maxOccurs="unbounded"/>
+						<xs:element name="CartTotal" type="cus:TransactionTotalType"/>
+						<xs:element name="CartUrl" type="xs:string" minOccurs="1"/>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="AccountConfirmNotification">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="cus:baseCustomerNotification"/>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="PasswordResetNotification">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="cus:baseCustomerNotification">
+					<xs:sequence>
+						<xs:element name="PasswordResetURL" type="xs:string"/>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="PasswordResetConfirmNotification">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="cus:baseCustomerNotification"/>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="WishlistNotification">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="cus:baseCustomerNotification">
+					<xs:sequence>
+						<xs:element name="DefaultCurrency" type="xs:string" minOccurs="1"/>
+						<xs:element name="WishListItems" type="cus:ItemType" minOccurs="1" maxOccurs="unbounded"/>
+						<xs:element name="WishListTotal" type="cus:TransactionTotalType"/>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="AlertNotification">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="cus:baseCustomerNotification">
+					<xs:sequence>
+						<xs:element name="DefaultCurrency" type="xs:string" minOccurs="1"/>
+						<xs:element name="InStockItems" type="cus:ItemType" minOccurs="1" maxOccurs="unbounded"/>
+						<xs:element name="InStockTotal" type="cus:TransactionTotalType"/>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="EmailForPriceNotification">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="cus:baseCustomerNotification">
+					<xs:sequence>
+						<xs:element name="DefaultCurrency" type="xs:string" minOccurs="1"/>
+						<xs:element name="PriceOfItems" type="cus:ItemType" minOccurs="1" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="TellYourFriendNotification">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="cus:baseCustomerNotification">
+					<xs:sequence>
+						<xs:element name="DefaultCurrency" type="xs:string" minOccurs="1"/>
+						<xs:element name="RecentlyPurchasedItems" type="cus:ItemType" minOccurs="1" maxOccurs="unbounded"/>
+						<xs:element name="PurchaseTotal" type="cus:TransactionTotalType"/>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="QuoteNotification">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="cus:baseCustomerNotification">
+					<xs:sequence>
+						<xs:element name="DefaultCurrency" type="xs:string" minOccurs="1"/>
+						<xs:element name="ShoppingCartItems" type="cus:ItemType" minOccurs="1" maxOccurs="unbounded"/>
+						<xs:element name="CartTotal" type="cus:TransactionTotalType"/>
+						<xs:element name="AddCartToUrl" type="xs:string" minOccurs="1"/>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

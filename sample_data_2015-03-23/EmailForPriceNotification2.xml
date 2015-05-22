@@ -1,42 +1,41 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <ns0:EmailNotification xmlns:ns0="http://www.guitarcenter.com/schemas/CDM/CDMCustomerNotification" xmlns:jms1="http://www.tibco.com/namespaces/tnt/plugins/jms">
-	<NotificationType>emailForPriceEmail</NotificationType>
-	<NotificationTrackingID>1428958621151</NotificationTrackingID>
-	<EmailTo>simona.todoroska@guitarcenter.com</EmailTo>
-	<EmailSubject>Welcome To Guitar Center</EmailSubject>
-	<ns0:EmailForPriceNotification>
-		<CustomerSource>
-			<ChannelID>web</ChannelID>
-			<Brand brandID="GC.com"/>
-			<SiteID>5</SiteID>
-		</CustomerSource>
-		<CustomerContact>
-			<Customer>
-				<FirstName>geetika wadhwani</FirstName>
-				<LastName>geetika wadhwani</LastName>
-				<CustomerID>simona.todoroska@guitarcenter.com</CustomerID>
-				<ContactAddress>
-					<EMailAddress>
-						<Email>simona.todoroska@guitarcenter.com</Email>
-						<isPrimary>false</isPrimary>
-					</EMailAddress>
-				</ContactAddress>
-			</Customer>
-		</CustomerContact>
-		<DefaultCurrency>USD</DefaultCurrency>
-		<PriceOfItems>
-			<EnterpriseSkuID>H93689000001000</EnterpriseSkuID>
-			<ProductName>Gibson Custom 1959 Les Paul Standard Historic Reissue Gloss Lemonburst</ProductName>
-			<ProductDescription>Gibson Custom 1959 Les Paul Standard Historic Reissue Gloss Lemonburst</ProductDescription>
-			<ProductURL>http://tl2-www.guitarcenter.com/Gibson-Custom/1959-Les-Paul-Standard-Historic-Reissue-Gloss-Lemonburst-H93689000001000.gc</ProductURL>
-			<ProductImageURL>http://media.musiciansfriend.com/is/image/MMGS7/H93689000001000-00-120x120.jpg</ProductImageURL>
-			<ItemTransactionDetails>
-				<TransactionType>EmailForPrice</TransactionType>
-				<Quantity>1</Quantity>
-				<LineTotal>0</LineTotal>
-			</ItemTransactionDetails>
-			<UnitPrice>6299</UnitPrice>
-			<ItemRating>0</ItemRating>
-		</PriceOfItems>
-	</ns0:EmailForPriceNotification>
+  <NotificationType>emailForPriceEmail</NotificationType>
+  <NotificationTrackingID>1431952505006</NotificationTrackingID>
+  <EmailTo>saikiran.tallam@guitarcenter.com</EmailTo>
+  <EmailSubject>Welcome To Guitar Center</EmailSubject>
+  <ns0:EmailForPriceNotification>
+    <CustomerSource>
+      <ChannelID>web</ChannelID>
+      <Brand brandID="GC.com" />
+      <SiteID>5</SiteID>
+    </CustomerSource>
+    <CustomerContact>
+      <Customer>
+        <FirstName>Sai kiran</FirstName>
+        <LastName>Sai kiran</LastName>
+        <CustomerID>saikiran.tallam@guitarcenter.com</CustomerID>
+        <ContactAddress>
+          <EMailAddress>
+            <Email>saikiran.tallam@guitarcenter.com</Email>
+            <isPrimary>false</isPrimary>
+          </EMailAddress>
+        </ContactAddress>
+      </Customer>
+    </CustomerContact>
+    <DefaultCurrency>USD</DefaultCurrency>
+    <PriceOfItems>
+      <EnterpriseSkuID>J05632000002002</EnterpriseSkuID>
+      <ProductName>ESP E-II Eclipse Electric Guitar Marine Blue Quilted Maple</ProductName>
+      <ProductDescription>ESP E-II Eclipse Electric Guitar Marine Blue Quilted Maple</ProductDescription>
+      <ProductURL>http://tl2-www.guitarcenter.com/ESP/E-II-Eclipse-Electric-Guitar-Marine-Blue-Quilted-Maple-J05632000002002.gc</ProductURL>
+      <ProductImageURL>http://media.musiciansfriend.com/is/image/MMGS7/J05632000002002-00-120x120.jpg</ProductImageURL>
+      <ItemTransactionDetails>
+        <TransactionType>EmailForPrice</TransactionType>
+        <Quantity>1</Quantity>
+        <LineTotal>0</LineTotal>
+      </ItemTransactionDetails>
+      <UnitPrice>1699</UnitPrice>
+      <ItemRating>10</ItemRating>
+    </PriceOfItems>
+  </ns0:EmailForPriceNotification>
 </ns0:EmailNotification>

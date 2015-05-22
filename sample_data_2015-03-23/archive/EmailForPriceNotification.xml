@@ -6,12 +6,12 @@
     <NotificationTrackingID>NotificationTrackingID0</NotificationTrackingID>
     <EmailTo>EmailTo0</EmailTo>
     <EmailSubject>EmailSubject0</EmailSubject>
-    <cus:AbandonedCartNotification>
+    <cus:EmailForPriceNotification>
         <CustomerSource>
             <ChannelID>ChannelID0</ChannelID>
-            <Brand brandID="brandID0">
+            <Brand brandID="GC.com">
                 <BrandLogoURL>BrandLogoURL0</BrandLogoURL>
-                <BrandName>BrandName0</BrandName>
+                <BrandName>Guitar Center</BrandName>
                 <BrandURL>BrandURL0</BrandURL>
             </Brand>
             <SiteID>SiteID0</SiteID>
@@ -63,7 +63,7 @@
             </Customer>
         </CustomerContact>
         <DefaultCurrency>DefaultCurrency0</DefaultCurrency>
-        <ShoppingCartItems>
+        <PriceOfItems>
             <EnterpriseSkuID>EnterpriseSkuID0</EnterpriseSkuID>
             <ProductName>ProductName0</ProductName>
             <ProductDescription>ProductDescription0</ProductDescription>
@@ -71,7 +71,7 @@
             <ProductImageURL>ProductImageURL0</ProductImageURL>
             <ItemTransactionDetails>
                 <TransactionType>TransactionType0</TransactionType>
-                <Quantity>Quantity0</Quantity>
+                <Quantity>3</Quantity>
                 <LineTotal>0</LineTotal>
             </ItemTransactionDetails>
             <ShipDate>2006-05-04T18:13:51.0</ShipDate>
@@ -95,14 +95,14 @@
                 <PromotionEndDate>2006-05-04T18:13:51.0</PromotionEndDate>
                 <DiscountAmount>0</DiscountAmount>
             </Promotions>
-            <ItemRating>ItemRating0</ItemRating>
-            <TotalReviews>TotalReviews0</TotalReviews>
+            <ItemRating>3</ItemRating>
+            <TotalReviews>243</TotalReviews>
             <ReadReviewsURL>ReadReviewsURL0</ReadReviewsURL>
             <WriteReviewsURL>WriteReviewsURL0</WriteReviewsURL>
             <ComponentID>ComponentID0</ComponentID>
             <KitMessage>KitMessage0</KitMessage>
-        </ShoppingCartItems>
-        <ShoppingCartItems>
+        </PriceOfItems>
+        <PriceOfItems>
             <EnterpriseSkuID>EnterpriseSkuID1</EnterpriseSkuID>
             <ProductName>ProductName1</ProductName>
             <ProductDescription>ProductDescription1</ProductDescription>
@@ -110,7 +110,7 @@
             <ProductImageURL>ProductImageURL1</ProductImageURL>
             <ItemTransactionDetails>
                 <TransactionType>TransactionType1</TransactionType>
-                <Quantity>Quantity1</Quantity>
+                <Quantity>4</Quantity>
                 <LineTotal>0</LineTotal>
             </ItemTransactionDetails>
             <ShipDate>2006-05-04T18:13:51.0</ShipDate>
@@ -134,20 +134,20 @@
                 <PromotionEndDate>2006-05-04T18:13:51.0</PromotionEndDate>
                 <DiscountAmount>0</DiscountAmount>
             </Promotions>
-            <ItemRating>ItemRating1</ItemRating>
-            <TotalReviews>TotalReviews1</TotalReviews>
+            <ItemRating>6</ItemRating>
+            <TotalReviews>56</TotalReviews>
             <ReadReviewsURL>ReadReviewsURL1</ReadReviewsURL>
             <WriteReviewsURL>WriteReviewsURL1</WriteReviewsURL>
             <ComponentID>ComponentID1</ComponentID>
             <KitMessage>KitMessage1</KitMessage>
-        </ShoppingCartItems>
-        <CartTotal>
+        </PriceOfItems>
+        <PriceTotal>
             <SubTotal>0</SubTotal>
             <TotalShipAndHandlingCost>0</TotalShipAndHandlingCost>
             <TotalTax>0</TotalTax>
             <TotalMiscCharges>0</TotalMiscCharges>
             <TotalDiscount>0</TotalDiscount>
             <GroupTotal>0</GroupTotal>
-        </CartTotal>
-    </cus:AbandonedCartNotification>
+        </PriceTotal>
+    </cus:EmailForPriceNotification>
 </cus:EmailNotification>

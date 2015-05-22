@@ -17,12 +17,14 @@
 					</tr>
 				</table></td>
 		</tr>
+<custom type="field" name="REVIEWS_NUM" optional="yes" minvalue="1">
 		<custom type="field" name="NotificationType" optional="yes" mustEqual="AbandonedCartNotification">
 			<tr>
 				<td align="center" width="120" style="padding:0 0 5px 0; font-family:arial,helvetica,sans-serif; font-size:11px; line-height:15px; -webkit-text-size-adjust:none;"><custom type="image" src="[STAR_RATING]" alt="" width="70" border="0" style="display:block; height:auto;" /> <custom type="field" name="REVIEWS_NUM" optional="yes" minvalue="1">&nbsp;(<custom type="field" name="REVIEWS_NUM" format="number" />)</custom></td>
 				<td width="460" style="padding:1px 0 5px 16px; font-family:arial,helvetica,sans-serif; font-size:12px; font-weight:bold; color:#219531; line-height:16px; -webkit-text-size-adjust:none;"><custom type="field" name="STOCK_STATUS" /></td>
 			</tr>
 		</custom>		
+</custom>		
       	<custom type="field" name="KIT_ITEM_NAME" optional="yes">
          		<tr>
             		<td width="100%" colspan="2" style="padding:2px 5px 10px 10px;">

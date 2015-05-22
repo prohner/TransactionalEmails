@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ns2:EmailNotification xmlns:ns2="http://www.guitarcenter.com/schemas/CDM/CDMCustomerNotification">
+	<NotificationType>tellAFriendEmail</NotificationType>
+	<NotificationTrackingID>1431994655181</NotificationTrackingID>
+	<EmailTo>rajanikanth@44444.com</EmailTo>
+	<EmailSubject>Welcome To Guitar Center</EmailSubject>
+	<ReceipientName>raj@rrrr.com</ReceipientName>
+	<ns2:TellYourFriendNotification>
+		<CustomerSource>
+			<ChannelID>web</ChannelID>
+			<Brand brandID="GC.com"/>
+			<SiteID>5</SiteID>
+		</CustomerSource>
+		<CustomerContact>
+			<Customer>
+				<FirstName>robben</FirstName>
+				<LastName>luo</LastName>
+				<CustomerID>280003</CustomerID>
+				<ContactAddress>
+					<EMailAddress>
+						<Email>laytonluo@aaxischina.com</Email>
+						<isPrimary>false</isPrimary>
+					</EMailAddress>
+				</ContactAddress>
+			</Customer>
+		</CustomerContact>
+		<DefaultCurrency>USD</DefaultCurrency>
+		<RecentlyPurchasedItems>
+			<EnterpriseSkuID>511141000064000</EnterpriseSkuID>
+			<ProductName>Fender Classic Series '72 Telecaster Deluxe Electric Guitar 3-Tone Sunburst  New</ProductName>
+			<ProductDescription>Fender Classic Series '72 Telecaster Deluxe Electric Guitar 3-Tone Sunburst  New</ProductDescription>
+			<ProductURL>http://tl2-www.guitarcenter.com/New/Classic-Series-72-Telecaster-Deluxe-Electric-Guitar-3-Tone-Sunburst-511141000064000.gc</ProductURL>
+			<ProductImageURL>http://media.musiciansfriend.com/is/image/MMGS7/511141000064000-00-120x120.jpg</ProductImageURL>
+			<ItemTransactionDetails>
+				<TransactionType>cart</TransactionType>
+				<Quantity>1</Quantity>
+				<LineTotal>749</LineTotal>
+			</ItemTransactionDetails>
+			<UnitPrice>749.99</UnitPrice>
+			<ItemRating>0</ItemRating>
+			<TotalReviews>0</TotalReviews>
+		</RecentlyPurchasedItems>
+		<RecentlyPurchasedItems>
+			<EnterpriseSkuID>H02694000001000</EnterpriseSkuID>
+			<ProductName>Ibanez RGD321 Electric Guitar BLACK FLAT  New</ProductName>
+			<ProductDescription>Ibanez RGD321 Electric Guitar BLACK FLAT  New</ProductDescription>
+			<ProductURL>http://tl2-www.guitarcenter.com/Ibanez/RGD321-Electric-Guitar-BLACK-FLAT-H02694000001000.gc</ProductURL>
+			<ProductImageURL>http://media.musiciansfriend.com/is/image/MMGS7/H02694000001000-00-120x120.jpg</ProductImageURL>
+			<ItemTransactionDetails>
+				<TransactionType>cart</TransactionType>
+				<Quantity>1</Quantity>
+				<LineTotal>1234</LineTotal>
+			</ItemTransactionDetails>
+			<UnitPrice>1234.64</UnitPrice>
+			<ItemRating>0</ItemRating>
+			<TotalReviews>0</TotalReviews>
+		</RecentlyPurchasedItems>
+		<RecentlyPurchasedItems>
+			<EnterpriseSkuID>514651000005000</EnterpriseSkuID>
+			<ProductName>Gretsch Guitars G5122 Double Cutaway Electromatic Hollowbody Electric Guitar Red  New</ProductName>
+			<ProductDescription>Gretsch Guitars G5122 Double Cutaway Electromatic Hollowbody Electric Guitar Red  New</ProductDescription>
+			<ProductURL>http://tl2-www.guitarcenter.com/Gretsch-Guitars/G5122-Double-Cutaway-Electromatic-Hollowbody-Electric-Guitar-Red-514651000005000.gc</ProductURL>
+			<ProductImageURL>http://media.musiciansfriend.com/is/image/MMGS7/514651000005000-00-120x120.jpg</ProductImageURL>
+			<ItemTransactionDetails>
+				<TransactionType>cart</TransactionType>
+				<Quantity>1</Quantity>
+				<LineTotal>749</LineTotal>
+			</ItemTransactionDetails>
+			<UnitPrice>749.99</UnitPrice>
+			<ItemRating>0</ItemRating>
+			<TotalReviews>0</TotalReviews>
+		</RecentlyPurchasedItems>
+		<RecentlyPurchasedItems>
+			<EnterpriseSkuID>512235000002000</EnterpriseSkuID>
+			<ProductName>Jackson KVX10 King V Electric Guitar (2008 Model) Transparent Blue  New</ProductName>
+			<ProductDescription>Jackson KVX10 King V Electric Guitar (2008 Model) Transparent Blue  New</ProductDescription>
+			<ProductURL>http://tl2-www.guitarcenter.com/Jackson/KVX10-King-V-Electric-Guitar-2008-Model-Transparent-Blue-512235000002000.gc</ProductURL>
+			<ProductImageURL>http://media.musiciansfriend.com/is/image/MMGS7/512235000002000-00-120x120.jpg</ProductImageURL>
+			<ItemTransactionDetails>
+				<TransactionType>cart</TransactionType>
+				<Quantity>1</Quantity>
+				<LineTotal>2000</LineTotal>
+			</ItemTransactionDetails>
+			<UnitPrice>2000.0</UnitPrice>
+			<ItemRating>0</ItemRating>
+			<TotalReviews>0</TotalReviews>
+		</RecentlyPurchasedItems>
+		<RecentlyPurchasedItems>
+			<EnterpriseSkuID>518351000291000</EnterpriseSkuID>
+			<ProductName>Epiphone Les Paul Studio Electric Guitar Arctic Blue  New</ProductName>
+			<ProductDescription>Epiphone Les Paul Studio Electric Guitar Arctic Blue  New</ProductDescription>
+			<ProductURL>http://tl2-www.guitarcenter.com/Restock/Epiphone/Les-Paul-Studio-Electric-Guitar-Arctic-Blue-518351000291000.gc</ProductURL>
+			<ProductImageURL>http://media.musiciansfriend.com/is/image/MMGS7/518351000291000-00-120x120.jpg</ProductImageURL>
+			<ItemTransactionDetails>
+				<TransactionType>cart</TransactionType>
+				<Quantity>1</Quantity>
+				<LineTotal>565</LineTotal>
+			</ItemTransactionDetails>
+			<UnitPrice>565.39</UnitPrice>
+			<ItemRating>0</ItemRating>
+			<TotalReviews>0</TotalReviews>
+		</RecentlyPurchasedItems>
+		<RecentlyPurchasedItems>
+			<EnterpriseSkuID>517914000067000</EnterpriseSkuID>
+			<ProductName>Fender Custom Shop Custom Shop '60s Stratocaster Relic LTD Limited Edition Electric Guitar Black over 3-tone suburst  New</ProductName>
+			<ProductDescription>Fender Custom Shop Custom Shop '60s Stratocaster Relic LTD Limited Edition Electric Guitar Black over 3-tone suburst  New</ProductDescription>
+			<ProductURL>http://tl2-www.guitarcenter.com/Fender-Custom-Shop/Custom-Shop-60s-Stratocaster-Relic-LTD-Limited-Edition-Electric-Guitar-Black-over-3-tone-suburst-517914000067000.gc</ProductURL>
+			<ProductImageURL>http://media.musiciansfriend.com/is/image/MMGS7/517914000067000-00-120x120.jpg</ProductImageURL>
+			<ItemTransactionDetails>
+				<TransactionType>cart</TransactionType>
+				<Quantity>1</Quantity>
+				<LineTotal>2423</LineTotal>
+			</ItemTransactionDetails>
+			<UnitPrice>2423.52</UnitPrice>
+			<ItemRating>0</ItemRating>
+			<TotalReviews>0</TotalReviews>
+		</RecentlyPurchasedItems>
+		<RecentlyPurchasedItems>
+			<EnterpriseSkuID>481909000007000</EnterpriseSkuID>
+			<ProductName>Daisy Rock Debutante Rock Candy Electric Guitar Cosmic Purple  New</ProductName>
+			<ProductDescription>Daisy Rock Debutante Rock Candy Electric Guitar Cosmic Purple  New</ProductDescription>
+			<ProductURL>http://tl2-www.guitarcenter.com/Daisy-Rock/Debutante-Rock-Candy-Electric-Guitar-Cosmic-Purple-481909000007000.gc</ProductURL>
+			<ProductImageURL>http://media.musiciansfriend.com/is/image/MMGS7/481909000007000-00-120x120.jpg</ProductImageURL>
+			<ItemTransactionDetails>
+				<TransactionType>cart</TransactionType>
+				<Quantity>2</Quantity>
+				<LineTotal>399</LineTotal>
+			</ItemTransactionDetails>
+			<UnitPrice>199.99</UnitPrice>
+			<ItemRating>0</ItemRating>
+			<TotalReviews>0</TotalReviews>
+		</RecentlyPurchasedItems>
+		<PurchaseTotal>
+			<SubTotal>7973.51</SubTotal>
+			<TotalTax>66.56</TotalTax>
+			<TotalDiscount>0.0</TotalDiscount>
+			<GroupTotal>8040.070000000001</GroupTotal>
+		</PurchaseTotal>
+	</ns2:TellYourFriendNotification>
+</ns2:EmailNotification>

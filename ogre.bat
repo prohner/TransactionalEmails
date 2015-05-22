@@ -615,6 +615,7 @@ my $sql = <<EOT;
     where DateProcessedForEmail is null
       and contents like '%<?xml%'
       and EmailProcessResult is null
+      and contents like '%CDMOrderNotification%'
    union
    select 'TransactionalEmail'     sourceTable, * 
      from gcprod.dbo.TransactionalEmail with (nolock)
@@ -634,7 +635,7 @@ $dbhOpenTag = DBI->connect("dbi:ODBC:$DSN_GCEMRDB") || die "Couldn't connect to 
 $sthOpenTag = $dbhOpenTag->prepare("exec GetRecipientInfoForTransactionalEmailing ?, ?, ?") || die "Couldn't prepare statement: " . $dbhOpenTag->errstr;
 
 $dbh = DBI->connect("dbi:ODBC:$DSN") || die "Couldn't connect to database: " . DBI->errstr;
-$dbh->{LongReadLen} = 512 * 1024;
+$dbh->{LongReadLen} = 1024 * 1024;
 
 $dbhUpdate = DBI->connect("dbi:ODBC:$DSN") || die "Couldn't connect to database: " . DBI->errstr;
 

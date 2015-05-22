@@ -309,3 +309,19 @@ FIRST_NAME					= //CustomerContact/Customer/FirstName
 [PasswordResetNotification]
 FIRST_NAME					= //CustomerContact/Customer/FirstName
 PASSWORD_URL				= //PasswordResetNotification/PasswordResetURL
+
+## ============================================================================
+[TellYourFriendNotification]
+FIRST_NAME					= //RecipientName
+BILLING_FNAME				= //CustomerContact/Customer/FirstName
+BILLING_LNAME				= //CustomerContact/Customer/LastName
+#BILLING_EMAIL				= //CustomerContact/Customer/LastName
+##BILLING_EMAIL				= //TellYourFriendNotification/CustomerContact/Customer/ContactAddress/EMailAddress/Email
+PRODUCT_NAME            = //RecentlyPurchasedItems/ProductName
+PRODUCT_NUM            	= //RecentlyPurchasedItems/EnterpriseSkuID
+UNIT_PRICE            	= //RecentlyPurchasedItems/UnitPrice
+QUANTITY						= //RecentlyPurchasedItems/ItemTransactionDetails/Quantity
+REVIEWS_NUM            	= //RecentlyPurchasedItems/TotalReviews
+STOCK_STATUS           	= //RecentlyPurchasedItems/ItemRating
+KIT_ITEM_NAME				= //RecentlyPurchasedItems/KitMessage
+PRODUCT_IMAGE				= //RecentlyPurchasedItems/ProductImageURL

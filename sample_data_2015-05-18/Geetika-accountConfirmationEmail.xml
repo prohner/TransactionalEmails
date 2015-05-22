@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ns0:EmailNotification xmlns:ns0="http://www.guitarcenter.com/schemas/CDM/CDMCustomerNotification">
+	<NotificationType>accountConfirmationEmail</NotificationType>
+	<NotificationTrackingID>1432231209691</NotificationTrackingID>
+	<EmailTo>geetika.ca@gmail.com</EmailTo>
+	<EmailSubject>Welcome To Guitar Center</EmailSubject>
+	<ns0:AccountConfirmNotification>
+		<CustomerSource>
+			<ChannelID>web</ChannelID>
+			<Brand brandID="GC.com"/>
+			<SiteID>5</SiteID>
+		</CustomerSource>
+		<CustomerContact>
+			<Customer>
+				<FirstName>GEETIKA</FirstName>
+				<LastName>WADHWANI</LastName>
+				<CustomerID>24700253</CustomerID>
+				<ContactAddress>
+					<EMailAddress>
+						<Email>geetika.ca@gmail.com</Email>
+						<isPrimary>false</isPrimary>
+					</EMailAddress>
+				</ContactAddress>
+			</Customer>
+		</CustomerContact>
+	</ns0:AccountConfirmNotification>
+</ns0:EmailNotification>

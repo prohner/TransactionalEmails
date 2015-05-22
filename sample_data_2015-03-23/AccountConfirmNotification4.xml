@@ -1,27 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ns2:EmailNotification xmlns:ns2="http://www.guitarcenter.com/schemas/CDM/CDMCustomerNotification" xmlns:ns0="http://www.guitarcenter.com/schemas/Framework/FrameworkContext/V1.0" xmlns:jms1="http://www.tibco.com/namespaces/tnt/plugins/jms">
-	<NotificationType>accountConfirmationEmail</NotificationType>
-	<NotificationTrackingID>1427785735646</NotificationTrackingID>
-	<EmailTo>rachakatla@my.com</EmailTo>
-	<EmailSubject>Welcome To Guitar Center</EmailSubject>
-	<ns2:AccountConfirmNotification>
-		<CustomerSource>
-			<ChannelID>web</ChannelID>
-			<Brand brandID="GC.com"/>
-			<SiteID>5</SiteID>
-		</CustomerSource>
-		<CustomerContact>
-			<Customer>
-				<FirstName>Rajanikanth</FirstName>
-				<LastName>Rachakatla</LastName>
-				<CustomerID>18100059</CustomerID>
-				<ContactAddress>
-					<EMailAddress>
-						<Email>rachakatla@my.com</Email>
-						<isPrimary>false</isPrimary>
-					</EMailAddress>
-				</ContactAddress>
-			</Customer>
-		</CustomerContact>
-	</ns2:AccountConfirmNotification>
-</ns2:EmailNotification>
+<ns0:EmailNotification xmlns:ns0="http://www.guitarcenter.com/schemas/CDM/CDMCustomerNotification" xmlns:jms1="http://www.tibco.com/namespaces/tnt/plugins/jms">
+  <NotificationType>accountConfirmationEmail</NotificationType>
+  <NotificationTrackingID>1431679863409</NotificationTrackingID>
+  <EmailTo>edzehil3gu.gc43194@localuser.com</EmailTo>
+  <EmailSubject>Welcome To Guitar Center</EmailSubject>
+  <ns0:AccountConfirmNotification>
+    <CustomerSource>
+      <ChannelID>web</ChannelID>
+      <Brand brandID="GC.com" />
+      <SiteID>5</SiteID>
+    </CustomerSource>
+    <CustomerContact>
+      <Customer>
+        <FirstName>Test</FirstName>
+        <LastName>Perf</LastName>
+        <CustomerID>24294638</CustomerID>
+        <ContactAddress>
+          <EMailAddress>
+            <Email>edzehil3gu.gc43194@localuser.com</Email>
+            <isPrimary>false</isPrimary>
+          </EMailAddress>
+        </ContactAddress>
+      </Customer>
+    </CustomerContact>
+  </ns0:AccountConfirmNotification>
+</ns0:EmailNotification>

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ns0:EmailNotification xmlns:ns0="http://www.guitarcenter.com/schemas/CDM/CDMCustomerNotification" xmlns:jms1="http://www.tibco.com/namespaces/tnt/plugins/jms">
-	<NotificationType>abandonedCartEmail</NotificationType>
-	<NotificationTrackingID>1431639210715</NotificationTrackingID>
-	<EmailTo>rachakatla44444@me.com</EmailTo>
+	<NotificationType>tellAFriendEmail</NotificationType>
+	<NotificationTrackingID>1431639228195</NotificationTrackingID>
+	<EmailTo>rajanikanth@44444.com</EmailTo>
 	<EmailSubject>Welcome To Guitar Center</EmailSubject>
-	<ns0:AbandonedCartNotification>
+	<ns0:TellYourFriendNotification>
 		<CustomerSource>
 			<ChannelID>web</ChannelID>
 			<Brand brandID="GC.com"/>
@@ -12,19 +12,17 @@
 		</CustomerSource>
 		<CustomerContact>
 			<Customer>
-				<FirstName>Rajanikanth</FirstName>
-				<LastName>Rachakatla</LastName>
-				<CustomerID>24170004</CustomerID>
+				<CustomerID>rajanikanth@44444.com</CustomerID>
 				<ContactAddress>
 					<EMailAddress>
-						<Email>rachakatla44444@me.com</Email>
+						<Email>rajanikanth@44444.com</Email>
 						<isPrimary>false</isPrimary>
 					</EMailAddress>
 				</ContactAddress>
 			</Customer>
 		</CustomerContact>
 		<DefaultCurrency>USD</DefaultCurrency>
-		<ShoppingCartItems>
+		<RecentlyPurchasedItems>
 			<EnterpriseSkuID>H85633000001000</EnterpriseSkuID>
 			<ProductName>Breedlove 2012 Spring Limited Edition Acoustic-Electric Guitar Natural</ProductName>
 			<ProductDescription>Breedlove 2012 Spring Limited Edition Acoustic-Electric Guitar Natural</ProductDescription>
@@ -37,8 +35,8 @@
 			</ItemTransactionDetails>
 			<UnitPrice>7999</UnitPrice>
 			<ItemRating>0</ItemRating>
-		</ShoppingCartItems>
-		<ShoppingCartItems>
+		</RecentlyPurchasedItems>
+		<RecentlyPurchasedItems>
 			<EnterpriseSkuID>517430000127284</EnterpriseSkuID>
 			<ProductName>Spector NS-5XL USA 5-String Bass Black Cherry Gold Hardware</ProductName>
 			<ProductDescription>Spector NS-5XL USA 5-String Bass Black Cherry Gold Hardware</ProductDescription>
@@ -51,13 +49,12 @@
 			</ItemTransactionDetails>
 			<UnitPrice>5475</UnitPrice>
 			<ItemRating>0</ItemRating>
-		</ShoppingCartItems>
-		<CartTotal>
+		</RecentlyPurchasedItems>
+		<PurchaseTotal>
 			<SubTotal>13474</SubTotal>
 			<TotalTax>1205.63</TotalTax>
 			<TotalDiscount>100</TotalDiscount>
 			<GroupTotal>14601.48</GroupTotal>
-		</CartTotal>
-		<CartUrl>/cart</CartUrl>
-	</ns0:AbandonedCartNotification>
+		</PurchaseTotal>
+	</ns0:TellYourFriendNotification>
 </ns0:EmailNotification>
