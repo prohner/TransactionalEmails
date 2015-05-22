@@ -61,7 +61,7 @@ my $DEBUG_SKIP_DATABASE_ACCESS		= 1;
 my $DEBUG_INCLUDE_FILES             = 0;
 my $DEBUG_VARIABLE_MAP              = 0;
 my $DEBUG_HTML_START_AND_END_CUSTOM = 0;
-my $DEBUG_VARIABLE_VALUES           = 1;
+my $DEBUG_VARIABLE_VALUES           = 0;
 
 my $GLOBAL_PACKAGE_NUMBER        = "PackageNumber";
 my $GLOBAL_PAYMENT_NUMBER        = "PaymentNumber";
@@ -685,19 +685,19 @@ my $customerNotificationXSDFile 	= "sample_data_2015-05-18\\CDMCustomerNotificat
 
 my %testFiles = (
 
-   "sample_data_2015-03-23\\AbandonedCartNotification1.xml" => $customerNotificationXSDFile,
-	
-   "sample_data_2015-03-23\\AccountConfirmNotification.xml" => $customerNotificationXSDFile,
-   "sample_data_2015-03-23\\AccountConfirmNotification2.xml" => $customerNotificationXSDFile,
-   "sample_data_2015-03-23\\AccountConfirmNotification3.xml" => $customerNotificationXSDFile,
-   "sample_data_2015-03-23\\AccountConfirmNotification4.xml" => $customerNotificationXSDFile,
-   "sample_data_2015-03-23\\AccountConfirmNotification5.xml" => $customerNotificationXSDFile,
-	
-   "sample_data_2015-03-23\\EmailForPriceNotification.xml" => $customerNotificationXSDFile,
-   "sample_data_2015-03-23\\EmailForPriceNotification2.xml" => $customerNotificationXSDFile,
-   "sample_data_2015-03-23\\EmailForPriceNotification3.xml" => $customerNotificationXSDFile,
-	
-   "sample_data_2015-03-23\\PasswordChangedNotification.xml" => $customerNotificationXSDFile,
+   #"sample_data_2015-03-23\\AbandonedCartNotification1.xml" => $customerNotificationXSDFile,
+	#
+   #"sample_data_2015-03-23\\AccountConfirmNotification.xml" => $customerNotificationXSDFile,
+   #"sample_data_2015-03-23\\AccountConfirmNotification2.xml" => $customerNotificationXSDFile,
+   #"sample_data_2015-03-23\\AccountConfirmNotification3.xml" => $customerNotificationXSDFile,
+   #"sample_data_2015-03-23\\AccountConfirmNotification4.xml" => $customerNotificationXSDFile,
+   #"sample_data_2015-03-23\\AccountConfirmNotification5.xml" => $customerNotificationXSDFile,
+	#
+   #"sample_data_2015-03-23\\EmailForPriceNotification.xml" => $customerNotificationXSDFile,
+   #"sample_data_2015-03-23\\EmailForPriceNotification2.xml" => $customerNotificationXSDFile,
+   #"sample_data_2015-03-23\\EmailForPriceNotification3.xml" => $customerNotificationXSDFile,
+	#
+   #"sample_data_2015-03-23\\PasswordChangedNotification.xml" => $customerNotificationXSDFile,
    "sample_data_2015-03-23\\PasswordResetNotification1.xml" => $customerNotificationXSDFile,
    "sample_data_2015-03-23\\PasswordResetNotification2.xml" => $customerNotificationXSDFile,
    "sample_data_2015-03-23\\PasswordResetNotification3.xml" => $customerNotificationXSDFile,
@@ -1094,7 +1094,7 @@ sub getValueForField($;$) {
             }
          }
 
-         if ($s eq "" && $namespace ne "cus" && processingCustomerNotification()) {
+         if ($s eq "" && $namespace ne "cus" && processingCustomerNotification() && $customDepth == 0) {
          	## We're at the top level and we've tried doing an xpath query, 
          	## but found nothing so we'll try adding the namespace.
          	my $tmpXpath = $variableMap{$varToFind};
