@@ -61,7 +61,7 @@ my $DEBUG_SKIP_DATABASE_ACCESS		= 1;
 my $DEBUG_INCLUDE_FILES             = 0;
 my $DEBUG_VARIABLE_MAP              = 0;
 my $DEBUG_HTML_START_AND_END_CUSTOM = 0;
-my $DEBUG_VARIABLE_VALUES           = 0;
+my $DEBUG_VARIABLE_VALUES           = 1;
 
 my $GLOBAL_PACKAGE_NUMBER        = "PackageNumber";
 my $GLOBAL_PAYMENT_NUMBER        = "PaymentNumber";
@@ -210,6 +210,7 @@ sub replaceBracketedTags($) {
       "[STAR_RATING]"    	=> "STAR_RATING",
       "[CART_URL]"	    	=> "CART_URL",
       "[PASSWORD_URL]"	   => "PASSWORD_URL",
+      "[BILLING_EMAIL]"	   => "BILLING_EMAIL",
    );
    
    if (@xmlDocStack == 0) {      
@@ -680,48 +681,61 @@ my $xmlFile = "";
 my $file1   = "";
 
 my $orderNotificationXSDFile 		= "sample_data_2015-03-12\\CDMOrderNotification.xsd";
-my $customerNotificationXSDFile 	= "sample_data_2015-03-23\\CDMCustomerNotification.xsd";
+my $customerNotificationXSDFile 	= "sample_data_2015-05-18\\CDMCustomerNotification.xsd";
 
 my %testFiles = (
 
    "sample_data_2015-03-23\\AbandonedCartNotification1.xml" => $customerNotificationXSDFile,
-   "sample_data_2015-03-23\\AbandonedCartNotification2.xml" => $customerNotificationXSDFile,
+	
    "sample_data_2015-03-23\\AccountConfirmNotification.xml" => $customerNotificationXSDFile,
    "sample_data_2015-03-23\\AccountConfirmNotification2.xml" => $customerNotificationXSDFile,
    "sample_data_2015-03-23\\AccountConfirmNotification3.xml" => $customerNotificationXSDFile,
    "sample_data_2015-03-23\\AccountConfirmNotification4.xml" => $customerNotificationXSDFile,
    "sample_data_2015-03-23\\AccountConfirmNotification5.xml" => $customerNotificationXSDFile,
-   "sample_data_2015-03-23\\AlertNotification1.xml" => $customerNotificationXSDFile,
-   "sample_data_2015-03-23\\AlertNotification2.xml" => $customerNotificationXSDFile,
-   "sample_data_2015-03-23\\AlertNotification3.xml" => $customerNotificationXSDFile,
+	
    "sample_data_2015-03-23\\EmailForPriceNotification.xml" => $customerNotificationXSDFile,
-   "sample_data_2015-03-23\\PasswordResetConfirmNotification.xml" => $customerNotificationXSDFile,
-   "sample_data_2015-03-23\\PasswordResetConfirmNotification2.xml" => $customerNotificationXSDFile,
-   "sample_data_2015-03-23\\PasswordResetConfirmNotification3.xml" => $customerNotificationXSDFile,
-   "sample_data_2015-03-23\\PasswordResetConfirmNotification4.xml" => $customerNotificationXSDFile,
-   "sample_data_2015-03-23\\PasswordResetConfirmNotification5.xml" => $customerNotificationXSDFile,
-   "sample_data_2015-03-23\\PasswordResetNotification.xml" => $customerNotificationXSDFile,
+   "sample_data_2015-03-23\\EmailForPriceNotification2.xml" => $customerNotificationXSDFile,
+   "sample_data_2015-03-23\\EmailForPriceNotification3.xml" => $customerNotificationXSDFile,
+	
+   "sample_data_2015-03-23\\PasswordChangedNotification.xml" => $customerNotificationXSDFile,
+   "sample_data_2015-03-23\\PasswordResetNotification1.xml" => $customerNotificationXSDFile,
    "sample_data_2015-03-23\\PasswordResetNotification2.xml" => $customerNotificationXSDFile,
    "sample_data_2015-03-23\\PasswordResetNotification3.xml" => $customerNotificationXSDFile,
-   "sample_data_2015-03-23\\QuoteNotification1.xml" => $customerNotificationXSDFile,
-   "sample_data_2015-03-23\\QuoteNotification2.xml" => $customerNotificationXSDFile,
-   ### 
-   "MSC-OrderConfirm-Sample-kitItems+Warranty.xml" => $orderNotificationXSDFile,
-   "sample_data_2014-06-10\\MSC-OrderConfirm-Sample-kitItems+Warranty+Adlucent.xml" => $orderNotificationXSDFile,
-   "sample_data_2014-06-10\\G2-CC_Decline-MSC.xml" => $orderNotificationXSDFile,
-   "sample_data_2014-06-10\\G3-OrderVerification-MSC.xml" => $orderNotificationXSDFile,
-   "sample_data_2014-06-06\\B8-ElectronicLicence-MSC.xml" => $orderNotificationXSDFile,
-   "sample_data_2014-06-06\\ElectronicLicence.xml" => $orderNotificationXSDFile,
-   "sample_data_2014-05-23\\E1-Return-Auth-MSC.xml" => $orderNotificationXSDFile,
-   "sample_data_2014-05-23\\F1-Return-Receive-MSC.xml" => $orderNotificationXSDFile,
-   "sample_data_2014-05-06\\MSC-ShipConfirm-kitItems_Sample_1.xml" => $orderNotificationXSDFile,
-   "sample_data_2014-05-06\\MSC-ShipConfirm-kitItems_Sample_2.xml" => $orderNotificationXSDFile,
-   "sample_data_2014-05-07\\MSC-OrderCancel-Sample_1.xml" => $orderNotificationXSDFile,
-   "sample_data_2014-05-16\\MSC_BackOrder_sample1.xml" => $orderNotificationXSDFile,
-   "sample_data_2014-05-16\\MSC_BackOrder_sample2.xml" => $orderNotificationXSDFile,
-   "sample_data_2014-05-22\\B7-ShipConfirm-MSC.xml" => $orderNotificationXSDFile,
-   "sample_data_2015-02-28\\MSC_FTC30.xml" => $orderNotificationXSDFile,
-   "sample_data_2015-02-28\\MSC_FTC60.xml" => $orderNotificationXSDFile,
+
+   "sample_data_2015-03-23\\PasswordResetNotification4.xml" => $customerNotificationXSDFile,
+   #"sample_data_2015-05-18\\TellAFriend.xml" => $customerNotificationXSDFile,
+
+	### ### Geetika's test samples #############################################
+  	### "sample_data_2015-05-18\\Geetika-accountConfirmationEmail.xml" => $customerNotificationXSDFile,
+  	### "sample_data_2015-05-18\\Geetika-emailForPriceEmail.xml" => $customerNotificationXSDFile,
+  	### "sample_data_2015-05-18\\Geetika-passwordChangedEmail.xml" => $customerNotificationXSDFile,
+  	### "sample_data_2015-05-18\\Geetika-passwordResetEmail.xml" => $customerNotificationXSDFile,
+
+	### ### We don't have samples of these #####################################
+   ### "sample_data_2015-03-23\\AlertNotification1.xml" => $customerNotificationXSDFile,
+   ### "sample_data_2015-03-23\\AlertNotification2.xml" => $customerNotificationXSDFile,
+   ### "sample_data_2015-03-23\\AlertNotification3.xml" => $customerNotificationXSDFile,
+   ### "sample_data_2015-03-23\\EmailForPriceNotification.xml" => $customerNotificationXSDFile,
+   ### "sample_data_2015-03-23\\QuoteNotification1.xml" => $customerNotificationXSDFile,
+   ### "sample_data_2015-03-23\\QuoteNotification2.xml" => $customerNotificationXSDFile,
+
+   ### ### The order notifications were all okay before starting to add customer notifications
+   ### "MSC-OrderConfirm-Sample-kitItems+Warranty.xml" => $orderNotificationXSDFile,
+   ### "sample_data_2014-06-10\\MSC-OrderConfirm-Sample-kitItems+Warranty+Adlucent.xml" => $orderNotificationXSDFile,
+   ### "sample_data_2014-06-10\\G2-CC_Decline-MSC.xml" => $orderNotificationXSDFile,
+   ### "sample_data_2014-06-10\\G3-OrderVerification-MSC.xml" => $orderNotificationXSDFile,
+   ### "sample_data_2014-06-06\\B8-ElectronicLicence-MSC.xml" => $orderNotificationXSDFile,
+   ### "sample_data_2014-06-06\\ElectronicLicence.xml" => $orderNotificationXSDFile,
+   ### "sample_data_2014-05-23\\E1-Return-Auth-MSC.xml" => $orderNotificationXSDFile,
+   ### "sample_data_2014-05-23\\F1-Return-Receive-MSC.xml" => $orderNotificationXSDFile,
+   ### "sample_data_2014-05-06\\MSC-ShipConfirm-kitItems_Sample_1.xml" => $orderNotificationXSDFile,
+   ### "sample_data_2014-05-06\\MSC-ShipConfirm-kitItems_Sample_2.xml" => $orderNotificationXSDFile,
+   ### "sample_data_2014-05-07\\MSC-OrderCancel-Sample_1.xml" => $orderNotificationXSDFile,
+   ### "sample_data_2014-05-16\\MSC_BackOrder_sample1.xml" => $orderNotificationXSDFile,
+   ### "sample_data_2014-05-16\\MSC_BackOrder_sample2.xml" => $orderNotificationXSDFile,
+   ### "sample_data_2014-05-22\\B7-ShipConfirm-MSC.xml" => $orderNotificationXSDFile,
+   ### "sample_data_2015-02-28\\MSC_FTC30.xml" => $orderNotificationXSDFile,
+   ### "sample_data_2015-02-28\\MSC_FTC60.xml" => $orderNotificationXSDFile,
 );
 
 my $xsdFile = "sample_data_2015-03-12\\CDMOrderNotification.xsd";
@@ -752,7 +766,7 @@ $dbhOpenTag = DBI->connect("dbi:ODBC:$DSN_GCEMRDB") || die "Couldn't connect to 
 $sthOpenTag = $dbhOpenTag->prepare("exec GetRecipientInfoForTransactionalEmailing ?, ?, ?") || die "Couldn't prepare statement: " . $dbhOpenTag->errstr;
 
 $dbh = DBI->connect("dbi:ODBC:$DSN") || die "Couldn't connect to database: " . DBI->errstr;
-$dbh->{LongReadLen} = 512 * 1024;
+$dbh->{LongReadLen} = 1024 * 1024;
 
 $dbhUpdate = DBI->connect("dbi:ODBC:$DSN") || die "Couldn't connect to database: " . DBI->errstr;
 
@@ -1002,6 +1016,11 @@ sub getBrandNotificationVariables($$) {
                                                        "mod-password-reset",
                                                        "password-reset-preheader",
                                                        2022926],
+               "$ns:TellYourFriendNotification"		=> ["4TEM5D1BI",
+                                                       "See What I Bought at GuitarCenter.com",
+                                                       "mod-tell-a-friend",
+                                                       "tell-a-friend-preheader",
+                                                       2022926],
                                                        
                ##  Source codes provided by Deb 6/9/2014
                ##  4TEM4H1A Customer Contact  OMS Backorder FTC 30
@@ -1243,6 +1262,9 @@ sub start {
                   $xpathToOrderItems = "//PriceOfItems";
                } elsif ($notificationType eq "QuoteNotification") {
                   $xpathToOrderItems = "//ShoppingCartItems";
+               } elsif ($notificationType eq "TellYourFriendNotification") {
+                  $xpathToOrderItems = "//RecentlyPurchasedItems";
+
                } else {
                   if ($notificationType ne "OrderConfirmationNotification") {
                      die "\nIt seems that $notificationType has not been fully setup.\n\n";
